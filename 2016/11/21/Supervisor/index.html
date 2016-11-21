@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
-  <title>larry&#39;s blog</title>
+  <title>Supervisor | larry&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="赵荆州的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="larry's blog">
-<meta property="og:url" content="https://jingzhouzhao.github.io/index.html">
+  <meta name="description" content="Supervisor (http://supervisord.org) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。
+闲话少说，直接进入安装过程，亲">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Supervisor">
+<meta property="og:url" content="https://jingzhouzhao.github.io/2016/11/21/Supervisor/index.html">
 <meta property="og:site_name" content="larry's blog">
-<meta property="og:description" content="赵荆州的个人博客">
+<meta property="og:description" content="Supervisor (http://supervisord.org) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。
+闲话少说，直接进入安装过程，亲">
+<meta property="og:updated_time" content="2016-11-21T02:47:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="larry's blog">
-<meta name="twitter:description" content="赵荆州的个人博客">
+<meta name="twitter:title" content="Supervisor">
+<meta name="twitter:description" content="Supervisor (http://supervisord.org) 是一个用 Python 写的进程管理工具，可以很方便的用来启动、重启、关闭进程（不仅仅是 Python 进程）。除了对单个进程的控制，还可以同时启动、关闭多个进程，比如很不幸的服务器出问题导致所有应用程序都被杀死，此时可以用 supervisor 同时启动所有应用程序而不是一个一个地敲命令启动。
+闲话少说，直接进入安装过程，亲">
   
     <link rel="alternative" href="/atom.xml" title="larry&#39;s blog" type="application/atom+xml">
   
@@ -136,9 +140,7 @@
 </nav>
 
       <div class="body-wrap">
-        
-  
-    <article id="post-Supervisor" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Supervisor" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -147,8 +149,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/21/Supervisor/">Supervisor</a>
+    <h1 class="article-title" itemprop="name">
+      Supervisor
     </h1>
   
 
@@ -213,125 +215,45 @@
   </div>
 </article>
 
-
-
-
-
-
-
-
-
-
   
-    <article id="post-https_mixed_content" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/17/https_mixed_content/">https 混合内容</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当用户访问使用HTTPS的页面时，他们与web服务器之间的连接是使用SSL加密的，从而保护连接不受嗅探器和中间人攻击。</p>
-<p>如果HTTPS页面包括由普通明文HTTP连接加密的内容，那么连接只是被部分加密：非加密的内容可以被嗅探者入侵，并且可以被中间人攻击者修改，因此连接不再受到保护。当一个网页出现这种情况时，它被称为混合内容页面。<br>Web 控制台EDIT<br>从Firefox 16起，当你的网站上的网页出现这种问题时，Web控制台将会显示混合内容警告消息。通过HTTP加载的混合内容资源将会用红色字体显示，同时用“混合内容”标明哪些资源将要链接到这个页面。</p>
-<p>要修复这个错误，则应删除由HTTP请求的内容，而由HTTPS代替它。一些常见的混合内容的例子包括JavaScript文件、样式表、图像、视频和其他媒体。</p>
-<p>从Firefox 23开始，混合活动内容是被默认阻塞的（并且混合显示内容可以在偏好设置里被阻塞）。为了让web开发人员更容易找到混合内容错误，所有被阻塞的混合内容请求都被记录到了web控制台的安全窗格。</p>
-<p>混合内容的类型EDIT<br>主要有两种类型的混合内容：混合被动/显示内容和混合活动内容。区别在于最坏情况的危险级别，假如内容重写是中间人攻击的一部分。在被动内容的情况下，威胁很低(网页可能出现损坏或误导性的内容)。在活动内容的情况下，威胁会导致网络钓鱼、敏感数据披露,重定向到恶意网站，等等。</p>
-<h5 id="混合被动-显示内容"><a href="#混合被动-显示内容" class="headerlink" title="混合被动/显示内容"></a>混合被动/显示内容</h5><p>混合的被动/显示内容是：使用HTTP的内容包含在一个HTTPS页面内，但它不能改变网页的其他部分。例如，攻击者可以用一个不适当的图像或消息替换网页中一个使用HTTP的图像。攻击者也可以通过提供给用户的图像推断出用户的活动状况；某些图像往往只会在一个网站的一个特定页面上。如果攻击者观察到用户以HTTP请求这些图像，他就可以确定用户正在访问哪些网页。</p>
-<h5 id="混合活动内容"><a href="#混合活动内容" class="headerlink" title="混合活动内容"></a>混合活动内容</h5><p>混合活动内容是：访问全部或部分HTTPS页面文档对象模型的内容。这种类型的混合内容可以改变HTTPS页面的行为并可能向用户窃取敏感数据。因此,除了上述混合显示内容所描述的风险,混合活动内容还很容易受到其他一些攻击向量的攻击。</p>
-<p>在混合活动内容情况下,中间人攻击者可以拦截HTTP请求的内容。攻击者也可以重写响应来包含恶意的JavaScript代码。恶意的活动内容可以窃取用户的凭据,获得关于用户的敏感数据，甚至在用户的系统上安装恶意软件（例如，通过浏览器漏洞或插件）。</p>
-<p>混合内容的风险取决于用户访问网站的类型和网站数据暴漏的的敏感程度。网页可能有公共访问数据或需有通过身份验证的私有数据。如果网页是公开的并且没有关于用户的敏感数据，使用混合活动内容仍可能为攻击者提供将用户重定向到其他HTTP页面并从那些网站上窃取HTTP cookie的机会。</p>
-<p>上面内容来自<a href="https://developer.mozilla.org/zh-CN/docs/Security/MixedContent" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Security/MixedContent</a></p>
-<h3 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h3><p>如果你的站点http，https协议同时支持，加载的资源不用指定协议，浏览器会自动根据当前访问站点使用的协议去加载资源。</p>
-<p>例如：</p>
-<p><a href="https://jingzhouzhao.github.io">https://jingzhouzhao.github.io</a><br>其中需要加载一个脚本时，可以这样写:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=<span class="string">"//cdn.example.com/script.js"</span>&gt;</div></pre></td></tr></table></figure></p>
-<p>浏览器实际加载时地址为：<a href="https://cdn.example.com/script.js" target="_blank" rel="external">https://cdn.example.com/script.js</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/17/https_mixed_content/" class="archive-article-date">
-  	<time datetime="2016-11-17T05:45:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssl/">ssl</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/15/hello/">hello</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">System.out.println(&quot;Hello MyBlog&quot;);</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/15/hello/" class="archive-article-date">
-  	<time datetime="2016-11-15T10:21:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-15</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
+<nav id="article-nav">
   
   
+    <a href="/2016/11/17/https_mixed_content/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">https 混合内容</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Supervisor" data-title="Supervisor" data-url="https://jingzhouzhao.github.io/2016/11/21/Supervisor/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"larry2016"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
       </div>
@@ -366,8 +288,8 @@ var _hmt = _hmt || [];
 		fancybox: true,
 		mathjax: false,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
