@@ -138,6 +138,68 @@
       <div class="body-wrap">
         
   
+    <article id="post-flume-kafka-topic-bug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/29/flume-kafka-topic-bug/">flume同时使用KafkaSource、KafkaSink导致的问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>KafkaSource 配置topic：topic1</p>
+<p>KafkaSink 配置topic：topic2</p>
+<p>从topic1拉取数据，经过简单处理后发到topic2</p>
+<p>但是你会发现flume一直在循环读写topic1</p>
+<p>原因就是KafkaSink中的这段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">eventTopic = headers.get(TOPIC_HEADER);</div><div class="line"><span class="keyword">if</span> (eventTopic == <span class="keyword">null</span>) &#123;</div><div class="line">    eventTopic = topic;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先从headers中获取TOPIC_HEADER(topic),然后优先使用。然而在KafkaSource中则会将topic1 PUT到Header中，所以导致循环读写topic1。</p>
+<p>如何解决呢？</p>
+<p>你可以重新KafkaSink，改掉上面那段代码。</p>
+<p>或者配置一个拦截器，将KafkaSource 写到Header中的topic给替换掉：</p>
+<blockquote>
+<p>agent.sources.so1.interceptors = i1<br>agent.sources.so1.interceptors.i1.type = static<br>agent.sources.so1.interceptors.i1.key = topic<br>agent.sources.so1.interceptors.i1.preserveExisting = false<br>agent.sources.so1.interceptors.i1.value = topic2</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/29/flume-kafka-topic-bug/" class="archive-article-date">
+  	<time datetime="2016-11-29T06:32:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flume/">flume</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/">kafka</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/topic/">topic</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Supervisor" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -404,7 +466,7 @@ var _hmt = _hmt || [];
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Supervisor/" style="font-size: 10px;">Supervisor</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a>
+    				<a href="/tags/Supervisor/" style="font-size: 10px;">Supervisor</a> <a href="/tags/flume/" style="font-size: 10px;">flume</a> <a href="/tags/https/" style="font-size: 10px;">https</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/ssl/" style="font-size: 10px;">ssl</a> <a href="/tags/topic/" style="font-size: 10px;">topic</a>
     			</div>
     	</section>
     
