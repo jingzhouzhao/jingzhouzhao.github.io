@@ -6,21 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
-  <title>https 混合内容 | larry&#39;s blog</title>
+  <title>regex-character | larry&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当用户访问使用HTTPS的页面时，他们与web服务器之间的连接是使用SSL加密的，从而保护连接不受嗅探器和中间人攻击。
-如果HTTPS页面包括由普通明文HTTP连接加密的内容，那么连接只是被部分加密：非加密的内容可以被嗅探者入侵，并且可以被中间人攻击者修改，因此连接不再受到保护。当一个网页出现这种情况时，它被称为混合内容页面。Web 控制台EDIT从Firefox 16起，当你的网站上的网页出现这">
+  <meta name="description" content="#正则表达式 - 元字符
+下表包含了元字符的完整列表以及它们在正则表达式上下文中的行为：
+\    将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\‘ 匹配 “\” 而 “(“ 则匹配 “(“。
+^    匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^">
 <meta property="og:type" content="article">
-<meta property="og:title" content="https 混合内容">
-<meta property="og:url" content="https://jingzhouzhao.github.io/2016/11/17/https_mixed_content/index.html">
+<meta property="og:title" content="regex-character">
+<meta property="og:url" content="https://jingzhouzhao.github.io/2016/12/06/regex-character/index.html">
 <meta property="og:site_name" content="larry's blog">
-<meta property="og:description" content="当用户访问使用HTTPS的页面时，他们与web服务器之间的连接是使用SSL加密的，从而保护连接不受嗅探器和中间人攻击。
-如果HTTPS页面包括由普通明文HTTP连接加密的内容，那么连接只是被部分加密：非加密的内容可以被嗅探者入侵，并且可以被中间人攻击者修改，因此连接不再受到保护。当一个网页出现这种情况时，它被称为混合内容页面。Web 控制台EDIT从Firefox 16起，当你的网站上的网页出现这">
-<meta property="og:updated_time" content="2016-11-17T07:43:46.000Z">
+<meta property="og:description" content="#正则表达式 - 元字符
+下表包含了元字符的完整列表以及它们在正则表达式上下文中的行为：
+\    将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\‘ 匹配 “\” 而 “(“ 则匹配 “(“。
+^    匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^">
+<meta property="og:updated_time" content="2016-12-06T03:37:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="https 混合内容">
-<meta name="twitter:description" content="当用户访问使用HTTPS的页面时，他们与web服务器之间的连接是使用SSL加密的，从而保护连接不受嗅探器和中间人攻击。
-如果HTTPS页面包括由普通明文HTTP连接加密的内容，那么连接只是被部分加密：非加密的内容可以被嗅探者入侵，并且可以被中间人攻击者修改，因此连接不再受到保护。当一个网页出现这种情况时，它被称为混合内容页面。Web 控制台EDIT从Firefox 16起，当你的网站上的网页出现这">
+<meta name="twitter:title" content="regex-character">
+<meta name="twitter:description" content="#正则表达式 - 元字符
+下表包含了元字符的完整列表以及它们在正则表达式上下文中的行为：
+\    将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\‘ 匹配 “\” 而 “(“ 则匹配 “(“。
+^    匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^">
   
     <link rel="alternative" href="/atom.xml" title="larry&#39;s blog" type="application/atom+xml">
   
@@ -140,7 +146,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-https_mixed_content" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-regex-character" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -150,7 +156,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      https 混合内容
+      regex-character
     </h1>
   
 
@@ -158,32 +164,60 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>当用户访问使用HTTPS的页面时，他们与web服务器之间的连接是使用SSL加密的，从而保护连接不受嗅探器和中间人攻击。</p>
-<p>如果HTTPS页面包括由普通明文HTTP连接加密的内容，那么连接只是被部分加密：非加密的内容可以被嗅探者入侵，并且可以被中间人攻击者修改，因此连接不再受到保护。当一个网页出现这种情况时，它被称为混合内容页面。<br>Web 控制台EDIT<br>从Firefox 16起，当你的网站上的网页出现这种问题时，Web控制台将会显示混合内容警告消息。通过HTTP加载的混合内容资源将会用红色字体显示，同时用“混合内容”标明哪些资源将要链接到这个页面。</p>
-<p>要修复这个错误，则应删除由HTTP请求的内容，而由HTTPS代替它。一些常见的混合内容的例子包括JavaScript文件、样式表、图像、视频和其他媒体。</p>
-<p>从Firefox 23开始，混合活动内容是被默认阻塞的（并且混合显示内容可以在偏好设置里被阻塞）。为了让web开发人员更容易找到混合内容错误，所有被阻塞的混合内容请求都被记录到了web控制台的安全窗格。</p>
-<p>混合内容的类型EDIT<br>主要有两种类型的混合内容：混合被动/显示内容和混合活动内容。区别在于最坏情况的危险级别，假如内容重写是中间人攻击的一部分。在被动内容的情况下，威胁很低(网页可能出现损坏或误导性的内容)。在活动内容的情况下，威胁会导致网络钓鱼、敏感数据披露,重定向到恶意网站，等等。</p>
-<h5 id="混合被动-显示内容"><a href="#混合被动-显示内容" class="headerlink" title="混合被动/显示内容"></a>混合被动/显示内容</h5><p>混合的被动/显示内容是：使用HTTP的内容包含在一个HTTPS页面内，但它不能改变网页的其他部分。例如，攻击者可以用一个不适当的图像或消息替换网页中一个使用HTTP的图像。攻击者也可以通过提供给用户的图像推断出用户的活动状况；某些图像往往只会在一个网站的一个特定页面上。如果攻击者观察到用户以HTTP请求这些图像，他就可以确定用户正在访问哪些网页。</p>
-<h5 id="混合活动内容"><a href="#混合活动内容" class="headerlink" title="混合活动内容"></a>混合活动内容</h5><p>混合活动内容是：访问全部或部分HTTPS页面文档对象模型的内容。这种类型的混合内容可以改变HTTPS页面的行为并可能向用户窃取敏感数据。因此,除了上述混合显示内容所描述的风险,混合活动内容还很容易受到其他一些攻击向量的攻击。</p>
-<p>在混合活动内容情况下,中间人攻击者可以拦截HTTP请求的内容。攻击者也可以重写响应来包含恶意的JavaScript代码。恶意的活动内容可以窃取用户的凭据,获得关于用户的敏感数据，甚至在用户的系统上安装恶意软件（例如，通过浏览器漏洞或插件）。</p>
-<p>混合内容的风险取决于用户访问网站的类型和网站数据暴漏的的敏感程度。网页可能有公共访问数据或需有通过身份验证的私有数据。如果网页是公开的并且没有关于用户的敏感数据，使用混合活动内容仍可能为攻击者提供将用户重定向到其他HTTP页面并从那些网站上窃取HTTP cookie的机会。</p>
-<p>上面内容来自<a href="https://developer.mozilla.org/zh-CN/docs/Security/MixedContent" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Security/MixedContent</a></p>
-<h3 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h3><p>如果你的站点http，https协议同时支持，加载的资源不用指定协议，浏览器会自动根据当前访问站点使用的协议去加载资源。</p>
-<p>例如：</p>
-<p><a href="https://jingzhouzhao.github.io">https://jingzhouzhao.github.io</a><br>其中需要加载一个脚本时，可以这样写:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;script src=<span class="string">"//cdn.example.com/script.js"</span>&gt;</div></pre></td></tr></table></figure></p>
-<p>浏览器实际加载时地址为：<a href="https://cdn.example.com/script.js" target="_blank" rel="external">https://cdn.example.com/script.js</a></p>
+        <p>#正则表达式 - 元字符</p>
+<p>下表包含了元字符的完整列表以及它们在正则表达式上下文中的行为：</p>
+<p>\    将下一个字符标记为一个特殊字符、或一个原义字符、或一个 向后引用、或一个八进制转义符。例如，’n’ 匹配字符 “n”。’\n’ 匹配一个换行符。序列 ‘\‘ 匹配 “\” 而 “(“ 则匹配 “(“。</p>
+<p>^    匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 ‘\n’ 或 ‘\r’ 之后的位置。</p>
+<p>$    匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 ‘\n’ 或 ‘\r’ 之前的位置。</p>
+<p>*    匹配前面的子表达式零次或多次。例如，zo<em> 能匹配 “z” 以及 “zoo”。</em> 等价于{0,}。</p>
+<p>+    匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</p>
+<p>?    匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 或 “does” 中的”do” 。? 等价于 {0,1}。</p>
+<p>{n}    n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</p>
+<p>{n,}    n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</p>
+<p>{n,m}    m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</p>
+<p>?    当该字符紧跟在任何一个其他限制符 (*, +, ?, {n}, {n,}, {n,m}) 后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串 “oooo”，’o+?’ 将匹配单个 “o”，而 ‘o+’ 将匹配所有 ‘o’。</p>
+<p>.    匹配除 “\n” 之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，请使用像”(.|\n)”的模式。。</p>
+<p>(pattern)    匹配 pattern 并获取这一匹配。所获取的匹配可以从产生的 Matches 集合得到，在VBScript 中使用 SubMatches 集合，在JScript 中则使用 $0…$9 属性。要匹配圆括号字符，请使用 ‘(‘ 或 ‘)‘。</p>
+<p>(?:pattern)    匹配 pattern 但不获取匹配结果，也就是说这是一个非获取匹配，不进行存储供以后使用。这在使用 “或” 字符 (|) 来组合一个模式的各个部分是很有用。例如， ‘industr(?:y|ies) 就是一个比 ‘industry|industries’ 更简略的表达式。</p>
+<p>(?=pattern)    正向预查，在任何匹配 pattern 的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，’Windows (?=95|98|NT|2000)’ 能匹配 “Windows 2000” 中的 “Windows” ，但不能匹配 “Windows 3.1” 中的 “Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</p>
+<p>(?!pattern)    负向预查，在任何不匹配 pattern 的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如’Windows (?!95|98|NT|2000)’ 能匹配 “Windows 3.1” 中的 “Windows”，但不能匹配 “Windows 2000” 中的 “Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</p>
+<p>x|y    匹配 x 或 y。例如，’z|food’ 能匹配 “z” 或 “food”。’(z|f)ood’ 则匹配 “zood” 或 “food”。</p>
+<p>[xyz]    字符集合。匹配所包含的任意一个字符。例如， ‘[abc]’ 可以匹配 “plain” 中的 ‘a’。</p>
+<p>[^xyz]    负值字符集合。匹配未包含的任意字符。例如， ‘[^abc]’ 可以匹配 “plain” 中的’p’、’l’、’i’、’n’。</p>
+<p>[a-z]    字符范围。匹配指定范围内的任意字符。例如，’[a-z]’ 可以匹配 ‘a’ 到 ‘z’ 范围内的任意小写字母字符。</p>
+<p>[^a-z]    负值字符范围。匹配任何不在指定范围内的任意字符。例如，’[^a-z]’ 可以匹配任何不在 ‘a’ 到 ‘z’ 范围内的任意字符。</p>
+<p>\b    匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’ 可以匹配”never” 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。</p>
+<p>\B    匹配非单词边界。’er\B’ 能匹配 “verb” 中的 ‘er’，但不能匹配 “never” 中的 ‘er’。</p>
+<p>\cx    匹配由 x 指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</p>
+<p>\d    匹配一个数字字符。等价于 [0-9]。</p>
+<p>\D    匹配一个非数字字符。等价于 [^0-9]。</p>
+<p>\f    匹配一个换页符。等价于 \x0c 和 \cL。</p>
+<p>\n    匹配一个换行符。等价于 \x0a 和 \cJ。</p>
+<p>\r    匹配一个回车符。等价于 \x0d 和 \cM。</p>
+<p>\s    匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。</p>
+<p>\S    匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</p>
+<p>\t    匹配一个制表符。等价于 \x09 和 \cI。</p>
+<p>\v    匹配一个垂直制表符。等价于 \x0b 和 \cK。</p>
+<p>\w    匹配包括下划线的任何单词字符。等价于’[A-Za-z0-9_]’。</p>
+<p>\W    匹配任何非单词字符。等价于 ‘[^A-Za-z0-9_]’。</p>
+<p>\xn    匹配 n，其中 n 为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，’\x41’ 匹配 “A”。’\x041’ 则等价于 ‘\x04’ &amp; “1”。正则表达式中可以使用 ASCII 编码。</p>
+<p>\num    匹配 num，其中 num 是一个正整数。对所获取的匹配的引用。例如，’(.)\1’ 匹配两个连续的相同字符。</p>
+<p>\n    标识一个八进制转义值或一个向后引用。如果 \n 之前至少 n 个获取的子表达式，则 n 为向后引用。否则，如果 n 为八进制数字 (0-7)，则 n 为一个八进制转义值。</p>
+<p>\nm    标识一个八进制转义值或一个向后引用。如果 \nm 之前至少有 nm 个获得子表达式，则 nm 为向后引用。如果 \nm 之前至少有 n 个获取，则 n 为一个后跟文字 m 的向后引用。如果前面的条件都不满足，若 n 和 m 均为八进制数字 (0-7)，则 \nm 将匹配八进制转义值 nm。</p>
+<p>\nml    如果 n 为八进制数字 (0-3)，且 m 和 l 均为八进制数字 (0-7)，则匹配八进制转义值 nml。</p>
+<p>\un    匹配 n，其中 n 是一个用四个十六进制数字表示的 Unicode 字符。例如， \u00A9 匹配版权符号 (?)。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/17/https_mixed_content/" class="archive-article-date">
-  	<time datetime="2016-11-17T05:45:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-17</time>
+      <a href="/2016/12/06/regex-character/" class="archive-article-date">
+  	<time datetime="2016-12-06T03:30:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-06</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/https/">https</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssl/">ssl</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/元字符/">元字符</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/正则表达式/">正则表达式</a></li></ul>
 	</div>
 
       
@@ -196,18 +230,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2016/11/21/Supervisor/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Supervisor
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/11/15/hello/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">hello</div>
+    <a href="/2016/12/06/kafka-io-exception/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">kafka那些坑</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -222,7 +247,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="https_mixed_content" data-title="https 混合内容" data-url="https://jingzhouzhao.github.io/2016/11/17/https_mixed_content/"></div>
+	<div class="ds-thread" data-thread-key="regex-character" data-title="regex-character" data-url="https://jingzhouzhao.github.io/2016/12/06/regex-character/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
