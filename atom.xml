@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://qmbb.top/"/>
-  <updated>2019-10-16T09:05:40.007Z</updated>
+  <updated>2019-10-16T11:05:12.400Z</updated>
   <id>https://qmbb.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>deploy访问出现404的问题</title>
+    <link href="https://qmbb.top/archives/undefined.html"/>
+    <id>https://qmbb.top/archives/undefined.html</id>
+    <published>2019-10-16T10:49:53.000Z</published>
+    <updated>2019-10-16T11:05:12.400Z</updated>
+    
+    <content type="html"><![CDATA[<p>更换电脑后重新拉下hexo相关sources，安装完成hexo-cli以及hexo-deployer-git和其他node_modules。</p><p>执行hexo clean &amp;&amp; hexo g </p><p>然后执行hexo d。</p><a id="more"></a><p>完成后发现访问出现404，提示<strong>There isn’t a GitHub Pages site here.</strong></p><p>并且github发了大量警告邮件，有得没得，例如：</p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are attempting to use a Jekyll theme, &quot;icarus&quot;, which is not supported by GitHub Pages.</span><br></pre></td></tr></table></figure><p>定位问题：</p><ol><li>查看github pages对应repository，发现里面的文件完全不正确，不是hexo g生成的文件。而变成了博客对应的源文件。</li><li>查看文件是否正确生成，public目录下正确生成。</li><li>通过上面两个步骤说明，问题出在deploy。</li></ol><p>解决问题：</p><p>删除<code>.deploy_git</code>，重新<code>hexo d</code>，一切恢复正常。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;更换电脑后重新拉下hexo相关sources，安装完成hexo-cli以及hexo-deployer-git和其他node_modules。&lt;/p&gt;
+&lt;p&gt;执行hexo clean &amp;amp;&amp;amp; hexo g &lt;/p&gt;
+&lt;p&gt;然后执行hexo d。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="踩坑记录" scheme="https://qmbb.top/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>PriorityQueue解析</title>
@@ -470,29 +492,6 @@
     
     
       <category term="linux" scheme="https://qmbb.top/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Golang常用的第三方包</title>
-    <link href="https://qmbb.top/archives/4c4ac8cd.html"/>
-    <id>https://qmbb.top/archives/4c4ac8cd.html</id>
-    <published>2019-07-19T09:20:49.000Z</published>
-    <updated>2019-10-16T09:05:40.004Z</updated>
-    
-    <content type="html"><![CDATA[<p>Mysql Driver<br><code>go get -u github.com/go-sql-driver/mysql</code></p><p>SQL Library<br><code>go get github.com/jmoiron/sqlx</code><br><a id="more"></a><br>Redis Library<br><code>go get github.com/gomodule/redigo/redis</code></p><p>Kafka Library<br><code>go get github.com/Shopify/sarama</code></p><p>Etcd Library<br><code>go get go.etcd.io/etcd/client</code></p><p>TOML Library</p><p><code>go get github.com/BurntSushi/toml</code></p><p>toml一个比yaml更简洁更方便的一种配置文件格式</p><p>未完待续…</p><p>2019/08/19</p><p>最近发现github上一个库整理的比较全，可以参考：<br><a href="https://github.com/avelino/awesome-go" target="_blank" rel="noopener">https://github.com/avelino/awesome-go</a><br>对应中文版：<br><a href="https://github.com/jobbole/awesome-go-cn" target="_blank" rel="noopener">https://github.com/jobbole/awesome-go-cn</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Mysql Driver&lt;br&gt;&lt;code&gt;go get -u github.com/go-sql-driver/mysql&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;SQL Library&lt;br&gt;&lt;code&gt;go get github.com/jmoiron/sqlx&lt;/code&gt;&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Golang随记" scheme="https://qmbb.top/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
-    
-    
-      <category term="Golang" scheme="https://qmbb.top/tags/Golang/"/>
     
   </entry>
   
