@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://qmbb.top/"/>
-  <updated>2019-10-16T11:05:12.400Z</updated>
+  <updated>2019-10-16T11:14:18.103Z</updated>
   <id>https://qmbb.top/</id>
   
   <author>
@@ -17,13 +17,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>deploy访问出现404的问题</title>
-    <link href="https://qmbb.top/archives/undefined.html"/>
-    <id>https://qmbb.top/archives/undefined.html</id>
+    <title>更换电脑后hexo deploy访问出现404的问题</title>
+    <link href="https://qmbb.top/archives/32745de6.html"/>
+    <id>https://qmbb.top/archives/32745de6.html</id>
     <published>2019-10-16T10:49:53.000Z</published>
-    <updated>2019-10-16T11:05:12.400Z</updated>
+    <updated>2019-10-16T11:14:18.103Z</updated>
     
-    <content type="html"><![CDATA[<p>更换电脑后重新拉下hexo相关sources，安装完成hexo-cli以及hexo-deployer-git和其他node_modules。</p><p>执行hexo clean &amp;&amp; hexo g </p><p>然后执行hexo d。</p><a id="more"></a><p>完成后发现访问出现404，提示<strong>There isn’t a GitHub Pages site here.</strong></p><p>并且github发了大量警告邮件，有得没得，例如：</p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are attempting to use a Jekyll theme, &quot;icarus&quot;, which is not supported by GitHub Pages.</span><br></pre></td></tr></table></figure><p>定位问题：</p><ol><li>查看github pages对应repository，发现里面的文件完全不正确，不是hexo g生成的文件。而变成了博客对应的源文件。</li><li>查看文件是否正确生成，public目录下正确生成。</li><li>通过上面两个步骤说明，问题出在deploy。</li></ol><p>解决问题：</p><p>删除<code>.deploy_git</code>，重新<code>hexo d</code>，一切恢复正常。</p>]]></content>
+    <content type="html"><![CDATA[<p>更换电脑后重新拉下hexo相关sources，安装完成hexo-cli以及hexo-deployer-git和其他node_modules。</p><p>执行hexo clean &amp;&amp; hexo g </p><p>然后执行hexo d。</p><a id="more"></a><p>完成后发现访问出现404，提示<strong>There isn’t a GitHub Pages site here.</strong></p><p>并且github发了大量警告邮件，有得没得，例如：</p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are attempting to use a Jekyll theme, &quot;icarus&quot;, which is not supported by GitHub Pages.</span><br></pre></td></tr></table></figure><p>定位问题：</p><ol><li>查看github pages对应repository，发现里面的文件完全不正确，不是hexo g生成的文件。而变成了博客对应的源文件。</li><li>查看文件是否正确生成，public目录下正确生成。</li><li>通过上面两个步骤，说明问题出在deploy。</li></ol><p>解决问题：</p><p>删除<code>.deploy_git</code>，重新<code>hexo d</code>，一切恢复正常。</p>]]></content>
     
     <summary type="html">
     
