@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://qmbb.top/"/>
-  <updated>2019-10-16T11:14:18.103Z</updated>
+  <updated>2020-03-03T05:27:32.509Z</updated>
   <id>https://qmbb.top/</id>
   
   <author>
@@ -17,11 +17,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>被隔离的第7天</title>
+    <link href="https://qmbb.top/archives/3eda1a9.html"/>
+    <id>https://qmbb.top/archives/3eda1a9.html</id>
+    <published>2020-03-03T05:22:11.000Z</published>
+    <updated>2020-03-03T05:27:32.509Z</updated>
+    
+    <content type="html"><![CDATA[<p>被隔离的第7天，每天接到无数个部门的电话，量体温，报情况。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;被隔离的第7天，每天接到无数个部门的电话，量体温，报情况。&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+      <category term="生活" scheme="https://qmbb.top/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>更换电脑后hexo deploy访问出现404的问题</title>
     <link href="https://qmbb.top/archives/32745de6.html"/>
     <id>https://qmbb.top/archives/32745de6.html</id>
     <published>2019-10-16T10:49:53.000Z</published>
-    <updated>2019-10-16T11:14:18.103Z</updated>
+    <updated>2019-10-16T11:14:24.615Z</updated>
     
     <content type="html"><![CDATA[<p>更换电脑后重新拉下hexo相关sources，安装完成hexo-cli以及hexo-deployer-git和其他node_modules。</p><p>执行hexo clean &amp;&amp; hexo g </p><p>然后执行hexo d。</p><a id="more"></a><p>完成后发现访问出现404，提示<strong>There isn’t a GitHub Pages site here.</strong></p><p>并且github发了大量警告邮件，有得没得，例如：</p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You are attempting to use a Jekyll theme, &quot;icarus&quot;, which is not supported by GitHub Pages.</span><br></pre></td></tr></table></figure><p>定位问题：</p><ol><li>查看github pages对应repository，发现里面的文件完全不正确，不是hexo g生成的文件。而变成了博客对应的源文件。</li><li>查看文件是否正确生成，public目录下正确生成。</li><li>通过上面两个步骤，说明问题出在deploy。</li></ol><p>解决问题：</p><p>删除<code>.deploy_git</code>，重新<code>hexo d</code>，一切恢复正常。</p>]]></content>
     
@@ -466,32 +490,6 @@
     
     
       <category term="MongodDB" scheme="https://qmbb.top/tags/MongodDB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux 大文件无法清空</title>
-    <link href="https://qmbb.top/archives/5cc761d2.html"/>
-    <id>https://qmbb.top/archives/5cc761d2.html</id>
-    <published>2019-07-26T09:11:49.000Z</published>
-    <updated>2019-10-16T09:05:40.011Z</updated>
-    
-    <content type="html"><![CDATA[<p>linux 清空一个大文件（上G的）一般有这么几种方法：</p><ol><li>cat /dev/null &gt; nohup.log</li><li>cp /dev/null &gt; nohup.log</li><li>echo “”  &gt; nohup.log<a id="more"></a>但是今天在尝试这几个命令的时候发现始终无法清空。</li></ol><p>最终发现问题在nohup.log的生成命令那里：<br>nohup xxx &gt; nohup.out &amp;<br>问题就在 &gt; ，需要使用 &gt;&gt; 追加模式才能使用上述三个命令清空。<br>正确方式：<br>nohup xxx &gt;&gt; nohup.out &amp;</p><p>其实，应该将nohup.out进行拆分。或者不输入到nohup.out。因为毕竟程序里面已经使用了log库。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;linux 清空一个大文件（上G的）一般有这么几种方法：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;cat /dev/null &amp;gt; nohup.log&lt;/li&gt;
-&lt;li&gt;cp /dev/null &amp;gt; nohup.log&lt;/li&gt;
-&lt;li&gt;echo “”  &amp;gt; nohup.log&lt;/li&gt;&lt;/ol&gt;
-    
-    </summary>
-    
-      <category term="踩坑记录" scheme="https://qmbb.top/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
-    
-    
-      <category term="linux" scheme="https://qmbb.top/tags/linux/"/>
     
   </entry>
   
