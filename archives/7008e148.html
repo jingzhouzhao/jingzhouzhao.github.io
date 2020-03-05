@@ -7,22 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>为什么阿里禁止通过Executors创建线程池 - larry&#39;s blog</title>
+<title>tk.mybatis与Activiti共存问题解决 - larry&#39;s blog</title>
 
 
-    <meta name="description" content="Executors是通过new一个ThreadPoolExecutor来创建的线程池。来看看ThreadPoolExecutor的构造方法：12345678public ThreadPoolExecutor(int corePoolSize,                              int maximumPoolSize,">
-<meta name="keywords" content="Java">
+    <meta name="description" content="由于tk.mybatis依赖了persistence-api，会让Activiti装配JpaProcessEngineAutoConfiguration，因为其@conditonalOnclass(name = “javax.persistence.EntityManagerFactory”)。 但实际没有使用JPA，导致启动报错。如果排除persistence-api，又会导致tk.mybati">
+<meta name="keywords" content="Activiti">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为什么阿里禁止通过Executors创建线程池">
-<meta property="og:url" content="https://qmbb.top/archives/3223999.html">
+<meta property="og:title" content="tk.mybatis与Activiti共存问题解决">
+<meta property="og:url" content="https://qmbb.top/archives/7008e148.html">
 <meta property="og:site_name" content="larry&#39;s blog">
-<meta property="og:description" content="Executors是通过new一个ThreadPoolExecutor来创建的线程池。来看看ThreadPoolExecutor的构造方法：12345678public ThreadPoolExecutor(int corePoolSize,                              int maximumPoolSize,">
+<meta property="og:description" content="由于tk.mybatis依赖了persistence-api，会让Activiti装配JpaProcessEngineAutoConfiguration，因为其@conditonalOnclass(name = “javax.persistence.EntityManagerFactory”)。 但实际没有使用JPA，导致启动报错。如果排除persistence-api，又会导致tk.mybati">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://qmbb.top/images/og_image.png">
-<meta property="og:updated_time" content="2019-10-16T09:05:40.007Z">
+<meta property="og:updated_time" content="2020-03-05T13:03:19.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么阿里禁止通过Executors创建线程池">
-<meta name="twitter:description" content="Executors是通过new一个ThreadPoolExecutor来创建的线程池。来看看ThreadPoolExecutor的构造方法：12345678public ThreadPoolExecutor(int corePoolSize,                              int maximumPoolSize,">
+<meta name="twitter:title" content="tk.mybatis与Activiti共存问题解决">
+<meta name="twitter:description" content="由于tk.mybatis依赖了persistence-api，会让Activiti装配JpaProcessEngineAutoConfiguration，因为其@conditonalOnclass(name = “javax.persistence.EntityManagerFactory”)。 但实际没有使用JPA，导致启动报错。如果排除persistence-api，又会导致tk.mybati">
 <meta name="twitter:image" content="https://qmbb.top/images/og_image.png">
 
 
@@ -107,7 +107,7 @@ var _hmt = _hmt || [];
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.png" alt="为什么阿里禁止通过Executors创建线程池" height="28">
+                <img src="/images/logo.png" alt="tk.mybatis与Activiti共存问题解决" height="28">
             
             </a>
         </div>
@@ -160,7 +160,7 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-06-28T01:55:49.000Z">2019-06-28</time>
+                <time class="level-item has-text-grey" datetime="2020-03-05T12:53:07.000Z">2020-03-05</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/Java随记/">Java随记</a>
@@ -170,7 +170,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1130 个字)
+                    1 分钟 读完 (大约 181 个字)
                 </span>
                 
                 
@@ -184,29 +184,19 @@ var _hmt = _hmt || [];
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                为什么阿里禁止通过Executors创建线程池
+                tk.mybatis与Activiti共存问题解决
             
         </h1>
         <div class="content">
-            <p>Executors是通过new一个<strong>ThreadPoolExecutor</strong>来创建的线程池。来看看ThreadPoolExecutor的构造方法：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public ThreadPoolExecutor(int corePoolSize,</span><br><span class="line">                              int maximumPoolSize,</span><br><span class="line">                              long keepAliveTime,</span><br><span class="line">                              TimeUnit unit,</span><br><span class="line">                              BlockingQueue&lt;Runnable&gt; workQueue) &#123;</span><br><span class="line">        this(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,</span><br><span class="line">             Executors.defaultThreadFactory(), defaultHandler);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>方法上的Javadoc：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">* @param corePoolSize the number of threads to keep in the pool, even</span><br><span class="line">*        if they are idle, unless &#123;@code allowCoreThreadTimeOut&#125; is set</span><br><span class="line">* @param maximumPoolSize the maximum number of threads to allow in the</span><br><span class="line">*        pool</span><br><span class="line">* @param keepAliveTime when the number of threads is greater than</span><br><span class="line">*        the core, this is the maximum time that excess idle threads</span><br><span class="line">*        will wait for new tasks before terminating.</span><br><span class="line">* @param unit the time unit for the &#123;@code keepAliveTime&#125; argument</span><br><span class="line">* @param workQueue the queue to use for holding tasks before they are</span><br><span class="line">*        executed.  This queue will hold only the &#123;@code Runnable&#125;</span><br><span class="line">*        tasks submitted by the &#123;@code execute&#125; method.</span><br></pre></td></tr></table></figure></p>
-<p>解释一下：<br><strong>corePoolSize</strong> ：保持在线程池中的线程，哪怕这几个线程是空闲的。除非设置了allowCoreThreadTimeOut。<br><strong>maximumPoolSize</strong>：线程池中允许的最大的线程数量。<br><strong>keepAliveTime</strong>：多余corePoolSize 设置的线程的存活时间（比如corePoolSize 3，maximumPoolSize 10，那么剩下的7个线程将只能存活keepAliveTime）。<br><strong>unit</strong> ：keepAliveTime的时间单位<br><strong>workQueue</strong>：保存corePoolSize 线程处理不了的任务（比如corePoolSize 3，但是有10个任务要处理，那么剩下的7个任务将存储在workQueue中）。当此队列满了之后，会再次创建不超过maximumPoolSize大小的线程来处理。</p>
-<p>好，看完了ThreadPoolExecutor构造函数，再来看看Executors是怎么设置这些参数创建线程池的，以及会带来哪些问题。</p>
-<p>看看Executors创建线程池的源码：</p>
-<h3 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool"></a>newFixedThreadPool</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> public static ExecutorService newFixedThreadPool(int nThreads) &#123;</span><br><span class="line">        return new ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                      0L, TimeUnit.MILLISECONDS,</span><br><span class="line">                                      new LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>corePoolSize、maximumPoolSize 设置为相同(nThreads)大小，也就是说这个线程池内部会一直存在nThreads数量的线程。并且由于corePoolSize和maximumPoolSize 相同，keepAliveTime也就无意义了，所以设置为0L。<br>这个线程池使用的是LinkedBlockingQueue（无界队列）来存corePoolSize线程无法处理的任务。<br>那么这个线程池问题在哪里呢？<br>最大的问题在于workQueue使用了无界队列，当任务数多到线程池处理不过来时，任务全部进入workQueue，会消耗很大的内存，甚至OOM。</p>
-<h3 id="newSingleThreadExecutor"><a href="#newSingleThreadExecutor" class="headerlink" title="newSingleThreadExecutor"></a>newSingleThreadExecutor</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newSingleThreadExecutor() &#123;</span><br><span class="line">    return new FinalizableDelegatedExecutorService</span><br><span class="line">        (new ThreadPoolExecutor(1, 1,</span><br><span class="line">                                0L, TimeUnit.MILLISECONDS,</span><br><span class="line">                                new LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以发现newSingleThreadExecutor 是 newFixedThreadPool的一个具化版本。指定了固定的nThreads：1。所以这个线程池的问题跟newFixedThreadPool一样。当任务过多时，可能出现OOM。</p>
-<h3 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool"></a>newCachedThreadPool</h3><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static ExecutorService newCachedThreadPool() &#123;</span><br><span class="line">        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,</span><br><span class="line">                                      60L, TimeUnit.SECONDS,</span><br><span class="line">                                      new SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>corePoolSize 设置为0，也就是说默认这个线程池中不会有线程创建。 使用的workQueue是SynchronousQueue，只有被消费才能继续生产。此时来了一个任务，发现没有线程来消费，于是创建一个线程来消费。并且这个线程在完成任务后最多存活60秒。如果此时来了很多任务。那么这个线程最大可创建Integer.MAX_VALUE个线程。这就是这个线程池的问题所在了，线程数量可以基本上说是无限制，可能导致资源耗尽。</p>
-<hr>
-<p>Executors中还有很多创建线程池的工厂方法，或多或少都存在上述问题。通过上面的问题可以发现，要创建一个可靠的线程池，最好还是手动创建，并且合理指定corePoolSize、maximumPoolSize 、workQueue等参数。</p>
-<p>例如：<br>为了避免OOM，我们可以使用有界队列ArrayBlockingQueue来替代无界队列。<br>为了避免线程过多资源耗尽，我们需要结合实际情况来指定一个maximumPoolSize，而不是粗暴的设置为Integer.MAX_VALUE。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">new ThreadPoolExecutor(</span><br><span class="line">            2,</span><br><span class="line">            8,</span><br><span class="line">            30L,</span><br><span class="line">            TimeUnit.SECONDS,</span><br><span class="line">            new ArrayBlockingQueue&lt;&gt;(1000),</span><br><span class="line">            Executors.defaultThreadFactory(),</span><br><span class="line">            new AbortPolicy());</span><br></pre></td></tr></table></figure>
-<p>上面这个线程池，当添加进任务时，默认创建2个线程来处理任务。如果又来了一个任务，此时会进入ArrayBlockingQueue（workQueue）排队，当workQueue满了（1000个任务）会在创建6个线程来处理任务。如果此时还有任务添加进来，则会执行AbortPolicy策略，默认是拒绝添加。当所有任务处理完成后，这6个线程在空闲30秒后将会被销毁。</p>
-<p>实际使用时应该结合实际情况调整，并且自定义ThreadFactory以达到设置线程名称的目的。</p>
-<p>原创，如有雷同纯属巧合。</p>
+            <p>由于tk.mybatis依赖了persistence-api，会让Activiti装配JpaProcessEngineAutoConfiguration，因为其@conditonalOnclass(name = “javax.persistence.EntityManagerFactory”)。</p>
+<p>但实际没有使用JPA，导致启动报错。如果排除persistence-api，又会导致tk.mybatis报错。</p>
+<p>参考了一番其它的人做法，无论是各种排除还是添加依赖都无效。</p>
+<p>最终自己的解决方案是：</p>
+<p>首先排除activiti jpa的自动装配：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication(exclude=&#123;JpaProcessEngineAutoConfiguration.class&#125;)。</span><br></pre></td></tr></table></figure>
+<p>然后找到activiti中的<code>DataSourceProcessEngineAutoConfiguration.class</code> 复制出源码，在自己的项目中添加一个同名文件（不同名也行）。然后粘贴内容到新建的文件中。最后删掉：</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ConditionalOnMissionClass(name = &quot;javax.persistence.EntityManagerFactory&quot;)</span><br></pre></td></tr></table></figure>
+<p>Ok,搞定！</p>
 
         </div>
         
@@ -214,7 +204,7 @@ var _hmt = _hmt || [];
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/Java/">Java</a>
+                    <a class="has-link-grey -link" href="/tags/Activiti/">Activiti</a>
                 </div>
             </div>
         </div>
@@ -264,17 +254,10 @@ var _hmt = _hmt || [];
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/archives/4072076b.html">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Spring JPA 自定义关联分页查询（动态条件）</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/archives/5cf0b88d.html">
-                <span class="level-item">对变量加锁后是否还需要使用volatile</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/archives/3eda1a9.html">
+                <span class="level-item">被隔离的第7天</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -1438,7 +1421,7 @@ var _hmt = _hmt || [];
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.png" alt="为什么阿里禁止通过Executors创建线程池" height="28">
+                    <img src="/images/logo.png" alt="tk.mybatis与Activiti共存问题解决" height="28">
                 
                 </a>
                 <p class="is-size-7">

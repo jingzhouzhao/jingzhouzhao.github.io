@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://qmbb.top/"/>
-  <updated>2020-03-03T05:27:32.509Z</updated>
+  <updated>2020-03-05T13:03:19.236Z</updated>
   <id>https://qmbb.top/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>tk.mybatis与Activiti共存问题解决</title>
+    <link href="https://qmbb.top/archives/7008e148.html"/>
+    <id>https://qmbb.top/archives/7008e148.html</id>
+    <published>2020-03-05T12:53:07.000Z</published>
+    <updated>2020-03-05T13:03:19.236Z</updated>
+    
+    <content type="html"><![CDATA[<p>由于tk.mybatis依赖了persistence-api，会让Activiti装配JpaProcessEngineAutoConfiguration，因为其@conditonalOnclass(name = “javax.persistence.EntityManagerFactory”)。</p><p>但实际没有使用JPA，导致启动报错。如果排除persistence-api，又会导致tk.mybatis报错。</p><p>参考了一番其它的人做法，无论是各种排除还是添加依赖都无效。</p><p>最终自己的解决方案是：</p><p>首先排除activiti jpa的自动装配：</p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication(exclude=&#123;JpaProcessEngineAutoConfiguration.class&#125;)。</span><br></pre></td></tr></table></figure><p>然后找到activiti中的<code>DataSourceProcessEngineAutoConfiguration.class</code> 复制出源码，在自己的项目中添加一个同名文件（不同名也行）。然后粘贴内容到新建的文件中。最后删掉：</p><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ConditionalOnMissionClass(name = &quot;javax.persistence.EntityManagerFactory&quot;)</span><br></pre></td></tr></table></figure><p>Ok,搞定！</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;由于tk.mybatis依赖了persistence-api，会让Activiti装配JpaProcessEngineAutoConfiguration，因为其@conditonalOnclass(name = “javax.persistence.EntityManage
+      
+    
+    </summary>
+    
+      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+    
+    
+      <category term="Activiti" scheme="https://qmbb.top/tags/Activiti/"/>
+    
+  </entry>
+  
+  <entry>
     <title>被隔离的第7天</title>
     <link href="https://qmbb.top/archives/3eda1a9.html"/>
     <id>https://qmbb.top/archives/3eda1a9.html</id>
     <published>2020-03-03T05:22:11.000Z</published>
-    <updated>2020-03-03T05:27:32.509Z</updated>
+    <updated>2020-03-03T05:28:00.747Z</updated>
     
     <content type="html"><![CDATA[<p>被隔离的第7天，每天接到无数个部门的电话，量体温，报情况。</p>]]></content>
     
@@ -468,28 +493,6 @@
     
       <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>mongodb13亿数据清理记录</title>
-    <link href="https://qmbb.top/archives/7fbe8b08.html"/>
-    <id>https://qmbb.top/archives/7fbe8b08.html</id>
-    <published>2019-08-09T09:23:49.000Z</published>
-    <updated>2019-10-16T09:05:40.011Z</updated>
-    
-    <content type="html"><![CDATA[<p>mongodb上一个collection数据已经膨胀到13亿，也就最近一两个月的数据重要一点。于是考虑清除一下这个collection。<br>于是：<br>第一步：<br>先将原表备份<br><a id="more"></a><br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test.renameCollection(&quot;test_bak&quot;)</span><br></pre></td></tr></table></figure></p><p>然后根据时间删除数据<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test_bak.remove(&#123;&quot;createtime&quot;:&#123;&quot;$lte&quot;:ISODate(&quot;2019-06-09T00:00:00.000Z&quot;)&#125;&#125;)</span><br></pre></td></tr></table></figure></p><p>将两个月前的数据全部清掉。<br>执行到这一步发现，现实很残酷，基本上命令是卡死状态。<br>查看collection上的索引：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test_bak.getIndexes()</span><br></pre></td></tr></table></figure></p><p>发现createtime没有索引，于是乎加上：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test_bak.createIndex(&#123;&quot;createtime&quot;:-1&#125;)</span><br></pre></td></tr></table></figure></p><p>加索引这一步也要执行很久，慢慢等吧。<br>等到索引添加成功再次执行删除数据的命令即可，也将执行很久。<br>通过：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.test_bak.count()</span><br></pre></td></tr></table></figure></p><p>查看还剩多少数据。<br>由于test_bak已经没有新的数据写入，还需要将最近两个月的数据同步到test中，于是：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.test_bak.find(&#123;&quot;createtime&quot;:&#123;&quot;$gte&quot;:ISODate(&quot;2019-06-09T00:00:00.000Z&quot;)&#125;&#125;).forEach(function(x)&#123;</span><br><span class="line">    db.test.insert(x);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p><p>等待慢慢执行吧…..</p><p>以上为实操分享。</p><p>所在在一开始就应该设置，无用的数据自动清理掉。<br>也就没有后面头疼的问题了。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;mongodb上一个collection数据已经膨胀到13亿，也就最近一两个月的数据重要一点。于是考虑清除一下这个collection。&lt;br&gt;于是：&lt;br&gt;第一步：&lt;br&gt;先将原表备份&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="踩坑记录" scheme="https://qmbb.top/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
-    
-    
-      <category term="MongodDB" scheme="https://qmbb.top/tags/MongodDB/"/>
     
   </entry>
   
