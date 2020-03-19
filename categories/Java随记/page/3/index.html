@@ -170,6 +170,54 @@ var _hmt = _hmt || [];
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-11-30T02:27:49.000Z">2018-11-30</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Java随记/">Java随记</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 190 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/archives/421cfd7c.html">UUID优化方案</a>
+            
+        </h1>
+        <div class="content">
+            <p>数据ID生成方案中UUID相对来说是最简单的，但是其也有不少缺点：</p>
+<p>1.没有排序，无法保证趋势递增。<br>2.UUID往往是使用字符串存储，查询的效率比较低。<br>3.存储空间比较大，如果是海量数据库，就需要考虑存储量的问题。<br>4.传输数据量大<br>5.不可读。</p>
+<p>常见优化方案：<br>1.优化字符串为BigInteger<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private static BigInteger pair() &#123;</span><br><span class="line">  UUID myuuid = UUID.randomUUID();</span><br><span class="line">  //UUID长度为128位</span><br><span class="line">  ByteBuffer bb = ByteBuffer.wrap(new byte[16]);</span><br><span class="line">  bb.putLong(myuuid .getMostSignificantBits());</span><br><span class="line">  bb.putLong(myuuid .getLeastSignificantBits());</span><br><span class="line">  return new BigInteger(bb.array());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.去掉符号：<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private static BigInteger pair(UUID uuid) &#123;</span><br><span class="line">	BigInteger value1 = BigInteger.valueOf(uuid.getMostSignificantBits());</span><br><span class="line">	BigInteger value2 = BigInteger.valueOf(uuid.getLeastSignificantBits());</span><br><span class="line">	if (value1.compareTo(value2) &lt; 0) &#123;</span><br><span class="line">		return value2.multiply(value2).add(value1);</span><br><span class="line">	&#125;</span><br><span class="line">	return value1.multiply(value1).add(value1).add(value2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-07-24T03:26:49.000Z">2018-07-24</time>
                 
                 <div class="level-item">
@@ -333,7 +381,7 @@ var _hmt = _hmt || [];
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        48
+                        49
                     </p>
                 </div>
             </div>
@@ -470,7 +518,7 @@ var _hmt = _hmt || [];
                 <span class="level-item">Java随记</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">22</span>
+                <span class="level-item tag">23</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Python随记/">
@@ -549,6 +597,25 @@ var _hmt = _hmt || [];
         
         <article class="media">
             
+            <a href="/archives/f728629b.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="读取Jar中指定目录下的所有文件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-19T03:47:54.000Z">2020-03-19</time></div>
+                    <a href="/archives/f728629b.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">读取Jar中指定目录下的所有文件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java随记/">Java随记</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/archives/7008e148.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="tk.mybatis与Activiti共存问题解决">
@@ -623,25 +690,6 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/archives/f3674cca.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Docker-alpine镜像导致的问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-26T05:04:26.000Z">2019-09-26</time></div>
-                    <a href="/archives/f3674cca.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Docker-alpine镜像导致的问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Docker随记/">Docker随记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -660,7 +708,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -990,6 +1038,25 @@ var _hmt = _hmt || [];
         
         <article class="media">
             
+            <a href="/archives/f728629b.html" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="读取Jar中指定目录下的所有文件">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-19T03:47:54.000Z">2020-03-19</time></div>
+                    <a href="/archives/f728629b.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">读取Jar中指定目录下的所有文件</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Java随记/">Java随记</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/archives/7008e148.html" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="tk.mybatis与Activiti共存问题解决">
@@ -1064,25 +1131,6 @@ var _hmt = _hmt || [];
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/archives/f3674cca.html" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Docker-alpine镜像导致的问题">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-26T05:04:26.000Z">2019-09-26</time></div>
-                    <a href="/archives/f3674cca.html" class="title has-link-black-ter is-size-6 has-text-weight-normal">Docker-alpine镜像导致的问题</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Docker随记/">Docker随记</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1101,7 +1149,7 @@ var _hmt = _hmt || [];
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
