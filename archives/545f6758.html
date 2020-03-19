@@ -11,7 +11,7 @@
 
 
     <meta name="description" content="KafkaSource 配置topic：topic1KafkaSink 配置topic：topic2从topic1拉取数据，经过简单处理后发到topic2但是你会发现flume一直在循环读写topic1原因就是KafkaSink中的这段代码：123if (eventTopic == null) &amp;#123;    eventTopic = topic;&amp;#125; 首先从headers中获取TOP">
-<meta name="keywords" content="kafka,flume">
+<meta name="keywords" content="flume,kafka">
 <meta property="og:type" content="article">
 <meta property="og:title" content="flume同时使用KafkaSource、KafkaSink导致的问题">
 <meta property="og:url" content="https://qmbb.top/archives/545f6758.html">

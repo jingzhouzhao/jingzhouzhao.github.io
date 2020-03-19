@@ -18,7 +18,7 @@
 <meta property="og:description" content="读取Jar中文件使用类似getResourceAsStream等以流的方式获取即可。但是想要读取Jar中某个目录下的所有文件却不是那么容易。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://qmbb.top/images/og_image.png">
-<meta property="og:updated_time" content="2020-03-19T04:04:57.516Z">
+<meta property="og:updated_time" content="2020-03-19T05:46:01.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="读取Jar中指定目录下的所有文件">
 <meta name="twitter:description" content="读取Jar中文件使用类似getResourceAsStream等以流的方式获取即可。但是想要读取Jar中某个目录下的所有文件却不是那么容易。">
@@ -169,7 +169,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 283 个字)
+                    3 分钟 读完 (大约 493 个字)
                 </span>
                 
                 
@@ -189,13 +189,18 @@ var _hmt = _hmt || [];
         <div class="content">
             <p>读取Jar中文件使用类似getResourceAsStream等以流的方式获取即可。但是想要读取Jar中某个目录下的所有文件却不是那么容易。</p>
 <a id="more"></a>
-<p>首先要读取Jar中的目录下的文件，得先搞清楚Jar中的目录结构，例如常见的SpringBoot打包后的Jar中目录如下：</p>
+<h2 id="第一种方式"><a href="#第一种方式" class="headerlink" title="第一种方式"></a>第一种方式</h2><p>首先要读取Jar中的目录下的文件，得先搞清楚Jar中的目录结构，例如常见的SpringBoot打包后的Jar中目录如下：</p>
 <p><img src="/archives/f728629b/1.png" alt="1"></p>
 <p>假如我们要读取的目录是<code>BOOT-INF/classes/processes</code>（对应源文件目录是<code>resources/processes</code>）</p>
 <p><img src="/archives/f728629b/2.png" alt="2"></p>
 <p>代码如下：</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//获取当前Jar文件路径</span></span><br><span class="line">URL url = <span class="hljs-keyword">this</span>.getClass().getClassLoader().getResource(<span class="hljs-string">""</span>);</span><br><span class="line">    String jarPath = url.toString().substring(<span class="hljs-number">0</span>, url.toString().indexOf(<span class="hljs-string">"!/"</span>) + <span class="hljs-number">2</span>);</span><br><span class="line">    log.info(<span class="hljs-string">"jarPath:&#123;&#125;"</span>, jarPath);</span><br><span class="line">    URL jarURL = <span class="hljs-keyword">new</span> URL(jarPath);</span><br><span class="line">    JarURLConnection jarCon = (JarURLConnection) jarURL.openConnection();</span><br><span class="line">    JarFile jarFile = jarCon.getJarFile();</span><br><span class="line"><span class="hljs-comment">//获取Jar下所有文件</span></span><br><span class="line">    Enumeration&lt;JarEntry&gt; entries = jarFile.entries();</span><br><span class="line"><span class="hljs-comment">//遍历文件</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (entries.hasMoreElements()) &#123;</span><br><span class="line">        JarEntry jarEntry = entries.nextElement();</span><br><span class="line">      	<span class="hljs-comment">//获取文件路径</span></span><br><span class="line">        String innerPath = jarEntry.getName();</span><br><span class="line">        log.info(<span class="hljs-string">"jarEntry Name:&#123;&#125;"</span>, innerPath);</span><br><span class="line">      	<span class="hljs-comment">//判断是否需要处理的目录下的文件，PROCESSES=BOOT-INF/classes/processes</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (innerPath.startsWith(PROCESSES) &amp;&amp; !jarEntry.isDirectory()) &#123;</span><br><span class="line">          	<span class="hljs-comment">//获取到文件流</span></span><br><span class="line">            InputStream inputStream = <span class="hljs-keyword">this</span>.getClass().getClassLoader().getResourceAsStream(innerPath);</span><br><span class="line">          	<span class="hljs-comment">//doSomething</span></span><br><span class="line">          	<span class="hljs-comment">//......</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以参考SpringBoot SpringFactoriesLoader 其基本原理差不多。都是通过URL的方式打开Jar包，并读取文件。</p>
+<p>此方式优缺点：无第三方库依赖，用的都是JDK 相关API。但是只能在jar模式下运行，本地调试会出错。</p>
+<h2 id="第二种方式"><a href="#第二种方式" class="headerlink" title="第二种方式"></a>第二种方式</h2><p>如果有使用到Spring，那么不管是打成Jar运行还是本地运行，获取指定目录中的文件就很简单了。主要是利用了Spring 的<code>ResourcePatternResolver</code>，详细代码如下：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">    List&lt;Resource&gt; resourceList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="hljs-comment">//PROCESS_DEFINITION_LOCATION_SUFFIXES = Arrays.asLIst("**.bpmn20.xml","**.bpmn")</span></span><br><span class="line">    <span class="hljs-keyword">for</span> (String suffix : PROCESS_DEFINITION_LOCATION_SUFFIXES) &#123;</span><br><span class="line">      	<span class="hljs-comment">//PROCESS_DEFINITION_LOCATION_SUFFIXES = classpath://processes/</span></span><br><span class="line">        <span class="hljs-comment">//拼接路径pattern</span></span><br><span class="line">        String path = PROCESS_DEFINITION_LOCATION_PREFIX + suffix;</span><br><span class="line">      	<span class="hljs-comment">//通过ResourcePatternResolver获取资源文件,</span></span><br><span class="line">        <span class="hljs-comment">//resourceLoader = @Autowired ResourcePatternResolver resourceLoader</span></span><br><span class="line">        Resource[] resources = resourceLoader.getResources(path);</span><br><span class="line">        <span class="hljs-keyword">if</span> (resources != <span class="hljs-keyword">null</span> &amp;&amp; resources.length &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            resourceList.addAll(Arrays.asList(resources));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="hljs-comment">//通过resource.getInputStream()即可获取文件流</span></span><br><span class="line"><span class="hljs-comment">//doSomething</span></span><br><span class="line"><span class="hljs-comment">//......</span></span><br></pre></td></tr></table></figure>
+<p>此方式优缺点，依赖了Spring框架，但是对运行环境没有要求。</p>
+<p>总结：</p>
+<p>推荐使用第二种方式，毕竟现在基本上都会使用到Spring。</p>
 
         </div>
         
