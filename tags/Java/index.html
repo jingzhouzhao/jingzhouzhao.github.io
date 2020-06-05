@@ -179,7 +179,7 @@ var _hmt = _hmt || [];
                 <span class="level-item has-text-grey">
                     
                     
-                    13 分钟 读完 (大约 1916 个字)
+                    12 分钟 读完 (大约 1853 个字)
                 </span>
                 
                 
@@ -192,7 +192,7 @@ var _hmt = _hmt || [];
             
         </h1>
         <div class="content">
-            <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>SaaS项目东郭反应，项目中发的事务消息一直在<code>RMQ_SYS_TRANS_HALF_TOPIC</code>中，并且不断增长。随即我们查看RocketMQ日志发现如下情况：<img src="/archives/cfa05355/zhaojingzhou/Documents/blog/hexo/source/_posts/Java随记/RocketMQ_RMQ_SYS_TRANS_HALF_TOPIC_爆掉的问题/1.png" alt="1"></p>
+            <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>SaaS项目东郭反应，项目中发的事务消息一直在<code>RMQ_SYS_TRANS_HALF_TOPIC</code>中，并且不断增长。随即我们查看RocketMQ日志发现如下情况：<img src="/archives/cfa05355/1.png" alt="1"></p>
 <p>这个本来是RocketMQ正常的逻辑，发送事务消息后没有提交状态的话，当达到超时时间后，RocketMQ会回查本地事务状态。这里显示的是回查的次数超限，消息被移到了<code>TRANS_CHECK_MAXTIME_TOPIC</code>中。</p>
 <p>不正常的是<code>REAL_TOPIC</code>变成了<code>RMQ_SYS_TRANS_HALF_TOPIC</code>，正常应该是原始的业务消息TOPIC才对。于是我们带着这个问题开始排查起来。</p>
         </div>
