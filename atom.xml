@@ -5,9 +5,9 @@
   <subtitle>赵荆州的个人博客</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://qmbb.top/"/>
+  <link href="https://jingzhouzhao.github.io/"/>
   <updated>2020-06-05T06:04:13.138Z</updated>
-  <id>https://qmbb.top/</id>
+  <id>https://jingzhouzhao.github.io/</id>
   
   <author>
     <name>赵荆州</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>RocketMQ RMQ_SYS_TRANS_HALF_TOPIC 爆掉的问题</title>
-    <link href="https://qmbb.top/archives/cfa05355.html"/>
-    <id>https://qmbb.top/archives/cfa05355.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/cfa05355.html"/>
+    <id>https://jingzhouzhao.github.io/archives/cfa05355.html</id>
     <published>2020-06-05T05:22:44.000Z</published>
     <updated>2020-06-05T06:04:13.138Z</updated>
     
@@ -33,19 +33,19 @@
     
     </summary>
     
-      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Java" scheme="https://qmbb.top/tags/Java/"/>
+      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
     
-      <category term="RocketMQ" scheme="https://qmbb.top/tags/RocketMQ/"/>
+      <category term="RocketMQ" scheme="https://jingzhouzhao.github.io/tags/RocketMQ/"/>
     
   </entry>
   
   <entry>
     <title>读取Jar中指定目录下的所有文件</title>
-    <link href="https://qmbb.top/archives/f728629b.html"/>
-    <id>https://qmbb.top/archives/f728629b.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/f728629b.html"/>
+    <id>https://jingzhouzhao.github.io/archives/f728629b.html</id>
     <published>2020-03-19T03:47:54.000Z</published>
     <updated>2020-03-19T05:46:01.558Z</updated>
     
@@ -57,15 +57,15 @@
     
     </summary>
     
-      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
     
   </entry>
   
   <entry>
     <title>tk.mybatis与Activiti共存问题解决</title>
-    <link href="https://qmbb.top/archives/7008e148.html"/>
-    <id>https://qmbb.top/archives/7008e148.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/7008e148.html"/>
+    <id>https://jingzhouzhao.github.io/archives/7008e148.html</id>
     <published>2020-03-05T12:53:07.000Z</published>
     <updated>2020-03-05T13:03:39.084Z</updated>
     
@@ -80,17 +80,17 @@
     
     </summary>
     
-      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Activiti" scheme="https://qmbb.top/tags/Activiti/"/>
+      <category term="Activiti" scheme="https://jingzhouzhao.github.io/tags/Activiti/"/>
     
   </entry>
   
   <entry>
     <title>被隔离的第7天</title>
-    <link href="https://qmbb.top/archives/3eda1a9.html"/>
-    <id>https://qmbb.top/archives/3eda1a9.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/3eda1a9.html"/>
+    <id>https://jingzhouzhao.github.io/archives/3eda1a9.html</id>
     <published>2020-03-03T05:22:11.000Z</published>
     <updated>2020-03-03T05:28:00.747Z</updated>
     
@@ -106,15 +106,15 @@
     
     </summary>
     
-      <category term="生活" scheme="https://qmbb.top/categories/%E7%94%9F%E6%B4%BB/"/>
+      <category term="生活" scheme="https://jingzhouzhao.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
     
     
   </entry>
   
   <entry>
     <title>更换电脑后hexo deploy访问出现404的问题</title>
-    <link href="https://qmbb.top/archives/32745de6.html"/>
-    <id>https://qmbb.top/archives/32745de6.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/32745de6.html"/>
+    <id>https://jingzhouzhao.github.io/archives/32745de6.html</id>
     <published>2019-10-16T10:49:53.000Z</published>
     <updated>2019-10-16T11:14:24.615Z</updated>
     
@@ -128,15 +128,15 @@
     
     </summary>
     
-      <category term="踩坑记录" scheme="https://qmbb.top/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
+      <category term="踩坑记录" scheme="https://jingzhouzhao.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
     
     
   </entry>
   
   <entry>
     <title>PriorityQueue解析</title>
-    <link href="https://qmbb.top/archives/f50feeee.html"/>
-    <id>https://qmbb.top/archives/f50feeee.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/f50feeee.html"/>
+    <id>https://jingzhouzhao.github.io/archives/f50feeee.html</id>
     <published>2019-10-10T02:13:00.000Z</published>
     <updated>2019-10-16T09:05:40.007Z</updated>
     
@@ -151,17 +151,17 @@
     
     </summary>
     
-      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Java" scheme="https://qmbb.top/tags/Java/"/>
+      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>Docker-alpine镜像导致的问题</title>
-    <link href="https://qmbb.top/archives/f3674cca.html"/>
-    <id>https://qmbb.top/archives/f3674cca.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/f3674cca.html"/>
+    <id>https://jingzhouzhao.github.io/archives/f3674cca.html</id>
     <published>2019-09-26T05:04:26.000Z</published>
     <updated>2019-10-16T09:05:40.003Z</updated>
     
@@ -173,17 +173,17 @@
     
     </summary>
     
-      <category term="Docker随记" scheme="https://qmbb.top/categories/Docker%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Docker随记" scheme="https://jingzhouzhao.github.io/categories/Docker%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Docker" scheme="https://qmbb.top/tags/Docker/"/>
+      <category term="Docker" scheme="https://jingzhouzhao.github.io/tags/Docker/"/>
     
   </entry>
   
   <entry>
     <title>为什么苹果不自己制造芯片</title>
-    <link href="https://qmbb.top/archives/52360944.html"/>
-    <id>https://qmbb.top/archives/52360944.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/52360944.html"/>
+    <id>https://jingzhouzhao.github.io/archives/52360944.html</id>
     <published>2019-09-20T02:01:43.000Z</published>
     <updated>2019-10-16T09:05:40.010Z</updated>
     
@@ -195,15 +195,15 @@
     
     </summary>
     
-      <category term="读书笔记" scheme="https://qmbb.top/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+      <category term="读书笔记" scheme="https://jingzhouzhao.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
   </entry>
   
   <entry>
     <title>golang写文件异常invalid argument</title>
-    <link href="https://qmbb.top/archives/848ae75e.html"/>
-    <id>https://qmbb.top/archives/848ae75e.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/848ae75e.html"/>
+    <id>https://jingzhouzhao.github.io/archives/848ae75e.html</id>
     <published>2019-09-11T07:10:49.000Z</published>
     <updated>2019-10-16T09:05:40.004Z</updated>
     
@@ -215,17 +215,17 @@
     
     </summary>
     
-      <category term="Golang随记" scheme="https://qmbb.top/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Golang随记" scheme="https://jingzhouzhao.github.io/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Golang" scheme="https://qmbb.top/tags/Golang/"/>
+      <category term="Golang" scheme="https://jingzhouzhao.github.io/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>跟着B站学Golang(admin-ep-saga)</title>
-    <link href="https://qmbb.top/archives/f11de5dd.html"/>
-    <id>https://qmbb.top/archives/f11de5dd.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/f11de5dd.html"/>
+    <id>https://jingzhouzhao.github.io/archives/f11de5dd.html</id>
     <published>2019-09-05T08:50:12.000Z</published>
     <updated>2019-10-16T09:05:40.005Z</updated>
     
@@ -240,17 +240,17 @@
     
     </summary>
     
-      <category term="Golang随记" scheme="https://qmbb.top/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Golang随记" scheme="https://jingzhouzhao.github.io/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Golang" scheme="https://qmbb.top/tags/Golang/"/>
+      <category term="Golang" scheme="https://jingzhouzhao.github.io/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>一张图说明Golang的并发模型MPG</title>
-    <link href="https://qmbb.top/archives/79f4a57c.html"/>
-    <id>https://qmbb.top/archives/79f4a57c.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/79f4a57c.html"/>
+    <id>https://jingzhouzhao.github.io/archives/79f4a57c.html</id>
     <published>2019-09-04T03:10:49.000Z</published>
     <updated>2019-10-16T09:05:40.004Z</updated>
     
@@ -262,17 +262,17 @@
     
     </summary>
     
-      <category term="Golang随记" scheme="https://qmbb.top/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Golang随记" scheme="https://jingzhouzhao.github.io/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Golang" scheme="https://qmbb.top/tags/Golang/"/>
+      <category term="Golang" scheme="https://jingzhouzhao.github.io/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>Go Module 引入本地自定义包</title>
-    <link href="https://qmbb.top/archives/c8d527a1.html"/>
-    <id>https://qmbb.top/archives/c8d527a1.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/c8d527a1.html"/>
+    <id>https://jingzhouzhao.github.io/archives/c8d527a1.html</id>
     <published>2019-09-04T02:20:49.000Z</published>
     <updated>2019-10-16T09:05:40.004Z</updated>
     
@@ -287,17 +287,17 @@
     
     </summary>
     
-      <category term="Golang随记" scheme="https://qmbb.top/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Golang随记" scheme="https://jingzhouzhao.github.io/categories/Golang%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Golang" scheme="https://qmbb.top/tags/Golang/"/>
+      <category term="Golang" scheme="https://jingzhouzhao.github.io/tags/Golang/"/>
     
   </entry>
   
   <entry>
     <title>Python实现图像文字识别</title>
-    <link href="https://qmbb.top/archives/99680cca.html"/>
-    <id>https://qmbb.top/archives/99680cca.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/99680cca.html"/>
+    <id>https://jingzhouzhao.github.io/archives/99680cca.html</id>
     <published>2019-09-03T08:46:36.000Z</published>
     <updated>2019-10-16T09:05:40.010Z</updated>
     
@@ -310,19 +310,19 @@
     
     </summary>
     
-      <category term="Python随记" scheme="https://qmbb.top/categories/Python%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Python随记" scheme="https://jingzhouzhao.github.io/categories/Python%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Python" scheme="https://qmbb.top/tags/Python/"/>
+      <category term="Python" scheme="https://jingzhouzhao.github.io/tags/Python/"/>
     
-      <category term="OCR" scheme="https://qmbb.top/tags/OCR/"/>
+      <category term="OCR" scheme="https://jingzhouzhao.github.io/tags/OCR/"/>
     
   </entry>
   
   <entry>
     <title>Python中的一些语法糖</title>
-    <link href="https://qmbb.top/archives/d5c5a3fa.html"/>
-    <id>https://qmbb.top/archives/d5c5a3fa.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/d5c5a3fa.html"/>
+    <id>https://jingzhouzhao.github.io/archives/d5c5a3fa.html</id>
     <published>2019-09-03T02:14:31.000Z</published>
     <updated>2019-10-16T09:05:40.009Z</updated>
     
@@ -341,17 +341,17 @@
     
     </summary>
     
-      <category term="Python随记" scheme="https://qmbb.top/categories/Python%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Python随记" scheme="https://jingzhouzhao.github.io/categories/Python%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Python" scheme="https://qmbb.top/tags/Python/"/>
+      <category term="Python" scheme="https://jingzhouzhao.github.io/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Docker多主机容器间ping不通的问题</title>
-    <link href="https://qmbb.top/archives/d7132b2f.html"/>
-    <id>https://qmbb.top/archives/d7132b2f.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/d7132b2f.html"/>
+    <id>https://jingzhouzhao.github.io/archives/d7132b2f.html</id>
     <published>2019-08-28T02:54:49.000Z</published>
     <updated>2019-10-16T09:05:40.004Z</updated>
     
@@ -366,17 +366,17 @@
     
     </summary>
     
-      <category term="Docker随记" scheme="https://qmbb.top/categories/Docker%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Docker随记" scheme="https://jingzhouzhao.github.io/categories/Docker%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Docker" scheme="https://qmbb.top/tags/Docker/"/>
+      <category term="Docker" scheme="https://jingzhouzhao.github.io/tags/Docker/"/>
     
   </entry>
   
   <entry>
     <title>Docker使用overlay网络遇到的问题</title>
-    <link href="https://qmbb.top/archives/1c99e54f.html"/>
-    <id>https://qmbb.top/archives/1c99e54f.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/1c99e54f.html"/>
+    <id>https://jingzhouzhao.github.io/archives/1c99e54f.html</id>
     <published>2019-08-27T03:04:18.000Z</published>
     <updated>2019-10-16T09:05:40.003Z</updated>
     
@@ -393,17 +393,17 @@
     
     </summary>
     
-      <category term="Docker随记" scheme="https://qmbb.top/categories/Docker%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Docker随记" scheme="https://jingzhouzhao.github.io/categories/Docker%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Docker" scheme="https://qmbb.top/tags/Docker/"/>
+      <category term="Docker" scheme="https://jingzhouzhao.github.io/tags/Docker/"/>
     
   </entry>
   
   <entry>
     <title>深入开源框架底层之ASM</title>
-    <link href="https://qmbb.top/archives/58ee9111.html"/>
-    <id>https://qmbb.top/archives/58ee9111.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/58ee9111.html"/>
+    <id>https://jingzhouzhao.github.io/archives/58ee9111.html</id>
     <published>2019-08-22T01:18:55.000Z</published>
     <updated>2019-10-16T09:05:40.008Z</updated>
     
@@ -415,19 +415,19 @@
     
     </summary>
     
-      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Java" scheme="https://qmbb.top/tags/Java/"/>
+      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
     
-      <category term="ASM" scheme="https://qmbb.top/tags/ASM/"/>
+      <category term="ASM" scheme="https://jingzhouzhao.github.io/tags/ASM/"/>
     
   </entry>
   
   <entry>
     <title>区块链、比特币学习笔记</title>
-    <link href="https://qmbb.top/archives/df4f5590.html"/>
-    <id>https://qmbb.top/archives/df4f5590.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/df4f5590.html"/>
+    <id>https://jingzhouzhao.github.io/archives/df4f5590.html</id>
     <published>2019-08-20T02:52:49.000Z</published>
     <updated>2019-10-16T09:05:40.010Z</updated>
     
@@ -439,15 +439,15 @@
     
     </summary>
     
-      <category term="区块链" scheme="https://qmbb.top/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
+      <category term="区块链" scheme="https://jingzhouzhao.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
     
     
   </entry>
   
   <entry>
     <title>从字节码来说明i++与++i到底有什么不同</title>
-    <link href="https://qmbb.top/archives/ade4c276.html"/>
-    <id>https://qmbb.top/archives/ade4c276.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/ade4c276.html"/>
+    <id>https://jingzhouzhao.github.io/archives/ade4c276.html</id>
     <published>2019-08-20T02:24:49.000Z</published>
     <updated>2019-10-16T09:05:40.008Z</updated>
     
@@ -464,17 +464,17 @@
     
     </summary>
     
-      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Java" scheme="https://qmbb.top/tags/Java/"/>
+      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
     
   </entry>
   
   <entry>
     <title>AbstractQueuedSynchronizer-随记</title>
-    <link href="https://qmbb.top/archives/5e0e6b4c.html"/>
-    <id>https://qmbb.top/archives/5e0e6b4c.html</id>
+    <link href="https://jingzhouzhao.github.io/archives/5e0e6b4c.html"/>
+    <id>https://jingzhouzhao.github.io/archives/5e0e6b4c.html</id>
     <published>2019-08-20T01:54:49.000Z</published>
     <updated>2019-10-16T09:05:40.006Z</updated>
     
@@ -489,10 +489,10 @@
     
     </summary>
     
-      <category term="Java随记" scheme="https://qmbb.top/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
     
     
-      <category term="Java" scheme="https://qmbb.top/tags/Java/"/>
+      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
     
   </entry>
   
