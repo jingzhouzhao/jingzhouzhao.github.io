@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2020-06-05T06:04:13.138Z</updated>
+  <updated>2020-06-16T05:47:11.646Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>常见集群方式</title>
+    <link href="https://jingzhouzhao.github.io/archives/6a6e8ff1.html"/>
+    <id>https://jingzhouzhao.github.io/archives/6a6e8ff1.html</id>
+    <published>2020-06-16T05:45:53.000Z</published>
+    <updated>2020-06-16T05:47:11.646Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="主从（master-slave）"><a href="#主从（master-slave）" class="headerlink" title="主从（master-slave）"></a>主从（master-slave）</h3><p>写master，同步到slave 。slave可用于读。常见mysql，redis。</p><h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h3><p>在主从的基础上，添加了master宕机时，slave自动切换为master。</p><h3 id="cluster"><a href="#cluster" class="headerlink" title="cluster"></a>cluster</h3><p>集群内每个节点都是分片。通过分布式一致性协议沟通。</p><p>例如redis，通过Gossip 协议，在集群内同步，各个分片的哈希槽信息。</p><p>便于重定向请求。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;主从（master-slave）&quot;&gt;&lt;a href=&quot;#主从（master-slave）&quot; class=&quot;headerlink&quot; title=&quot;主从（master-slave）&quot;&gt;&lt;/a&gt;主从（master-slave）&lt;/h3&gt;&lt;p&gt;写master，同步到sla
+      
+    
+    </summary>
+    
+      <category term="读书笔记" scheme="https://jingzhouzhao.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>RocketMQ RMQ_SYS_TRANS_HALF_TOPIC 爆掉的问题</title>
@@ -461,31 +484,6 @@
 &lt;li&gt;操作数栈&lt;/li&gt;
 &lt;li&gt;动态链接&lt;/li&gt;
 &lt;li&gt;方法返回地址&lt;/li&gt;&lt;/ol&gt;
-    
-    </summary>
-    
-      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
-    
-    
-      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AbstractQueuedSynchronizer-随记</title>
-    <link href="https://jingzhouzhao.github.io/archives/5e0e6b4c.html"/>
-    <id>https://jingzhouzhao.github.io/archives/5e0e6b4c.html</id>
-    <published>2019-08-20T01:54:49.000Z</published>
-    <updated>2019-10-16T09:05:40.006Z</updated>
-    
-    <content type="html"><![CDATA[<p>常见误区：Lock（乐观锁，自旋锁）一定比Synchronized好。这个说法是不正确的。自旋锁适合锁竞争不是很激烈的情况下使用，因为其使用了死循环，比较消耗CPU资源。Synchronized在JDK1.5后进行了优化，通过锁升级(偏向锁-&gt;轻量级锁(通常是自旋)-&gt;重量级锁) 提升了性能。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;常见误区：Lock（乐观锁，自旋锁）一定比Synchronized好。这个说法是不正确的。自旋锁适合锁竞争不是很激烈的情况下使用，因为其使用了死循环，比较消耗CPU资源。Synchronized在JDK1.5后进行了优化，通过锁升级(偏向锁-&amp;gt;轻量级锁(通常是自旋)-
-      
     
     </summary>
     

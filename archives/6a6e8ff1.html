@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
-  <title>赵荆州的个人博客</title>
+  <title>常见集群方式 | 赵荆州的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="赵荆州的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="赵荆州的个人博客">
-<meta property="og:url" content="https://jingzhouzhao.github.io/page/5/index.html">
+  <meta name="description" content="主从（master-slave）写master，同步到slave 。slave可用于读。常见mysql，redis。 哨兵在主从的基础上，添加了master宕机时，slave自动切换为master。 cluster集群内每个节点都是分片。通过分布式一致性协议沟通。 例如redis，通过Gossip 协议，在集群内同步，各个分片的哈希槽信息。 便于重定向请求。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见集群方式">
+<meta property="og:url" content="https://jingzhouzhao.github.io/archives/6a6e8ff1.html">
 <meta property="og:site_name" content="赵荆州的个人博客">
-<meta property="og:description" content="赵荆州的个人博客">
+<meta property="og:description" content="主从（master-slave）写master，同步到slave 。slave可用于读。常见mysql，redis。 哨兵在主从的基础上，添加了master宕机时，slave自动切换为master。 cluster集群内每个节点都是分片。通过分布式一致性协议沟通。 例如redis，通过Gossip 协议，在集群内同步，各个分片的哈希槽信息。 便于重定向请求。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-16T05:45:53.000Z">
+<meta property="article:modified_time" content="2020-06-16T05:47:11.646Z">
 <meta property="article:author" content="赵荆州">
 <meta name="twitter:card" content="summary">
   
@@ -188,503 +190,70 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Java随记/可重复读和幻读" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-读书笔记/常见集群方式" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/16902655.html">MySQL可重复读和幻读</a>
+    <h1 class="article-title" itemprop="name">
+      常见集群方式
     </h1>
   
 
         
-        <a href="/archives/16902655.html" class="archive-article-date">
-  	<time datetime="2019-03-19T06:59:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
+        <a href="/archives/6a6e8ff1.html" class="archive-article-date">
+  	<time datetime="2020-06-16T05:45:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>可重复读描述的是一个事务在处理数据时，多次查询此数据得到的结果是一样的。MySQL的InnoDB存储引擎通过多版本并发控制（Multi_Version Concurrency Control, MVCC）机制来解决该问题。<br>幻读描述的是MVCC不能阻止<strong>插入</strong>新的数据，导致多次查询时数据记录不一致。</p>
+        <h3 id="主从（master-slave）"><a href="#主从（master-slave）" class="headerlink" title="主从（master-slave）"></a>主从（master-slave）</h3><p>写master，同步到slave 。slave可用于读。常见mysql，redis。</p>
+<h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h3><p>在主从的基础上，添加了master宕机时，slave自动切换为master。</p>
+<h3 id="cluster"><a href="#cluster" class="headerlink" title="cluster"></a>cluster</h3><p>集群内每个节点都是分片。通过分布式一致性协议沟通。</p>
+<p>例如redis，通过Gossip 协议，在集群内同步，各个分片的哈希槽信息。</p>
+<p>便于重定向请求。</p>
 
       
 
       
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/16902655.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://tva1.sinaimg.cn/large/007X8olVly1g67aw8k6r9j30cv0cv772.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://tva1.sinaimg.cn/large/007X8olVly1g67atu8e90j30cv0cvq4i.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java随记/new-Thread()-对象什么时候被回收呢-" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/e6a5a040.html">new Thread() 对象什么时候被回收</a>
-    </h1>
-  
-
-        
-        <a href="/archives/e6a5a040.html" class="archive-article-date">
-  	<time datetime="2018-12-18T07:03:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在Java中什么样的对象会被回收呢？</p>
-<ol>
-<li>通过引用计数判断不存在引用的对象。</li>
-<li>通过遍历GC Root来判断不存在引用的对象。</li></ol>
-        
-          <a class="article-more-a" href="/archives/e6a5a040.html#more">more >></a>
-        
-      
-
       
     </div>
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/e6a5a040.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java随记/CAP个人浅显的理解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/e8ec77e1.html">CAP个人浅显的理解</a>
-    </h1>
-  
-
-        
-        <a href="/archives/e8ec77e1.html" class="archive-article-date">
-  	<time datetime="2018-12-07T09:32:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>分布式系统为了保证数据不丢失，于是我们将数据做了多个副本放在了不同的服务器上【Partition tolerance(分区耐受性)： 可靠性）】，并且保持更新多个副本，但是在更新副本的时候，可能由于网络等诸多原因导致其中一个或多个副本无法更新，此时就面临了一个选择：更新剩下的副本？or 都不更新了？<br>选择更新剩下的副本，则是选择了【Availability(可用性)： 好的响应性能】，此类型系统保证了AP。<br>选择都不更新了，则是选择了【Consistency(一致性)： 数据一致更新】，此类型系统保证了CP。</p>
-<p>以上为个人片面且浅显的理解。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">CAP</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/e8ec77e1.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java随记/优化UUID" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/421cfd7c.html">UUID优化方案</a>
-    </h1>
-  
-
-        
-        <a href="/archives/421cfd7c.html" class="archive-article-date">
-  	<time datetime="2018-11-30T02:27:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据ID生成方案中UUID相对来说是最简单的，但是其也有不少缺点：</p>
-<p>1.没有排序，无法保证趋势递增。<br>2.UUID往往是使用字符串存储，查询的效率比较低。<br>3.存储空间比较大，如果是海量数据库，就需要考虑存储量的问题。<br>4.传输数据量大<br>5.不可读。</p>
-<p>常见优化方案：<br>1.优化字符串为BigInteger</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private static BigInteger pair() &#123;</span><br><span class="line">  UUID myuuid &#x3D; UUID.randomUUID();</span><br><span class="line">  &#x2F;&#x2F;UUID长度为128位</span><br><span class="line">  ByteBuffer bb &#x3D; ByteBuffer.wrap(new byte[16]);</span><br><span class="line">  bb.putLong(myuuid .getMostSignificantBits());</span><br><span class="line">  bb.putLong(myuuid .getLeastSignificantBits());</span><br><span class="line">  return new BigInteger(bb.array());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>2.去掉符号：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private static BigInteger pair(UUID uuid) &#123;</span><br><span class="line">	BigInteger value1 &#x3D; BigInteger.valueOf(uuid.getMostSignificantBits());</span><br><span class="line">	BigInteger value2 &#x3D; BigInteger.valueOf(uuid.getLeastSignificantBits());</span><br><span class="line">	if (value1.compareTo(value2) &lt; 0) &#123;</span><br><span class="line">		return value2.multiply(value2).add(value1);</span><br><span class="line">	&#125;</span><br><span class="line">	return value1.multiply(value1).add(value1).add(value2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/421cfd7c.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-踩坑记录/flume同时使用KafkaSource、KafkaSink导致的问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/545f6758.html">flume同时使用KafkaSource、KafkaSink导致的问题</a>
-    </h1>
-  
-
-        
-        <a href="/archives/545f6758.html" class="archive-article-date">
-  	<time datetime="2018-11-14T07:49:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>KafkaSource 配置topic：topic1<br>KafkaSink 配置topic：topic2<br>从topic1拉取数据，经过简单处理后发到topic2<br>但是你会发现flume一直在循环读写topic1<br>原因就是KafkaSink中的这段代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (eventTopic &#x3D;&#x3D; null) &#123;</span><br><span class="line">    eventTopic &#x3D; topic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先从headers中获取TOPIC_HEADER(topic),然后优先使用。然而在KafkaSource中则会将topic1 PUT到Header中，所以导致循环读写topic1。</p>
-<p>如何解决呢？</p>
-<p>你可以重新KafkaSink，改掉上面那段代码。</p>
-<p>或者配置一个拦截器，将KafkaSource 写到Header中的topic给替换掉：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">agent.sources.so1.interceptors.i1.type &#x3D; static</span><br><span class="line">agent.sources.so1.interceptors.i1.key &#x3D; topic</span><br><span class="line">agent.sources.so1.interceptors.i1.preserveExisting &#x3D; false</span><br><span class="line">agent.sources.so1.interceptors.i1.value &#x3D; topic2</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">flume</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">kafka</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/踩坑记录//" class="article-tag-list-link color5">踩坑记录</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/545f6758.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-读书笔记/《Java-Performance--The-Definitive-Guide》笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/863caf0d.html">《Java性能-权威指南》 笔记</a>
-    </h1>
-  
-
-        
-        <a href="/archives/863caf0d.html" class="archive-article-date">
-  	<time datetime="2018-11-09T09:25:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在做性能测试时，需要确保输入参数是确定的，否则处理参数还会带来一定的性能损耗。</p>
-</blockquote>
-<p>JVM主要接受两类标志（少数例外）：布尔标志和附带参数标志。</p>
-<ul>
-<li>布尔标志语法：<code>-XX:+FlagName</code>表示开启，<code>-XX:-FlagName</code>表示关闭。</li>
-<li>附带参数标志语法：<code>-XX:FlagName=something</code>。例如-<code>XX:NewRadio=N</code>。</li>
-</ul>
-        
-          <a class="article-more-a" href="/archives/863caf0d.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -699,16 +268,75 @@ var _hmt = _hmt || [];
 
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/863caf0d.html">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://jingzhouzhao.github.io/archives/6a6e8ff1.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/archives/cfa05355.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">RocketMQ RMQ_SYS_TRANS_HALF_TOPIC 爆掉的问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -728,366 +356,30 @@ var _hmt = _hmt || [];
 
 
 
-
-  
-    <article id="post-Java随记/HashMap和ConcurrentHashMap中关于求最小的2的N次方" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/5536c54e.html">HashMap和ConcurrentHashMap中的initialCapacity</a>
-    </h1>
-  
-
-        
-        <a href="/archives/5536c54e.html" class="archive-article-date">
-  	<time datetime="2018-07-24T03:26:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>HashMap 默认有一个初始大小（initialCapacity），这个初始大小是16。<br>在各种开发规范手册中都可以看到会建议设置这个大小。<br>例如：<code>new HashMap(3);</code><br>那么我们设置了初始容量为3，HashMap的容量真的会初始化为3了吗？<br>答案是否定的。<br>为了提高Hash效率，Java中会重新计算这个值，获得一个&gt;3的最小2的N次方，大于3的最小2的N次方就是4(关于为什么请参照<br><a href="https://www.zhihu.com/question/28562088/answer/111668116)。" target="_blank" rel="noopener">https://www.zhihu.com/question/28562088/answer/111668116)。</a><br>这个4是怎么来的呢？</p>
-        
-          <a class="article-more-a" href="/archives/5536c54e.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/5536c54e.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java随记/Java-导出PDF，HTML转PDF" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/30af2543.html">Java 导出PDF</a>
-    </h1>
-  
-
-        
-        <a href="/archives/30af2543.html" class="archive-article-date">
-  	<time datetime="2017-05-02T05:48:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>废话少说，直接上代码：</p>
-        
-          <a class="article-more-a" href="/archives/30af2543.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/30af2543.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-踩坑记录/elasticsearch-提示Parse-Failure-[No-mapping-found-for-[filed]-in-order-t" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/2a3d9fc7.html">elasticsearch 提示Parse Failure [No mapping found for [filed] in order to sort on]] 的解决办法</a>
-    </h1>
-  
-
-        
-        <a href="/archives/2a3d9fc7.html" class="archive-article-date">
-  	<time datetime="2017-04-06T02:45:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>排序代码如下：<br><code>{
-    &quot;sort&quot;: [
-        {
-            &quot;timestamp&quot;: {
-                &quot;order&quot;: &quot;desc&quot;
-            }
-        }
-    ]
-}</code><br>修改后：<br><code>{
-    &quot;sort&quot;: [
-        {
-            &quot;timestamp&quot;: {
-                &quot;order&quot;: &quot;desc&quot;, 
-                &quot;ignore_unmapped&quot;: true
-            }
-        }
-    ]
-}</code></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">elasticsearch</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/踩坑记录//" class="article-tag-list-link color5">踩坑记录</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/2a3d9fc7.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-工具分享/TypeSafe-Config" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/585899c0.html">TypeSafe Config</a>
-    </h1>
-  
-
-        
-        <a href="/archives/585899c0.html" class="archive-article-date">
-  	<time datetime="2017-03-09T09:34:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>Typesafe的Config库，纯Java写成、零外部依赖、代码精简、功能灵活、API友好。支持Java properties、JSON、JSON超集格式HOCON以及环境变量。它也是Akka的配置管理库.</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/archives/585899c0.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/工具分享//" class="article-tag-list-link color5">工具分享</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/585899c0.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+<script>
+var gitment = new Gitment({
+  id: 'Tue Jun 16 2020 13:45:53 GMT+0800',
+  owner: 'jingzhouzhao',
+  repo: 'jingzhouzhao.github.io',
+  oauth: {
+    client_id: 'b4caaa87fb617bf0a26f',
+    client_secret: '1753a59a71ddfb3ef8e5c00417feb5c87c970c2d',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
   
 
 
@@ -1110,8 +402,8 @@ var _hmt = _hmt || [];
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
