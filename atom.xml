@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2020-06-16T05:47:11.646Z</updated>
+  <updated>2020-07-22T02:49:14.242Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -17,11 +17,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>命令收藏</title>
+    <link href="https://jingzhouzhao.github.io/archives/afa41a9c.html"/>
+    <id>https://jingzhouzhao.github.io/archives/afa41a9c.html</id>
+    <published>2020-07-22T02:45:53.000Z</published>
+    <updated>2020-07-22T02:49:14.242Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="命令收藏"><a href="#命令收藏" class="headerlink" title="命令收藏"></a>命令收藏</h1><p>[TOC]</p><h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><h4 id="关闭SPI-获取根目录写权限"><a href="#关闭SPI-获取根目录写权限" class="headerlink" title="关闭SPI(获取根目录写权限)"></a>关闭SPI(获取根目录写权限)</h4><ul><li><p>重启 <code>command+R</code> 进入恢复界面</p></li><li><p>实用工具 - 终端 输入：<code>csrutil disable</code></p></li><li><p>重启：<code>reboot</code></p></li><li><p>打开终端，挂载根目录：<code>sudo mount -uw /</code></p><a id="more"></a><h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2></li></ul><h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><h4 id="保存堆快照"><a href="#保存堆快照" class="headerlink" title="保存堆快照"></a>保存堆快照</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heapdump.hprof pid</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;命令收藏&quot;&gt;&lt;a href=&quot;#命令收藏&quot; class=&quot;headerlink&quot; title=&quot;命令收藏&quot;&gt;&lt;/a&gt;命令收藏&lt;/h1&gt;&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h2 id=&quot;mac&quot;&gt;&lt;a href=&quot;#mac&quot; class=&quot;headerlink&quot; title=&quot;mac&quot;&gt;&lt;/a&gt;mac&lt;/h2&gt;&lt;h4 id=&quot;关闭SPI-获取根目录写权限&quot;&gt;&lt;a href=&quot;#关闭SPI-获取根目录写权限&quot; class=&quot;headerlink&quot; title=&quot;关闭SPI(获取根目录写权限)&quot;&gt;&lt;/a&gt;关闭SPI(获取根目录写权限)&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;重启 &lt;code&gt;command+R&lt;/code&gt; 进入恢复界面&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;实用工具 - 终端 输入：&lt;code&gt;csrutil disable&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;重启：&lt;code&gt;reboot&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;打开终端，挂载根目录：&lt;code&gt;sudo mount -uw /&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="读书笔记" scheme="https://jingzhouzhao.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>常见集群方式</title>
     <link href="https://jingzhouzhao.github.io/archives/6a6e8ff1.html"/>
     <id>https://jingzhouzhao.github.io/archives/6a6e8ff1.html</id>
     <published>2020-06-16T05:45:53.000Z</published>
-    <updated>2020-06-16T05:47:11.646Z</updated>
+    <updated>2020-06-16T05:47:23.201Z</updated>
     
     <content type="html"><![CDATA[<h3 id="主从（master-slave）"><a href="#主从（master-slave）" class="headerlink" title="主从（master-slave）"></a>主从（master-slave）</h3><p>写master，同步到slave 。slave可用于读。常见mysql，redis。</p><h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h3><p>在主从的基础上，添加了master宕机时，slave自动切换为master。</p><h3 id="cluster"><a href="#cluster" class="headerlink" title="cluster"></a>cluster</h3><p>集群内每个节点都是分片。通过分布式一致性协议沟通。</p><p>例如redis，通过Gossip 协议，在集群内同步，各个分片的哈希槽信息。</p><p>便于重定向请求。</p>]]></content>
     
@@ -464,33 +492,6 @@
     
       <category term="区块链" scheme="https://jingzhouzhao.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>从字节码来说明i++与++i到底有什么不同</title>
-    <link href="https://jingzhouzhao.github.io/archives/ade4c276.html"/>
-    <id>https://jingzhouzhao.github.io/archives/ade4c276.html</id>
-    <published>2019-08-20T02:24:49.000Z</published>
-    <updated>2019-10-16T09:05:40.008Z</updated>
-    
-    <content type="html"><![CDATA[<p>看字节码之前需要先了解相关概念，如栈帧、操作数栈、局部变量表。<br>栈帧是JVM中很重要的一个概念，因为JVM是基于栈的架构。一个方法的调用其实就是栈帧入栈出栈的过程。栈顶栈帧就是当前方法调用。<br>一个栈帧中包含：</p><ol><li>局部变量表</li><li>操作数栈</li><li>动态链接</li><li>方法返回地址<a id="more"></a>这里i++、 ++i涉及到的就是局部变量表和操作数栈。具体信息可参考：《Java虚拟机规范》<a href="https://zhuanlan.zhihu.com/p/45354152" target="_blank" rel="noopener"> </a></li></ol><p>局部变量表存储的是方法的参数以及内部定义的变量的值，操作数栈也是一个栈结构，用来执行方法中的指令。</p><p>好了，来看一个代码片段：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Scratch &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        int i&#x3D;0,j&#x3D;0,m&#x3D;0;</span><br><span class="line">        j &#x3D; i++;</span><br><span class="line">        m &#x3D; ++i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>为了不产生其他多过信息，这里只写了关键代码。<br>首先可以通过<code>javac</code> 将源码编译成class：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac scratch.java</span><br></pre></td></tr></table></figure><p>执行完成后将看到Scratch.class 文件，通过javap命令查看字节码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javap -c Scratch &gt; scratch.txt</span><br></pre></td></tr></table></figure><p>为了方便查看将结果输出到了scratch.txt，打开此文件将看到如下信息：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">Compiled from &quot;scratch.java&quot;</span><br><span class="line">class Scratch &#123;</span><br><span class="line">  Scratch();</span><br><span class="line">    Code:</span><br><span class="line">       0: aload_0</span><br><span class="line">       1: invokespecial #1                  &#x2F;&#x2F; Method java&#x2F;lang&#x2F;Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">       4: return</span><br><span class="line"></span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">    Code:</span><br><span class="line">       0: iconst_0</span><br><span class="line">       1: istore_1</span><br><span class="line">       2: iconst_0</span><br><span class="line">       3: istore_2</span><br><span class="line">       4: iconst_0</span><br><span class="line">       5: istore_3</span><br><span class="line">       6: iload_1</span><br><span class="line">       7: iinc          1, 1</span><br><span class="line">      10: istore_2</span><br><span class="line">      11: iinc          1, 1</span><br><span class="line">      14: iload_1</span><br><span class="line">      15: istore_3</span><br><span class="line">      16: return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>关注main方法 0-5，可以发现对应的是：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int i&#x3D;0,j&#x3D;0,m&#x3D;0;</span><br></pre></td></tr></table></figure><p>主要是声明变量并初始化为0。我们可以发现下划线后面跟了一个数字，这里应该代表的是变量在局部变量表中的位置。<br>i：1<br>j：2<br>m：3</p><p>再关注main方法：6、7、10：<br><code>iload_1</code> 表示将局部变量表中位置1的数据放入操作数栈中(这里对应的是i，此时i的值为0)然后pop出来赋值给j。然后再将i自增<code>iinc</code>。最后<code>istore_2</code>存储j到局部变量表中。<br>操作完成后i=1，j=1。<br>最后关注main方法：11、14、15：<br><code>iinc</code>首先自增i，然后<code>iload_1</code>将局部变量表中位置1的数据放入操作数栈中(这里对应的是i，此时i的值为2)然后pop出来赋值给m。最后<code>istore_3</code>存储m到局部变量表中。<br>操作完成后i=2，j=1，m=2。</p><p>这就是为什么大家都说，i++是先赋值后自增，而++i是先自增后赋值的原因。</p><p>这里要说明的是，如果是单独的i++、++i是没有什么区别的。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;看字节码之前需要先了解相关概念，如栈帧、操作数栈、局部变量表。&lt;br&gt;栈帧是JVM中很重要的一个概念，因为JVM是基于栈的架构。一个方法的调用其实就是栈帧入栈出栈的过程。栈顶栈帧就是当前方法调用。&lt;br&gt;一个栈帧中包含：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;局部变量表&lt;/li&gt;
-&lt;li&gt;操作数栈&lt;/li&gt;
-&lt;li&gt;动态链接&lt;/li&gt;
-&lt;li&gt;方法返回地址&lt;/li&gt;&lt;/ol&gt;
-    
-    </summary>
-    
-      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
-    
-    
-      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
     
   </entry>
   
