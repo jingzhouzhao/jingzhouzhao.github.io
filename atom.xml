@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2020-07-22T02:49:14.242Z</updated>
+  <updated>2020-07-22T07:47:13.310Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -21,14 +21,13 @@
     <link href="https://jingzhouzhao.github.io/archives/afa41a9c.html"/>
     <id>https://jingzhouzhao.github.io/archives/afa41a9c.html</id>
     <published>2020-07-22T02:45:53.000Z</published>
-    <updated>2020-07-22T02:49:14.242Z</updated>
+    <updated>2020-07-22T07:47:13.310Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="命令收藏"><a href="#命令收藏" class="headerlink" title="命令收藏"></a>命令收藏</h1><p>[TOC]</p><h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><h4 id="关闭SPI-获取根目录写权限"><a href="#关闭SPI-获取根目录写权限" class="headerlink" title="关闭SPI(获取根目录写权限)"></a>关闭SPI(获取根目录写权限)</h4><ul><li><p>重启 <code>command+R</code> 进入恢复界面</p></li><li><p>实用工具 - 终端 输入：<code>csrutil disable</code></p></li><li><p>重启：<code>reboot</code></p></li><li><p>打开终端，挂载根目录：<code>sudo mount -uw /</code></p><a id="more"></a><h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2></li></ul><h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><h4 id="保存堆快照"><a href="#保存堆快照" class="headerlink" title="保存堆快照"></a>保存堆快照</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heapdump.hprof pid</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><h4 id="关闭SPI-获取根目录写权限"><a href="#关闭SPI-获取根目录写权限" class="headerlink" title="关闭SPI(获取根目录写权限)"></a>关闭SPI(获取根目录写权限)</h4><ul><li><p>重启 <code>command+R</code> 进入恢复界面</p></li><li><p>实用工具 - 终端 输入：<code>csrutil disable</code></p></li><li><p>重启：<code>reboot</code></p></li><li><p>打开终端，挂载根目录：<code>sudo mount -uw /</code></p><a id="more"></a><h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2></li></ul><h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><h4 id="保存堆快照"><a href="#保存堆快照" class="headerlink" title="保存堆快照"></a>保存堆快照</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heapdump.hprof pid</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;命令收藏&quot;&gt;&lt;a href=&quot;#命令收藏&quot; class=&quot;headerlink&quot; title=&quot;命令收藏&quot;&gt;&lt;/a&gt;命令收藏&lt;/h1&gt;&lt;p&gt;[TOC]&lt;/p&gt;
-&lt;h2 id=&quot;mac&quot;&gt;&lt;a href=&quot;#mac&quot; class=&quot;headerlink&quot; title=&quot;mac&quot;&gt;&lt;/a&gt;mac&lt;/h2&gt;&lt;h4 id=&quot;关闭SPI-获取根目录写权限&quot;&gt;&lt;a href=&quot;#关闭SPI-获取根目录写权限&quot; class=&quot;headerlink&quot; title=&quot;关闭SPI(获取根目录写权限)&quot;&gt;&lt;/a&gt;关闭SPI(获取根目录写权限)&lt;/h4&gt;&lt;ul&gt;
+      &lt;h2 id=&quot;mac&quot;&gt;&lt;a href=&quot;#mac&quot; class=&quot;headerlink&quot; title=&quot;mac&quot;&gt;&lt;/a&gt;mac&lt;/h2&gt;&lt;h4 id=&quot;关闭SPI-获取根目录写权限&quot;&gt;&lt;a href=&quot;#关闭SPI-获取根目录写权限&quot; class=&quot;headerlink&quot; title=&quot;关闭SPI(获取根目录写权限)&quot;&gt;&lt;/a&gt;关闭SPI(获取根目录写权限)&lt;/h4&gt;&lt;ul&gt;
 &lt;li&gt;&lt;p&gt;重启 &lt;code&gt;command+R&lt;/code&gt; 进入恢复界面&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;实用工具 - 终端 输入：&lt;code&gt;csrutil disable&lt;/code&gt;&lt;/p&gt;

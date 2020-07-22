@@ -208,6 +208,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>首先是<code>repositories</code>，其中定义了一些远程仓库（私服）。本来是可以直接定义在POM.xml ，但是由于一个公司通常多个项目都是使用的同一个远程仓库（私服）。为了每个项目不重复定义。所以可以统一配置在settings.xml。由于settings下不能直接定义<code>repositories</code>所以采用了<code>profiles</code>。同时也可以使用<code>profiles</code>做不同环境下的配置切换。</p>
@@ -295,6 +298,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>可重复读描述的是一个事务在处理数据时，多次查询此数据得到的结果是一样的。MySQL的InnoDB存储引擎通过多版本并发控制（Multi_Version Concurrency Control, MVCC）机制来解决该问题。<br>幻读描述的是MVCC不能阻止<strong>插入</strong>新的数据，导致多次查询时数据记录不一致。</p>
@@ -380,6 +386,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>在Java中什么样的对象会被回收呢？</p>
@@ -470,6 +479,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>分布式系统为了保证数据不丢失，于是我们将数据做了多个副本放在了不同的服务器上【Partition tolerance(分区耐受性)： 可靠性）】，并且保持更新多个副本，但是在更新副本的时候，可能由于网络等诸多原因导致其中一个或多个副本无法更新，此时就面临了一个选择：更新剩下的副本？or 都不更新了？<br>选择更新剩下的副本，则是选择了【Availability(可用性)： 好的响应性能】，此类型系统保证了AP。<br>选择都不更新了，则是选择了【Consistency(一致性)： 数据一致更新】，此类型系统保证了CP。</p>
@@ -556,6 +568,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>数据ID生成方案中UUID相对来说是最简单的，但是其也有不少缺点：</p>
@@ -646,6 +661,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>KafkaSource 配置topic：topic1<br>KafkaSink 配置topic：topic2<br>从topic1拉取数据，经过简单处理后发到topic2<br>但是你会发现flume一直在循环读写topic1<br>原因就是KafkaSink中的这段代码：</p>
@@ -741,6 +759,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
@@ -835,6 +856,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>HashMap 默认有一个初始大小（initialCapacity），这个初始大小是16。<br>在各种开发规范手册中都可以看到会建议设置这个大小。<br>例如：<code>new HashMap(3);</code><br>那么我们设置了初始容量为3，HashMap的容量真的会初始化为3了吗？<br>答案是否定的。<br>为了提高Hash效率，Java中会重新计算这个值，获得一个&gt;3的最小2的N次方，大于3的最小2的N次方就是4(关于为什么请参照<br><a href="https://www.zhihu.com/question/28562088/answer/111668116)。" target="_blank" rel="noopener">https://www.zhihu.com/question/28562088/answer/111668116)。</a><br>这个4是怎么来的呢？</p>
@@ -922,6 +946,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>废话少说，直接上代码：</p>
@@ -1009,6 +1036,9 @@ var _hmt = _hmt || [];
         
       </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <p>排序代码如下：<br><code>{
@@ -1186,6 +1216,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Golang</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">VSCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
@@ -1218,6 +1256,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Activiti</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ASM</a>
               </li>
              
@@ -1230,23 +1272,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Golang</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Activiti</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">VSCode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">elasticsearch</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1254,11 +1280,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">flume</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">MongodDB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flume</a>
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
             
             <div class="clearfix"></div>
