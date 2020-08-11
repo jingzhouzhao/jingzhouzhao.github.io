@@ -190,6 +190,101 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java随记/利用mybatis标签替换硬编码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/archives/ad1a887a.html">利用mybatis标签替换硬编码</a>
+    </h1>
+  
+
+        
+        <a href="/archives/ad1a887a.html" class="archive-article-date">
+  	<time datetime="2020-08-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
+</a>
+        
+      </header>
+    
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="利用mybatis标签替换硬编码"><a href="#利用mybatis标签替换硬编码" class="headerlink" title="利用mybatis标签替换硬编码"></a>利用mybatis标签替换硬编码</h1><h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>利用mybatis标签替换硬编码</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在项目中偶尔看到这样的代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"querySqlString"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">       1=1</span><br><span class="line">       <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"fundsOrderIdList != null and fundsOrderIdList.size()&gt;0"</span>&gt;</span></span><br><span class="line">           and funds_order_id IN</span><br><span class="line">           <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"fundsOrderIdList"</span> <span class="attr">item</span>=<span class="string">"id"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">close</span>=<span class="string">")"</span> <span class="attr">separator</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">               #&#123;id&#125;</span><br><span class="line">           <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这段代码中有个<code>1=1</code>很扎眼，这个不是bug，也没有什么性能问题，只是程序员世代传承下来的一个习惯。</p>
+<h2 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h2><p>在很久以前，充满智慧的程序员为了解决动态条件拼接的问题，发明了<code>1=1</code>这个写法，对应的还有<code>1=0</code>的写法，我们来看看这个写法在以前是怎么解决问题的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">"select * from car_table where 1=1"</span></span><br><span class="line"><span class="keyword">for</span>(Condtion condition:conditions)&#123;</span><br><span class="line">    <span class="comment">/**假如没有1=1，第一个条件直接拼接上and语法就错误了</span></span><br><span class="line"><span class="comment">    *还得做出额外判断才行</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    sql = sql + <span class="string">" and "</span> + condition.field + <span class="string">" = "</span> + condition.value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>确实很巧妙，而且也没有性能问题，不信我给你举个🌰:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> pay_channel_with_bank <span class="keyword">where</span> <span class="number">1</span>=<span class="number">1</span> <span class="keyword">and</span> channel_code = <span class="string">'50008'</span>;</span><br></pre></td></tr></table></figure>
+<p>这是一条很简单的SQL，其中就有<code>1=1</code>的写法，我们来看看MySQL查询优化器优化后实际执行的SQL:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXPLAIN</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> pay_channel_with_bank <span class="keyword">where</span> <span class="number">1</span>=<span class="number">1</span> <span class="keyword">and</span> channel_code = <span class="string">'50008'</span>;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">WARNINGS</span>;</span><br><span class="line">实际执行的SQL:</span><br><span class="line"><span class="comment">/* select#1 */</span> <span class="keyword">select</span> 此处省略很多<span class="keyword">column</span> <span class="keyword">from</span> <span class="string">`online_paychannel`</span>.<span class="string">`pay_channel_with_bank`</span> <span class="keyword">where</span> (<span class="string">`online_paychannel`</span>.<span class="string">`pay_channel_with_bank`</span>.<span class="string">`channel_code`</span> = <span class="number">50008</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>1=1</code>已经被优化掉了。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>虽然这种写法没啥大问题，但是代码是给人看的。如果不了解这种写法，乍一眼看过去肯定有点懵。</p>
+<p>而且我们现在使用的Mybatis提供的<code>&lt;where&gt;</code>标签本身就会帮我们做优化:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">applyPrefix</span><span class="params">(StringBuilder sql, String trimmedUppercaseSql)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!prefixApplied) &#123;</span><br><span class="line">        prefixApplied = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (prefixesToOverride != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">for</span> (String toRemove : prefixesToOverride) &#123;</span><br><span class="line">            <span class="comment">//此处会移除一些前缀  </span></span><br><span class="line">            <span class="keyword">if</span> (trimmedUppercaseSql.startsWith(toRemove)) &#123;</span><br><span class="line">              sql.delete(<span class="number">0</span>, toRemove.trim().length());</span><br><span class="line">              <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (prefix != <span class="keyword">null</span>) &#123;</span><br><span class="line">          sql.insert(<span class="number">0</span>, <span class="string">" "</span>);</span><br><span class="line">          sql.insert(<span class="number">0</span>, prefix);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>WhereSqlNode</code>中定义的<code>prefixesToOverride</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; prefixList = Arrays.asList(<span class="string">"AND "</span>,<span class="string">"OR "</span>,<span class="string">"AND\n"</span>, <span class="string">"OR\n"</span>, <span class="string">"AND\r"</span>, <span class="string">"OR\r"</span>, <span class="string">"AND\t"</span>, <span class="string">"OR\t"</span>);</span><br></pre></td></tr></table></figure>
+<p>所以使用了<code>&lt;where&gt;</code>标签后可以放心大胆的去掉<code>1=1</code>。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/archives/ad1a887a.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-读书笔记/命令收藏" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -971,85 +1066,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-读书笔记/为什么苹果不自己制造芯片" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/52360944.html">为什么苹果不自己制造芯片</a>
-    </h1>
-  
-
-        
-        <a href="/archives/52360944.html" class="archive-article-date">
-  	<time datetime="2019-09-20T02:01:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-20</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>苹果近期发布了最新的处理器Apple A13 Bionic，由台积电代工。为什么苹果不自己制造设计出来的芯片呢？</p>
-        
-          <a class="article-more-a" href="/archives/52360944.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/读书笔记//" class="article-tag-list-link color5">读书笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/52360944.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1151,11 +1167,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">CAP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CAP</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1167,11 +1183,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
+                <a href="javascript:void(0)" class="js-tag color1">Maven</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Maven</a>
+                <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1183,11 +1199,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Activiti</a>
+                <a href="javascript:void(0)" class="js-tag color4">ASM</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ASM</a>
+                <a href="javascript:void(0)" class="js-tag color4">Activiti</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1203,11 +1219,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">kafka</a>
+                <a href="javascript:void(0)" class="js-tag color1">flume</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flume</a>
+                <a href="javascript:void(0)" class="js-tag color1">kafka</a>
               </li>
              
               <li class="article-tag-list-item">

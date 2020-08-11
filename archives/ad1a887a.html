@@ -6,15 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
-  <title>Tag: Golang | 赵荆州的个人博客</title>
+  <title>利用mybatis标签替换硬编码 | 赵荆州的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="赵荆州的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="赵荆州的个人博客">
-<meta property="og:url" content="https://jingzhouzhao.github.io/tags/Golang/index.html">
+  <meta name="description" content="利用mybatis标签替换硬编码建议利用mybatis标签替换硬编码 背景在项目中偶尔看到这样的代码： 123456789&lt;sql id&#x3D;&quot;querySqlString&quot;&gt;   &lt;where&gt;       1&#x3D;1       &lt;if test&#x3D;&quot;fundsOrderIdList !&#x3D; null and fundsOrderIdList.size()&gt;0&quot;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用mybatis标签替换硬编码">
+<meta property="og:url" content="https://jingzhouzhao.github.io/archives/ad1a887a.html">
 <meta property="og:site_name" content="赵荆州的个人博客">
-<meta property="og:description" content="赵荆州的个人博客">
+<meta property="og:description" content="利用mybatis标签替换硬编码建议利用mybatis标签替换硬编码 背景在项目中偶尔看到这样的代码： 123456789&lt;sql id&#x3D;&quot;querySqlString&quot;&gt;   &lt;where&gt;       1&#x3D;1       &lt;if test&#x3D;&quot;fundsOrderIdList !&#x3D; null and fundsOrderIdList.size()&gt;0&quot;&gt;">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-11T10:26:25.004Z">
 <meta property="article:author" content="赵荆州">
 <meta name="twitter:card" content="summary">
   
@@ -188,418 +190,214 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Java随记/利用mybatis标签替换硬编码" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      利用mybatis标签替换硬编码
+    </h1>
+  
+
+        
+        <a href="/archives/ad1a887a.html" class="archive-article-date">
+  	<time datetime="2020-08-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
+</a>
+        
+      </header>
     
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="利用mybatis标签替换硬编码"><a href="#利用mybatis标签替换硬编码" class="headerlink" title="利用mybatis标签替换硬编码"></a>利用mybatis标签替换硬编码</h1><h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>利用mybatis标签替换硬编码</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在项目中偶尔看到这样的代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"querySqlString"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">       1=1</span><br><span class="line">       <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"fundsOrderIdList != null and fundsOrderIdList.size()&gt;0"</span>&gt;</span></span><br><span class="line">           and funds_order_id IN</span><br><span class="line">           <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"fundsOrderIdList"</span> <span class="attr">item</span>=<span class="string">"id"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">close</span>=<span class="string">")"</span> <span class="attr">separator</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">               #&#123;id&#125;</span><br><span class="line">           <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这段代码中有个<code>1=1</code>很扎眼，这个不是bug，也没有什么性能问题，只是程序员世代传承下来的一个习惯。</p>
+<h2 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h2><p>在很久以前，充满智慧的程序员为了解决动态条件拼接的问题，发明了<code>1=1</code>这个写法，对应的还有<code>1=0</code>的写法，我们来看看这个写法在以前是怎么解决问题的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">"select * from car_table where 1=1"</span></span><br><span class="line"><span class="keyword">for</span>(Condtion condition:conditions)&#123;</span><br><span class="line">    <span class="comment">/**假如没有1=1，第一个条件直接拼接上and语法就错误了</span></span><br><span class="line"><span class="comment">    *还得做出额外判断才行</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    sql = sql + <span class="string">" and "</span> + condition.field + <span class="string">" = "</span> + condition.value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>确实很巧妙，而且也没有性能问题，不信我给你举个🌰:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> pay_channel_with_bank <span class="keyword">where</span> <span class="number">1</span>=<span class="number">1</span> <span class="keyword">and</span> channel_code = <span class="string">'50008'</span>;</span><br></pre></td></tr></table></figure>
+<p>这是一条很简单的SQL，其中就有<code>1=1</code>的写法，我们来看看MySQL查询优化器优化后实际执行的SQL:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXPLAIN</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> pay_channel_with_bank <span class="keyword">where</span> <span class="number">1</span>=<span class="number">1</span> <span class="keyword">and</span> channel_code = <span class="string">'50008'</span>;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">WARNINGS</span>;</span><br><span class="line">实际执行的SQL:</span><br><span class="line"><span class="comment">/* select#1 */</span> <span class="keyword">select</span> 此处省略很多<span class="keyword">column</span> <span class="keyword">from</span> <span class="string">`online_paychannel`</span>.<span class="string">`pay_channel_with_bank`</span> <span class="keyword">where</span> (<span class="string">`online_paychannel`</span>.<span class="string">`pay_channel_with_bank`</span>.<span class="string">`channel_code`</span> = <span class="number">50008</span>)</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>1=1</code>已经被优化掉了。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>虽然这种写法没啥大问题，但是代码是给人看的。如果不了解这种写法，乍一眼看过去肯定有点懵。</p>
+<p>而且我们现在使用的Mybatis提供的<code>&lt;where&gt;</code>标签本身就会帮我们做优化:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">applyPrefix</span><span class="params">(StringBuilder sql, String trimmedUppercaseSql)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!prefixApplied) &#123;</span><br><span class="line">        prefixApplied = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (prefixesToOverride != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">for</span> (String toRemove : prefixesToOverride) &#123;</span><br><span class="line">            <span class="comment">//此处会移除一些前缀  </span></span><br><span class="line">            <span class="keyword">if</span> (trimmedUppercaseSql.startsWith(toRemove)) &#123;</span><br><span class="line">              sql.delete(<span class="number">0</span>, toRemove.trim().length());</span><br><span class="line">              <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (prefix != <span class="keyword">null</span>) &#123;</span><br><span class="line">          sql.insert(<span class="number">0</span>, <span class="string">" "</span>);</span><br><span class="line">          sql.insert(<span class="number">0</span>, prefix);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>WhereSqlNode</code>中定义的<code>prefixesToOverride</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; prefixList = Arrays.asList(<span class="string">"AND "</span>,<span class="string">"OR "</span>,<span class="string">"AND\n"</span>, <span class="string">"OR\n"</span>, <span class="string">"AND\r"</span>, <span class="string">"OR\r"</span>, <span class="string">"AND\t"</span>, <span class="string">"OR\t"</span>);</span><br></pre></td></tr></table></figure>
+<p>所以使用了<code>&lt;where&gt;</code>标签后可以放心大胆的去掉<code>1=1</code>。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://tva1.sinaimg.cn/large/007X8olVly1g67aw8k6r9j30cv0cv772.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://tva1.sinaimg.cn/large/007X8olVly1g67atu8e90j30cv0cvq4i.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/848ae75e.html" class="archive-article-date">
-  	<time datetime="2019-09-11T07:10:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/848ae75e.html">golang写文件异常invalid argument</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
+        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://jingzhouzhao.github.io/archives/ad1a887a.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/f11de5dd.html" class="archive-article-date">
-  	<time datetime="2019-09-05T08:50:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/archives/afa41a9c.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">命令收藏</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/f11de5dd.html">跟着B站学Golang(admin-ep-saga)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/79f4a57c.html" class="archive-article-date">
-  	<time datetime="2019-09-04T03:10:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/79f4a57c.html">一张图说明Golang的并发模型MPG</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/c8d527a1.html" class="archive-article-date">
-  	<time datetime="2019-09-04T02:20:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/c8d527a1.html">Go Module 引入本地自定义包</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/4c4ac8cd.html" class="archive-article-date">
-  	<time datetime="2019-07-19T09:20:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/4c4ac8cd.html">Golang常用的第三方包</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/ffe16d99.html" class="archive-article-date">
-  	<time datetime="2019-07-12T03:24:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/ffe16d99.html">传递值与传递指针</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/f11a2580.html" class="archive-article-date">
-  	<time datetime="2019-07-08T06:57:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/f11a2580.html">Golang中一些设定</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/bbb37996.html" class="archive-article-date">
-  	<time datetime="2019-07-03T03:14:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/bbb37996.html">Visual Studio Code Golang环境配置</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Golang</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">VSCode</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Golang随记//" class="article-tag-list-link color4">Golang随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
+<script>
+var gitment = new Gitment({
+  id: 'Tue Aug 11 2020 00:00:00 GMT+0800',
+  owner: 'jingzhouzhao',
+  repo: 'jingzhouzhao.github.io',
+  oauth: {
+    client_id: 'b4caaa87fb617bf0a26f',
+    client_secret: '1753a59a71ddfb3ef8e5c00417feb5c87c970c2d',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
 
 
           </div>
@@ -622,9 +420,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
