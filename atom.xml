@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2020-08-25T07:26:07.642Z</updated>
+  <updated>2020-08-25T07:26:32.886Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://jingzhouzhao.github.io/archives/7f244d3f.html"/>
     <id>https://jingzhouzhao.github.io/archives/7f244d3f.html</id>
     <published>2020-08-25T07:22:10.000Z</published>
-    <updated>2020-08-25T07:26:07.642Z</updated>
+    <updated>2020-08-25T07:26:32.886Z</updated>
     
     <content type="html"><![CDATA[<p>Mac 开启了三指拖拽，发现在IDEA的某些Project中，选中代码块时，老是拖动代码。解决办法：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Editor –&gt; General -&gt; Enable Drag’n’Drop functionality in Editor</span><br></pre></td></tr></table></figure><p>关闭即可。</p>]]></content>
     
