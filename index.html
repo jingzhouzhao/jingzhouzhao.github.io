@@ -190,6 +190,122 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java随记/记一次线上死锁排查" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/archives/9e47523f.html">记一次线上死锁排查</a>
+    </h1>
+  
+
+        
+        <a href="/archives/9e47523f.html" class="archive-article-date">
+  	<time datetime="2021-03-23T03:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-23</time>
+</a>
+        
+      </header>
+    
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前段时间偶尔会收到线上MySQL死锁告警通知，由于有补偿机制，最终业务会处理成功，所以没太关心。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlock found when trying to get lock; try restarting transaction</span><br></pre></td></tr></table></figure>
+<p>最近又收到了相同的告警，可能不是偶然事件，于是开始排查。<br>首先翻看了日志，结合代码，没有发现什么问题。事发时应该也没有什么大批量并发事件。</p>
+<p>于是向DBA要来了deadlock log，日志内容如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">LATEST DETECTED DEADLOCK</span><br><span class="line">------------------------</span><br><span class="line">2021-03-22 16:02:01 0x7f1cfc289700</span><br><span class="line">*** (1) TRANSACTION:</span><br><span class="line">TRANSACTION 153411874, ACTIVE 0 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">LOCK WAIT 8 lock struct(s), heap size 1136, 23 row lock(s), undo log entries 22</span><br><span class="line">MySQL thread id 8203444, OS thread handle 139762013996800, query id 766107488 updating</span><br><span class="line">update test</span><br><span class="line">SET status &#x3D; 4,</span><br><span class="line">version &#x3D; version+1,</span><br><span class="line">gmt_modified &#x3D; &#39;2021-03-22 16:02:01&#39; </span><br><span class="line">where  id &#x3D; 1</span><br><span class="line">and version&#x3D;14</span><br><span class="line">*** (1) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96; trx id 153411874 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 40 PHYSICAL RECORD: n_fields 45; compact format; info bits 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*** (2) TRANSACTION:</span><br><span class="line">TRANSACTION 153411876, ACTIVE 0 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">8 lock struct(s), heap size 1136, 7 row lock(s), undo log entries 6</span><br><span class="line">MySQL thread id 8204162, OS thread handle 139762466330368, query id 766107489  updating</span><br><span class="line">update test</span><br><span class="line">         SET approval_status &#x3D; 5,</span><br><span class="line">                biz_date &#x3D; &#39;2021-02-23 00:00:00&#39;,</span><br><span class="line">                modified_id &#x3D; 123,</span><br><span class="line">                modified_name &#x3D; &#39;xxx&#39;,</span><br><span class="line">                contact_company_id &#x3D; 456,</span><br><span class="line">                contact_company_n</span><br><span class="line">*** (2) HOLDS THE LOCK(S):</span><br><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96; trx id 153411876 lock_mode X locks rec but not gap</span><br><span class="line">Record lock, heap no 40 PHYSICAL RECORD: n_fields 45; compact format; info bits 0</span><br><span class="line"></span><br><span class="line">*** (2) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96; trx id 153411876 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 28 PHYSICAL RECORD: n_fields 45; compact format; info bits 0</span><br></pre></td></tr></table></figure>
+
+<p>上面日志只保留了关键部分，表名等也进行了脱敏。<br>可以看到两个事务都在等待PRIMARY也就是主键索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96;</span><br></pre></td></tr></table></figure>
+
+<p>然后再结合日志中的SQL和代码，发现问题的原因如下:</p>
+<p>一共涉及3个系统，分别是S、C、F，在S系统中有一个业务操作完成后会给C，F发消息，C收到S的消息处理完成后也会给F发一个消息，如图所示:</p>
+<p><img src="https://img02.sogoucdn.com/app/a/100520146/9b1b7abc8bdf0a3113e751fce4700924" alt="UTOOLS1616478525701.png"></p>
+<p>在F中几乎同时开启了两个事务，并且两个消息在F中涉及的记录是相同的，id分别是1，2，表为test。<br>于是出现了事务一:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL1:</span><br><span class="line">update test set status &#x3D; 4 ...... where id&#x3D;1</span><br><span class="line"></span><br><span class="line">SQL2:</span><br><span class="line">update test set status &#x3D; 4 ...... where id&#x3D;2</span><br></pre></td></tr></table></figure>
+
+<p>事务二:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL1:</span><br><span class="line">update test SET approval_status &#x3D; 5 ...... where id &#x3D;2</span><br><span class="line"></span><br><span class="line">SQL2:</span><br><span class="line">update test SET approval_status &#x3D; 5 ...... where id &#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>事务一先持有id=1的锁，事务二持有id=2的锁，事务一尝试获取id=2的锁，事务二尝试获取id=1的锁，所以死锁了。最后MySQL回滚了事务二。</p>
+<p>发生这种情况是由于产品和系统设计不合理导致的，目前正在重构中。</p>
+<p>如果下次再发生死锁直接看deadlock log吧，没必要浪费时间翻代码看业务日志了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deadlock</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/archives/9e47523f.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-踩坑记录/关闭代码块移动" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -950,99 +1066,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Java随记/PriorityQueue解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/f50feeee.html">PriorityQueue解析</a>
-    </h1>
-  
-
-        
-        <a href="/archives/f50feeee.html" class="archive-article-date">
-  	<time datetime="2019-10-10T02:13:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文转载至github：<a href="https://github.com/CarpenterLee/JCFInternals/blob/master/markdown/8-PriorityQueue.md" target="_blank" rel="noopener">https://github.com/CarpenterLee/JCFInternals/blob/master/markdown/8-PriorityQueue.md</a></p>
-</blockquote>
-<h1 id="PriorityQueue"><a href="#PriorityQueue" class="headerlink" title="PriorityQueue"></a>PriorityQueue</h1><h1 id="总体介绍"><a href="#总体介绍" class="headerlink" title="总体介绍"></a>总体介绍</h1><p>前面以Java <em>ArrayDeque</em>为例讲解了<em>Stack</em>和<em>Queue</em>，其实还有一种特殊的队列叫做<em>PriorityQueue</em>，即优先队列。<strong>优先队列的作用是能保证每次取出的元素都是队列中权值最小的</strong>（Java的优先队列每次取最小元素，C++的优先队列每次取最大元素）。这里牵涉到了大小关系，<strong>元素大小的评判可以通过元素本身的自然顺序（<em>natural ordering</em>），也可以通过构造时传入的比较器</strong>（<em>Comparator</em>，类似于C++的仿函数）。</p>
-        
-          <a class="article-more-a" href="/archives/f50feeee.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/f50feeee.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
@@ -1057,7 +1080,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 赵荆州
+    		&copy; 2021 赵荆州
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1209,6 +1232,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Deadlock</a>
               </li>
             
             <div class="clearfix"></div>

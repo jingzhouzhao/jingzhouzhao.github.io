@@ -6,20 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
-  <title>Python中的一些语法糖 | 赵荆州的个人博客</title>
+  <title>记一次线上死锁排查 | 赵荆州的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="三元运算符 1c &#x3D; a if a&gt;b else b  在Java中的写法为： 1c &#x3D; a&gt;b ? a : b  而Golang则是不支持">
+  <meta name="description" content="前段时间偶尔会收到线上MySQL死锁告警通知，由于有补偿机制，最终业务会处理成功，所以没太关心。 1Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlock found when trying to get lock; try restarting transaction 最近又收到">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python中的一些语法糖">
-<meta property="og:url" content="https://jingzhouzhao.github.io/archives/d5c5a3fa.html">
+<meta property="og:title" content="记一次线上死锁排查">
+<meta property="og:url" content="https://jingzhouzhao.github.io/archives/9e47523f.html">
 <meta property="og:site_name" content="赵荆州的个人博客">
-<meta property="og:description" content="三元运算符 1c &#x3D; a if a&gt;b else b  在Java中的写法为： 1c &#x3D; a&gt;b ? a : b  而Golang则是不支持">
+<meta property="og:description" content="前段时间偶尔会收到线上MySQL死锁告警通知，由于有补偿机制，最终业务会处理成功，所以没太关心。 1Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlock found when trying to get lock; try restarting transaction 最近又收到">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-09-03T02:14:31.000Z">
-<meta property="article:modified_time" content="2019-10-16T09:05:40.009Z">
+<meta property="og:image" content="https://img02.sogoucdn.com/app/a/100520146/9b1b7abc8bdf0a3113e751fce4700924">
+<meta property="article:published_time" content="2021-03-23T03:46:15.000Z">
+<meta property="article:modified_time" content="2021-03-23T06:07:12.025Z">
 <meta property="article:author" content="赵荆州">
-<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="Deadlock">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img02.sogoucdn.com/app/a/100520146/9b1b7abc8bdf0a3113e751fce4700924">
   
     <link rel="alternative" href="/atom.xml" title="赵荆州的个人博客" type="application/atom+xml">
   
@@ -191,20 +195,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Python随记/Python中的一些语法糖" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java随记/记一次线上死锁排查" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Python中的一些语法糖
+      记一次线上死锁排查
     </h1>
   
 
         
-        <a href="/archives/d5c5a3fa.html" class="archive-article-date">
-  	<time datetime="2019-09-03T02:14:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+        <a href="/archives/9e47523f.html" class="archive-article-date">
+  	<time datetime="2021-03-23T03:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-23</time>
 </a>
         
       </header>
@@ -214,31 +218,27 @@ var _hmt = _hmt || [];
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><p>三元运算符</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c &#x3D; a if a&gt;b else b</span><br></pre></td></tr></table></figure>
+        <p>前段时间偶尔会收到线上MySQL死锁告警通知，由于有补偿机制，最终业务会处理成功，所以没太关心。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlock found when trying to get lock; try restarting transaction</span><br></pre></td></tr></table></figure>
+<p>最近又收到了相同的告警，可能不是偶然事件，于是开始排查。<br>首先翻看了日志，结合代码，没有发现什么问题。事发时应该也没有什么大批量并发事件。</p>
+<p>于是向DBA要来了deadlock log，日志内容如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">LATEST DETECTED DEADLOCK</span><br><span class="line">------------------------</span><br><span class="line">2021-03-22 16:02:01 0x7f1cfc289700</span><br><span class="line">*** (1) TRANSACTION:</span><br><span class="line">TRANSACTION 153411874, ACTIVE 0 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">LOCK WAIT 8 lock struct(s), heap size 1136, 23 row lock(s), undo log entries 22</span><br><span class="line">MySQL thread id 8203444, OS thread handle 139762013996800, query id 766107488 updating</span><br><span class="line">update test</span><br><span class="line">SET status &#x3D; 4,</span><br><span class="line">version &#x3D; version+1,</span><br><span class="line">gmt_modified &#x3D; &#39;2021-03-22 16:02:01&#39; </span><br><span class="line">where  id &#x3D; 1</span><br><span class="line">and version&#x3D;14</span><br><span class="line">*** (1) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96; trx id 153411874 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 40 PHYSICAL RECORD: n_fields 45; compact format; info bits 0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*** (2) TRANSACTION:</span><br><span class="line">TRANSACTION 153411876, ACTIVE 0 sec starting index read</span><br><span class="line">mysql tables in use 1, locked 1</span><br><span class="line">8 lock struct(s), heap size 1136, 7 row lock(s), undo log entries 6</span><br><span class="line">MySQL thread id 8204162, OS thread handle 139762466330368, query id 766107489  updating</span><br><span class="line">update test</span><br><span class="line">         SET approval_status &#x3D; 5,</span><br><span class="line">                biz_date &#x3D; &#39;2021-02-23 00:00:00&#39;,</span><br><span class="line">                modified_id &#x3D; 123,</span><br><span class="line">                modified_name &#x3D; &#39;xxx&#39;,</span><br><span class="line">                contact_company_id &#x3D; 456,</span><br><span class="line">                contact_company_n</span><br><span class="line">*** (2) HOLDS THE LOCK(S):</span><br><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96; trx id 153411876 lock_mode X locks rec but not gap</span><br><span class="line">Record lock, heap no 40 PHYSICAL RECORD: n_fields 45; compact format; info bits 0</span><br><span class="line"></span><br><span class="line">*** (2) WAITING FOR THIS LOCK TO BE GRANTED:</span><br><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96; trx id 153411876 lock_mode X locks rec but not gap waiting</span><br><span class="line">Record lock, heap no 28 PHYSICAL RECORD: n_fields 45; compact format; info bits 0</span><br></pre></td></tr></table></figure>
 
-<p>在Java中的写法为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c &#x3D; a&gt;b ? a : b</span><br></pre></td></tr></table></figure>
+<p>上面日志只保留了关键部分，表名等也进行了脱敏。<br>可以看到两个事务都在等待PRIMARY也就是主键索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RECORD LOCKS space id 639 page no 2931 n bits 128 index PRIMARY of table &#96;test&#96;</span><br></pre></td></tr></table></figure>
 
-<p>而Golang则是不支持</p>
-<a id="more"></a>
-</li>
-<li><p>循环</p>
-<p>Python中常用的while、for</p>
-<p>Java中支持while、do…while、for、foreach</p>
-<p>Golang 万能的for，for range in</p>
-<p>​    语句</p>
-<p>Python还支持循环else，while …else 、for …else ,表示循环正常结束后执行的代码块。</p>
-</li>
-<li><p>切片(slice)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str1 &#x3D; &quot;abcdefg&quot;</span><br><span class="line">print(str1[0])</span><br><span class="line">print(str1[0:3])</span><br></pre></td></tr></table></figure>
+<p>然后再结合日志中的SQL和代码，发现问题的原因如下:</p>
+<p>一共涉及3个系统，分别是S、C、F，在S系统中有一个业务操作完成后会给C，F发消息，C收到S的消息处理完成后也会给F发一个消息，如图所示:</p>
+<p><img src="https://img02.sogoucdn.com/app/a/100520146/9b1b7abc8bdf0a3113e751fce4700924" alt="UTOOLS1616478525701.png"></p>
+<p>在F中几乎同时开启了两个事务，并且两个消息在F中涉及的记录是相同的，id分别是1，2，表为test。<br>于是出现了事务一:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL1:</span><br><span class="line">update test set status &#x3D; 4 ...... where id&#x3D;1</span><br><span class="line"></span><br><span class="line">SQL2:</span><br><span class="line">update test set status &#x3D; 4 ...... where id&#x3D;2</span><br></pre></td></tr></table></figure>
 
-<p>Golang类似，Java中没有切片的概念</p>
-</li>
-<li><p>复制运算</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(&#39;a&#39;*5) # aaaaa</span><br><span class="line">b &#x3D; [1]</span><br><span class="line">print(b*5) # [1, 1, 1, 1, 1]</span><br><span class="line"></span><br><span class="line">复制运算不支持字典dict</span><br></pre></td></tr></table></figure></li>
-</ol>
+<p>事务二:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL1:</span><br><span class="line">update test SET approval_status &#x3D; 5 ...... where id &#x3D;2</span><br><span class="line"></span><br><span class="line">SQL2:</span><br><span class="line">update test SET approval_status &#x3D; 5 ...... where id &#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>事务一先持有id=1的锁，事务二持有id=2的锁，事务一尝试获取id=2的锁，事务二尝试获取id=1的锁，所以死锁了。最后MySQL回滚了事务二。</p>
+<p>发生这种情况是由于产品和系统设计不合理导致的，目前正在重构中。</p>
+<p>如果下次再发生死锁直接看deadlock log吧，没必要浪费时间翻代码看业务日志了。</p>
 
       
 
@@ -283,7 +283,15 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Python</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deadlock</a>
         		</li>
       		
 		</ul>
@@ -295,7 +303,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Python随记//" class="article-tag-list-link color4">Python随记</a>
+        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
         		</li>
       		
 		</ul>
@@ -350,7 +358,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://jingzhouzhao.github.io/archives/d5c5a3fa.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://jingzhouzhao.github.io/archives/9e47523f.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -364,18 +372,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/archives/99680cca.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Python实现图像文字识别
-        
-      </div>
-    </a>
   
-  
-    <a href="/archives/d7132b2f.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Docker多主机容器间ping不通的问题</div>
+    <a href="/archives/7f244d3f.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关闭代码块移动</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -414,7 +413,7 @@ var _hmt = _hmt || [];
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
 <script>
 var gitment = new Gitment({
-  id: 'Tue Sep 03 2019 10:14:31 GMT+0800',
+  id: 'Tue Mar 23 2021 11:46:15 GMT+0800',
   owner: 'jingzhouzhao',
   repo: 'jingzhouzhao.github.io',
   oauth: {
