@@ -15,15 +15,15 @@
 <meta property="og:site_name" content="赵荆州的个人博客">
 <meta property="og:description" content="前段时间偶尔会收到线上MySQL死锁告警通知，由于有补偿机制，最终业务会处理成功，所以没太关心。 1Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlock found when trying to get lock; try restarting transaction 最近又收到">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img02.sogoucdn.com/app/a/100520146/9b1b7abc8bdf0a3113e751fce4700924">
+<meta property="og:image" content="https://i.loli.net/2021/03/23/cqBePdigLzNIUhF.png">
 <meta property="article:published_time" content="2021-03-23T03:46:15.000Z">
-<meta property="article:modified_time" content="2021-03-23T06:07:12.025Z">
+<meta property="article:modified_time" content="2021-03-23T06:48:00.368Z">
 <meta property="article:author" content="赵荆州">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="MySQL">
 <meta property="article:tag" content="Deadlock">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img02.sogoucdn.com/app/a/100520146/9b1b7abc8bdf0a3113e751fce4700924">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/23/cqBePdigLzNIUhF.png">
   
     <link rel="alternative" href="/atom.xml" title="赵荆州的个人博客" type="application/atom+xml">
   
@@ -229,7 +229,7 @@ var _hmt = _hmt || [];
 
 <p>然后再结合日志中的SQL和代码，发现问题的原因如下:</p>
 <p>一共涉及3个系统，分别是S、C、F，在S系统中有一个业务操作完成后会给C，F发消息，C收到S的消息处理完成后也会给F发一个消息，如图所示:</p>
-<p><img src="https://img02.sogoucdn.com/app/a/100520146/9b1b7abc8bdf0a3113e751fce4700924" alt="UTOOLS1616478525701.png"></p>
+<p><img src="https://i.loli.net/2021/03/23/cqBePdigLzNIUhF.png" alt="9b1b7abc8bdf0a3113e751fce4700924.png"></p>
 <p>在F中几乎同时开启了两个事务，并且两个消息在F中涉及的记录是相同的，id分别是1，2，表为test。<br>于是出现了事务一:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL1:</span><br><span class="line">update test set status &#x3D; 4 ...... where id&#x3D;1</span><br><span class="line"></span><br><span class="line">SQL2:</span><br><span class="line">update test set status &#x3D; 4 ...... where id&#x3D;2</span><br></pre></td></tr></table></figure>
 
