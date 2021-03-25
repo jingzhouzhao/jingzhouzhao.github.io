@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2021-03-23T06:48:00.368Z</updated>
+  <updated>2021-03-25T09:34:26.824Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Mybatis批量更新的一个小问题</title>
+    <link href="https://jingzhouzhao.github.io/archives/e8013d2a.html"/>
+    <id>https://jingzhouzhao.github.io/archives/e8013d2a.html</id>
+    <published>2021-03-25T09:20:15.000Z</published>
+    <updated>2021-03-25T09:34:26.824Z</updated>
+    
+    <content type="html"><![CDATA[<p>批量更新的方式有很多种，例如update case when，foreach update等，今天在使用其中一种foreach update时一直报SQL语法错误，看了半天没看出哪里有问题:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id&#x3D;&quot;updateBatch&quot; parameterType&#x3D;&quot;list&quot;&gt;</span><br><span class="line">    &lt;foreach collection&#x3D;&quot;list&quot; item&#x3D;&quot;item&quot; separator&#x3D;&quot;;&quot; index&#x3D;&quot;index&quot;&gt;</span><br><span class="line">      update test</span><br><span class="line">      &lt;set&gt;</span><br><span class="line">        status &#x3D; #&#123;item.status,jdbcType&#x3D;BIGINT&#125;,</span><br><span class="line">        amount &#x3D; #&#123;item.amount,jdbcType&#x3D;BIGINT&#125;,</span><br><span class="line">        version &#x3D; version+1,</span><br><span class="line">        gmt_modified &#x3D; now(),</span><br><span class="line">      &lt;&#x2F;set&gt;</span><br><span class="line">      &lt;where&gt;</span><br><span class="line">        id &#x3D; #&#123;item.id&#125;</span><br><span class="line">      &lt;&#x2F;where&gt;</span><br><span class="line">    &lt;&#x2F;foreach&gt;</span><br><span class="line">  &lt;&#x2F;update&gt;</span><br></pre></td></tr></table></figure><p>非常简单的update SQL，通过Mybatis foreach 生成多个update SQL同时执行，但是运行时一直报：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;update test</span><br><span class="line">       SET amount &#x3D; -116534270,</span><br><span class="line">        version&#39; at line 10</span><br><span class="line">; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;update test</span><br><span class="line">       SET amount &#x3D; -116534270,</span><br><span class="line">        version&#39; at line 10</span><br></pre></td></tr></table></figure><p>看到这个错误下意识的认为肯定是sql哪里写的不对有语法错误，可是检查了半天没发现问题，而且将报错的sql 通过navicat运行也可以通过。</p><p>后来查到如果批量执行语句需要将database connection url中加上如下参数：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">allowMultiQueries&#x3D;true</span><br></pre></td></tr></table></figure><p>完整的url例如：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbc:mysql:&#x2F;&#x2F;x.x.x.x:3306&#x2F;xxxx?allowMultiQueries&#x3D;true&amp;autoReconnect&#x3D;true&amp;useUnicode&#x3D;true&amp;characterset&#x3D;utf8mb4</span><br></pre></td></tr></table></figure><p>不得不说MySQL报错信息实在是太模糊了。😓</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;批量更新的方式有很多种，例如update case when，foreach update等，今天在使用其中一种foreach update时一直报SQL语法错误，看了半天没看出哪里有问题:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;tabl
+      
+    
+    </summary>
+    
+      <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+    
+    
+      <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
+    
+      <category term="MySQL" scheme="https://jingzhouzhao.github.io/tags/MySQL/"/>
+    
+      <category term="Mybatis" scheme="https://jingzhouzhao.github.io/tags/Mybatis/"/>
+    
+  </entry>
   
   <entry>
     <title>记一次线上死锁排查</title>
@@ -472,31 +502,6 @@
     
     
       <category term="Python" scheme="https://jingzhouzhao.github.io/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker多主机容器间ping不通的问题</title>
-    <link href="https://jingzhouzhao.github.io/archives/d7132b2f.html"/>
-    <id>https://jingzhouzhao.github.io/archives/d7132b2f.html</id>
-    <published>2019-08-28T02:54:49.000Z</published>
-    <updated>2019-10-16T09:05:40.004Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>之前记录过一个因为内核版本过低导致Docker overlay网络不通的问题。后来又遇到一个由于粗心导致的网络不通的问题。</p></blockquote><p>问题的现象是这样的，创建了overlay网络后，同一台主机上的容器间可以ping通。而不同主机上的容器ping的结果是：</p><a id="more"></a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PING zookeeper (10.0.0.3) 56(84) bytes of data.</span><br><span class="line">From 85789ac6e6a8 (10.0.0.8) icmp_seq&#x3D;1 Destination Host Unreachable</span><br><span class="line">From 85789ac6e6a8 (10.0.0.8) icmp_seq&#x3D;2 Destination Host Unreachable</span><br><span class="line">From 85789ac6e6a8 (10.0.0.8) icmp_seq&#x3D;3 Destination Host Unreachable</span><br></pre></td></tr></table></figure><p>Google一通之后，未找到满意答案，觉得很是奇怪，灵光一现查看 etcd 上的节点：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etcdctl ls &#x2F;docker&#x2F;nodes</span><br></pre></td></tr></table></figure><p>发现只有一个：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;docker&#x2F;nodes&#x2F;10.208.10.14:2375</span><br></pre></td></tr></table></figure><p>后来想起来了原来在启动docker的时候，使用的命令忘了改 <strong>–cluster-advertise</strong></p><p>–cluster-advertise：告知集群当前的连接地址</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo &#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock --cluster-store&#x3D;etcd:&#x2F;&#x2F;10.208.10.14:2379 --cluster-advertise&#x3D;当前host:2375 &amp;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;之前记录过一个因为内核版本过低导致Docker overlay网络不通的问题。后来又遇到一个由于粗心导致的网络不通的问题。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;问题的现象是这样的，创建了overlay网络后，同一台主机上的容器间可以ping通。而不同主机上的容器ping的结果是：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Docker随记" scheme="https://jingzhouzhao.github.io/categories/Docker%E9%9A%8F%E8%AE%B0/"/>
-    
-    
-      <category term="Docker" scheme="https://jingzhouzhao.github.io/tags/Docker/"/>
     
   </entry>
   

@@ -6,18 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
-  <title>利用mybatis标签替换硬编码 | 赵荆州的个人博客</title>
+  <title>使用Mybatis批量更新的一个小问题 | 赵荆州的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="建议利用mybatis标签替换硬编码 背景在项目中偶尔看到这样的代码： 123456789&lt;sql id&#x3D;&quot;querySqlString&quot;&gt;   &lt;where&gt;       1&#x3D;1       &lt;if test&#x3D;&quot;fundsOrderIdList !&#x3D; null and fundsOrderIdList.size()&gt;0&quot;&gt;           and f">
+  <meta name="description" content="批量更新的方式有很多种，例如update case when，foreach update等，今天在使用其中一种foreach update时一直报SQL语法错误，看了半天没看出哪里有问题: 1234567891011121314&lt;update id&#x3D;&quot;updateBatch&quot; parameterType&#x3D;&quot;list&quot;&gt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用mybatis标签替换硬编码">
-<meta property="og:url" content="https://jingzhouzhao.github.io/archives/ad1a887a.html">
+<meta property="og:title" content="使用Mybatis批量更新的一个小问题">
+<meta property="og:url" content="https://jingzhouzhao.github.io/archives/e8013d2a.html">
 <meta property="og:site_name" content="赵荆州的个人博客">
-<meta property="og:description" content="建议利用mybatis标签替换硬编码 背景在项目中偶尔看到这样的代码： 123456789&lt;sql id&#x3D;&quot;querySqlString&quot;&gt;   &lt;where&gt;       1&#x3D;1       &lt;if test&#x3D;&quot;fundsOrderIdList !&#x3D; null and fundsOrderIdList.size()&gt;0&quot;&gt;           and f">
+<meta property="og:description" content="批量更新的方式有很多种，例如update case when，foreach update等，今天在使用其中一种foreach update时一直报SQL语法错误，看了半天没看出哪里有问题: 1234567891011121314&lt;update id&#x3D;&quot;updateBatch&quot; parameterType&#x3D;&quot;list&quot;&gt;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-08-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-13T03:39:22.220Z">
+<meta property="article:published_time" content="2021-03-25T09:20:15.000Z">
+<meta property="article:modified_time" content="2021-03-25T09:34:26.824Z">
 <meta property="article:author" content="赵荆州">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="MySQL">
+<meta property="article:tag" content="Mybatis">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="赵荆州的个人博客" type="application/atom+xml">
@@ -190,73 +193,41 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Java随记/利用mybatis标签替换硬编码" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java随记/使用Mybatis批量更新的一个小问题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      利用mybatis标签替换硬编码
+      使用Mybatis批量更新的一个小问题
     </h1>
   
 
         
-        <a href="/archives/ad1a887a.html" class="archive-article-date">
-  	<time datetime="2020-08-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-11</time>
+        <a href="/archives/e8013d2a.html" class="archive-article-date">
+  	<time datetime="2021-03-25T09:20:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-25</time>
 </a>
         
       </header>
     
     <!-- 目录内容 -->
 
-  <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
-        <span class="btn-bg"></span>
-        <span class="btn-text">文章导航</span>
-        </p>
-<div id="toc-article" class="toc-article">
-    <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
-  <strong class="toc-title">文章目录</strong>
-         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#建议"><span class="toc-number">1.</span> <span class="toc-text">建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#故事"><span class="toc-number">3.</span> <span class="toc-text">故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">4.</span> <span class="toc-text">结论</span></a></li></ol>
-       </div>
- <script type="text/javascript">
-function showToc(){
-  var toc_article = document.getElementById("toc-article");
-  var show_toc_btn = document.getElementById("show-toc-btn");
-  toc_article.setAttribute("style","display:block");
-  show_toc_btn.setAttribute("style","display:none");
-  };
-function showBtn(){
-  var toc_article = document.getElementById("toc-article");
-  var show_toc_btn = document.getElementById("show-toc-btn");
-  toc_article.setAttribute("style","display:none");
-  show_toc_btn.setAttribute("style","display:block");
-  };
- </script>
-    
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>利用mybatis标签替换硬编码</p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在项目中偶尔看到这样的代码：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"querySqlString"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">where</span>&gt;</span></span><br><span class="line">       1=1</span><br><span class="line">       <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"fundsOrderIdList != null and fundsOrderIdList.size()&gt;0"</span>&gt;</span></span><br><span class="line">           and funds_order_id IN</span><br><span class="line">           <span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"fundsOrderIdList"</span> <span class="attr">item</span>=<span class="string">"id"</span> <span class="attr">index</span>=<span class="string">"index"</span> <span class="attr">open</span>=<span class="string">"("</span> <span class="attr">close</span>=<span class="string">")"</span> <span class="attr">separator</span>=<span class="string">","</span>&gt;</span></span><br><span class="line">               #&#123;id&#125;</span><br><span class="line">           <span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">if</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这段代码中有个<code>1=1</code>很扎眼，这个不是bug，也没有什么性能问题，只是程序员世代传承下来的一个习惯。</p>
-<a id="more"></a>
-<h2 id="故事"><a href="#故事" class="headerlink" title="故事"></a>故事</h2><p>在很久以前，充满智慧的程序员为了解决动态条件拼接的问题，发明了<code>1=1</code>这个写法，对应的还有<code>1=0</code>的写法，我们来看看这个写法在以前是怎么解决问题的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">"select * from car_table where 1=1"</span></span><br><span class="line"><span class="keyword">for</span>(Condtion condition:conditions)&#123;</span><br><span class="line">    <span class="comment">/**假如没有1=1，第一个条件直接拼接上and语法就错误了</span></span><br><span class="line"><span class="comment">    *还得做出额外判断才行</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    sql = sql + <span class="string">" and "</span> + condition.field + <span class="string">" = "</span> + condition.value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>批量更新的方式有很多种，例如update case when，foreach update等，今天在使用其中一种foreach update时一直报SQL语法错误，看了半天没看出哪里有问题:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;update id&#x3D;&quot;updateBatch&quot; parameterType&#x3D;&quot;list&quot;&gt;</span><br><span class="line">    &lt;foreach collection&#x3D;&quot;list&quot; item&#x3D;&quot;item&quot; separator&#x3D;&quot;;&quot; index&#x3D;&quot;index&quot;&gt;</span><br><span class="line">      update test</span><br><span class="line">      &lt;set&gt;</span><br><span class="line">        status &#x3D; #&#123;item.status,jdbcType&#x3D;BIGINT&#125;,</span><br><span class="line">        amount &#x3D; #&#123;item.amount,jdbcType&#x3D;BIGINT&#125;,</span><br><span class="line">        version &#x3D; version+1,</span><br><span class="line">        gmt_modified &#x3D; now(),</span><br><span class="line">      &lt;&#x2F;set&gt;</span><br><span class="line">      &lt;where&gt;</span><br><span class="line">        id &#x3D; #&#123;item.id&#125;</span><br><span class="line">      &lt;&#x2F;where&gt;</span><br><span class="line">    &lt;&#x2F;foreach&gt;</span><br><span class="line">  &lt;&#x2F;update&gt;</span><br></pre></td></tr></table></figure>
+<p>非常简单的update SQL，通过Mybatis foreach 生成多个update SQL同时执行，但是运行时一直报：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">### Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;update test</span><br><span class="line">       SET amount &#x3D; -116534270,</span><br><span class="line">        version&#39; at line 10</span><br><span class="line">; bad SQL grammar []; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;update test</span><br><span class="line">       SET amount &#x3D; -116534270,</span><br><span class="line">        version&#39; at line 10</span><br></pre></td></tr></table></figure>
 
-<p>确实很巧妙，而且也没有性能问题，不信我给你举个🌰:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> pay_channel_with_bank <span class="keyword">where</span> <span class="number">1</span>=<span class="number">1</span> <span class="keyword">and</span> channel_code = <span class="string">'50008'</span>;</span><br></pre></td></tr></table></figure>
-<p>这是一条很简单的SQL，其中就有<code>1=1</code>的写法，我们来看看MySQL查询优化器优化后实际执行的SQL:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXPLAIN</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> pay_channel_with_bank <span class="keyword">where</span> <span class="number">1</span>=<span class="number">1</span> <span class="keyword">and</span> channel_code = <span class="string">'50008'</span>;</span><br><span class="line"><span class="keyword">SHOW</span> <span class="keyword">WARNINGS</span>;</span><br><span class="line">实际执行的SQL:</span><br><span class="line"><span class="comment">/* select#1 */</span> <span class="keyword">select</span> 此处省略很多<span class="keyword">column</span> <span class="keyword">from</span> <span class="string">`online_paychannel`</span>.<span class="string">`pay_channel_with_bank`</span> <span class="keyword">where</span> (<span class="string">`online_paychannel`</span>.<span class="string">`pay_channel_with_bank`</span>.<span class="string">`channel_code`</span> = <span class="number">50008</span>)</span><br></pre></td></tr></table></figure>
-<p>可以看到<code>1=1</code>已经被优化掉了。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>虽然这种写法没啥大问题，但是代码是给人看的。如果不了解这种写法，乍一眼看过去肯定有点懵。</p>
-<p>而且我们现在使用的Mybatis提供的<code>&lt;where&gt;</code>标签本身就会帮我们做优化:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">applyPrefix</span><span class="params">(StringBuilder sql, String trimmedUppercaseSql)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (!prefixApplied) &#123;</span><br><span class="line">        prefixApplied = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (prefixesToOverride != <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">for</span> (String toRemove : prefixesToOverride) &#123;</span><br><span class="line">            <span class="comment">//此处会移除一些前缀  </span></span><br><span class="line">            <span class="keyword">if</span> (trimmedUppercaseSql.startsWith(toRemove)) &#123;</span><br><span class="line">              sql.delete(<span class="number">0</span>, toRemove.trim().length());</span><br><span class="line">              <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (prefix != <span class="keyword">null</span>) &#123;</span><br><span class="line">          sql.insert(<span class="number">0</span>, <span class="string">" "</span>);</span><br><span class="line">          sql.insert(<span class="number">0</span>, prefix);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>看到这个错误下意识的认为肯定是sql哪里写的不对有语法错误，可是检查了半天没发现问题，而且将报错的sql 通过navicat运行也可以通过。</p>
+<p>后来查到如果批量执行语句需要将database connection url中加上如下参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">allowMultiQueries&#x3D;true</span><br></pre></td></tr></table></figure>
+<p>完整的url例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbc:mysql:&#x2F;&#x2F;x.x.x.x:3306&#x2F;xxxx?allowMultiQueries&#x3D;true&amp;autoReconnect&#x3D;true&amp;useUnicode&#x3D;true&amp;characterset&#x3D;utf8mb4</span><br></pre></td></tr></table></figure>
 
-<p><code>WhereSqlNode</code>中定义的<code>prefixesToOverride</code>:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; prefixList = Arrays.asList(<span class="string">"AND "</span>,<span class="string">"OR "</span>,<span class="string">"AND\n"</span>, <span class="string">"OR\n"</span>, <span class="string">"AND\r"</span>, <span class="string">"OR\r"</span>, <span class="string">"AND\t"</span>, <span class="string">"OR\t"</span>);</span><br></pre></td></tr></table></figure>
-<p>所以使用了<code>&lt;where&gt;</code>标签后可以放心大胆的去掉<code>1=1</code>。</p>
+<p>不得不说MySQL报错信息实在是太模糊了。😓</p>
 
       
 
@@ -296,6 +267,25 @@ function showBtn(){
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Mybatis</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
@@ -357,7 +347,7 @@ function showBtn(){
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://jingzhouzhao.github.io/archives/ad1a887a.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://jingzhouzhao.github.io/archives/e8013d2a.html" alt="微信分享二维码">
     </div>
 </div>
 
@@ -371,18 +361,9 @@ function showBtn(){
   
 <nav id="article-nav">
   
-    <a href="/archives/7f244d3f.html" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          关闭代码块移动
-        
-      </div>
-    </a>
   
-  
-    <a href="/archives/afa41a9c.html" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">命令收藏</div>
+    <a href="/archives/9e47523f.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">记一次线上死锁排查</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -401,19 +382,6 @@ function showBtn(){
             </div>
         </div>
         
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#建议"><span class="toc-number">1.</span> <span class="toc-text">建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">2.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#故事"><span class="toc-number">3.</span> <span class="toc-text">故事</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-number">4.</span> <span class="toc-text">结论</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
         
     </div>
 </aside>
@@ -434,7 +402,7 @@ function showBtn(){
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
 <script>
 var gitment = new Gitment({
-  id: 'Tue Aug 11 2020 00:00:00 GMT+0800',
+  id: 'Thu Mar 25 2021 17:20:15 GMT+0800',
   owner: 'jingzhouzhao',
   repo: 'jingzhouzhao.github.io',
   oauth: {
