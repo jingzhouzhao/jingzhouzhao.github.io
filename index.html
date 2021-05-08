@@ -190,6 +190,108 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java随记/Netty中FastThreadLocal源码解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/archives/4b47846d.html">Netty中FastThreadLocal源码解析</a>
+    </h1>
+  
+
+        
+        <a href="/archives/4b47846d.html" class="archive-article-date">
+  	<time datetime="2021-05-08T02:25:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-08</time>
+</a>
+        
+      </header>
+    
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##简介</p>
+<p><code>ThreadLocal</code>一个特殊变体，当从<code>FastThreadLocalThread</code>访问时，可获得更高的访问性能。<br>在内部， <code>FastThreadLocal</code>在数组中使用常量索引来查找变量，而不是使用哈希码和哈希表。 尽管看似非常微妙，但与使用哈希表相比，它在性能上却有一点优势，并且在经常访问时很有用。<br>要利用此线程局部变量，您的线程必须是<code>FastThreadLocalThread</code>或其子类型。 由于这个原因，默认情况下， <code>DefaultThreadFactory</code>创建的所有线程均为<code>FastThreadLocalThread</code> 。<br>请注意，只有在扩展<code>FastThreadLocalThread</code>线程上才可以使用快速路径，因为它需要一个特殊的字段来存储必要的状态。 任何其他类型的线程的访问都回退到常规<code>ThreadLocal</code> 。</p>
+<p>上面这段描述来自<code>FastThreadLocal</code>源码中的文档，从中可以知道<code>FastThreadLocal</code>必须和<code>FastThreadLocalThread</code>或其子类型一起使用才可以达到Fast的效果。</p>
+<h2 id="FastThreadLocalThread"><a href="#FastThreadLocalThread" class="headerlink" title="FastThreadLocalThread"></a>FastThreadLocalThread</h2><p>既然必须要和<code>FastThreadLocalThread</code>    一起使用，那就来看看<code>FastThreadLocalThread</code>到底有什么：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * A special &#123;<span class="doctag">@link</span> Thread&#125; that provides fast access to &#123;<span class="doctag">@link</span> FastThreadLocal&#125; variables.</span></span><br><span class="line"><span class="comment"> * 一种特殊的&#123;<span class="doctag">@link</span> Thread&#125;，可以快速访问&#123;<span class="doctag">@link</span> FastThreadLocal&#125;变量。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FastThreadLocalThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// This will be set to true if we have a chance to wrap the Runnable.</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> cleanupFastThreadLocals;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> InternalThreadLocalMap threadLocalMap;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FastThreadLocalThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cleanupFastThreadLocals = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FastThreadLocalThread</span><span class="params">(Runnable target)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(FastThreadLocalRunnable.wrap(target));</span><br><span class="line">        cleanupFastThreadLocals = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+<p>省略了一部分代码，可以看到<code>FastThreadLocalThread</code>继承自<code>Thread</code>，额外多了一个<code>InternalThreadLocalMap threadLocalMap</code>，从doc中可以看出这个变量就是关键。</p>
+<h2 id="InternalThreadLocalMap"><a href="#InternalThreadLocalMap" class="headerlink" title="InternalThreadLocalMap"></a>InternalThreadLocalMap</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * The internal data structure that stores the thread-local variables for Netty and all &#123;<span class="doctag">@link</span> FastThreadLocal&#125;s.</span></span><br><span class="line"><span class="comment"> * Note that this class is for internal use only and is subject to change at any time.  Use &#123;<span class="doctag">@link</span> FastThreadLocal&#125;</span></span><br><span class="line"><span class="comment"> * unless you know what you are doing.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">InternalThreadLocalMap</span> <span class="keyword">extends</span> <span class="title">UnpaddedInternalThreadLocalMap</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">		<span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;InternalThreadLocalMap&gt; slowThreadLocalMap = <span class="keyword">new</span> ThreadLocal&lt;InternalThreadLocalMap&gt;();</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> AtomicInteger nextIndex = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** Used by &#123;<span class="doctag">@link</span> FastThreadLocal&#125; */</span></span><br><span class="line">    Object[] indexedVariables;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Object UNSET = <span class="keyword">new</span> Object();</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> InternalThreadLocalMap <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Thread thread = Thread.currentThread();</span><br><span class="line">        <span class="keyword">if</span> (thread <span class="keyword">instanceof</span> FastThreadLocalThread) &#123;</span><br><span class="line">            <span class="keyword">return</span> fastGet((FastThreadLocalThread) thread);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> slowGet();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> InternalThreadLocalMap <span class="title">fastGet</span><span class="params">(FastThreadLocalThread thread)</span> </span>&#123;</span><br><span class="line">        InternalThreadLocalMap threadLocalMap = thread.threadLocalMap();</span><br><span class="line">        <span class="keyword">if</span> (threadLocalMap == <span class="keyword">null</span>) &#123;</span><br><span class="line">            thread.setThreadLocalMap(threadLocalMap = <span class="keyword">new</span> InternalThreadLocalMap());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> threadLocalMap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> InternalThreadLocalMap <span class="title">slowGet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ThreadLocal&lt;InternalThreadLocalMap&gt; slowThreadLocalMap = UnpaddedInternalThreadLocalMap.slowThreadLocalMap;</span><br><span class="line">        InternalThreadLocalMap ret = slowThreadLocalMap.get();</span><br><span class="line">        <span class="keyword">if</span> (ret == <span class="keyword">null</span>) &#123;</span><br><span class="line">            ret = <span class="keyword">new</span> InternalThreadLocalMap();</span><br><span class="line">            slowThreadLocalMap.set(ret);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">nextVariableIndex</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> index = nextIndex.getAndIncrement();</span><br><span class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            nextIndex.decrementAndGet();</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"too many thread-local indexed variables"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">    &#125;    </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> &#123;<span class="doctag">@code</span> true&#125; if and only if a new thread-local variable has been created</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">setIndexedVariable</span><span class="params">(<span class="keyword">int</span> index, Object value)</span> </span>&#123;</span><br><span class="line">        Object[] lookup = indexedVariables;</span><br><span class="line">        <span class="keyword">if</span> (index &lt; lookup.length) &#123;</span><br><span class="line">            Object oldValue = lookup[index];</span><br><span class="line">            lookup[index] = value;</span><br><span class="line">            <span class="keyword">return</span> oldValue == UNSET;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            expandIndexedVariableTableAndSet(index, value);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>InternalThreadLocalMap</code>继承自<code>UnpaddedInternalThreadLocalMap</code>，为了好看一点我把父类中的相关代码放到了一起，dubbo借鉴netty代码也是这么干的。</p>
+<h2 id="FastThreadLocal"><a href="#FastThreadLocal" class="headerlink" title="FastThreadLocal"></a>FastThreadLocal</h2><p>最后看看<code>FastThreadLocal</code>是怎么把这几个核心类给串起来的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FastThreadLocal</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> variablesToRemoveIndex = InternalThreadLocalMap.nextVariableIndex();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> index;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FastThreadLocal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        index = InternalThreadLocalMap.nextVariableIndex();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the current value for the current thread</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        InternalThreadLocalMap threadLocalMap = InternalThreadLocalMap.get();</span><br><span class="line">        Object v = threadLocalMap.indexedVariable(index);</span><br><span class="line">        <span class="keyword">if</span> (v != InternalThreadLocalMap.UNSET) &#123;</span><br><span class="line">            <span class="keyword">return</span> (V) v;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> initialize(threadLocalMap);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> V <span class="title">initialize</span><span class="params">(InternalThreadLocalMap threadLocalMap)</span> </span>&#123;</span><br><span class="line">        V v = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            v = initialValue();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            PlatformDependent.throwException(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        threadLocalMap.setIndexedVariable(index, v);</span><br><span class="line">        addToVariablesToRemove(threadLocalMap, <span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the initial value for this thread-local variable.</span></span><br><span class="line"><span class="comment">     * 这个方法一般会把覆盖</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> V <span class="title">initialValue</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://files.catbox.moe/nxk8yt.png" alt></p>
+<h2 id="八卦"><a href="#八卦" class="headerlink" title="八卦"></a>八卦</h2><p><a href="https://github.com/apache/dubbo/pull/1745" target="_blank" rel="noopener">https://github.com/apache/dubbo/pull/1745</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/archives/4b47846d.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Java随记/使用Mybatis批量更新的一个小问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1015,83 +1117,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-生活/被隔离的第7天" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/3eda1a9.html">被隔离的第7天</a>
-    </h1>
-  
-
-        
-        <a href="/archives/3eda1a9.html" class="archive-article-date">
-  	<time datetime="2020-03-03T05:22:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-03</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>被隔离的第7天，每天接到无数个部门的电话，量体温，报情况。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/生活//" class="article-tag-list-link color3">生活</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/3eda1a9.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
@@ -1181,7 +1206,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
+                <a href="javascript:void(0)" class="js-tag color2">Python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">OCR</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1221,15 +1250,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Activiti</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">RocketMQ</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Mybatis</a>
+                <a href="javascript:void(0)" class="js-tag color4">Activiti</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1237,15 +1262,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Mybatis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Deadlock</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">OCR</a>
               </li>
              
               <li class="article-tag-list-item">
