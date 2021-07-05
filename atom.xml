@@ -153,20 +153,17 @@
     <link href="https://jingzhouzhao.github.io/archives/afa41a9c.html"/>
     <id>https://jingzhouzhao.github.io/archives/afa41a9c.html</id>
     <published>2020-07-22T02:45:53.000Z</published>
-    <updated>2020-07-23T11:19:16.164Z</updated>
+    <updated>2021-07-05T08:55:11.860Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><h4 id="关闭SPI-获取根目录写权限"><a href="#关闭SPI-获取根目录写权限" class="headerlink" title="关闭SPI(获取根目录写权限)"></a>关闭SPI(获取根目录写权限)</h4><ul><li><p>重启 <code>command+R</code> 进入恢复界面</p></li><li><p>实用工具 - 终端 输入：<code>csrutil disable</code></p></li><li><p>重启：<code>reboot</code></p></li><li><p>打开终端，挂载根目录：<code>sudo mount -uw /</code></p><a id="more"></a><h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2></li></ul><h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><h4 id="保存堆快照"><a href="#保存堆快照" class="headerlink" title="保存堆快照"></a>保存堆快照</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heapdump.hprof pid</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><h4 id="关闭SPI-获取根目录写权限"><a href="#关闭SPI-获取根目录写权限" class="headerlink" title="关闭SPI(获取根目录写权限)"></a>关闭SPI(获取根目录写权限)</h4><ul><li>重启 <code>command+R</code> 进入恢复界面</li><li>实用工具 - 终端 输入：<code>csrutil disable</code></li><li>重启：<code>reboot</code></li><li>打开终端，挂载根目录：<code>sudo mount -uw /</code><a id="more"></a><h4 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a>查看端口</h4></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:9999</span><br></pre></td></tr></table></figure><h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2><h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><h4 id="保存堆快照"><a href="#保存堆快照" class="headerlink" title="保存堆快照"></a>保存堆快照</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heapdump.hprof pid</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       &lt;h2 id=&quot;mac&quot;&gt;&lt;a href=&quot;#mac&quot; class=&quot;headerlink&quot; title=&quot;mac&quot;&gt;&lt;/a&gt;mac&lt;/h2&gt;&lt;h4 id=&quot;关闭SPI-获取根目录写权限&quot;&gt;&lt;a href=&quot;#关闭SPI-获取根目录写权限&quot; class=&quot;headerlink&quot; title=&quot;关闭SPI(获取根目录写权限)&quot;&gt;&lt;/a&gt;关闭SPI(获取根目录写权限)&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;重启 &lt;code&gt;command+R&lt;/code&gt; 进入恢复界面&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;实用工具 - 终端 输入：&lt;code&gt;csrutil disable&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;重启：&lt;code&gt;reboot&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;打开终端，挂载根目录：&lt;code&gt;sudo mount -uw /&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;li&gt;重启 &lt;code&gt;command+R&lt;/code&gt; 进入恢复界面&lt;/li&gt;
+&lt;li&gt;实用工具 - 终端 输入：&lt;code&gt;csrutil disable&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;重启：&lt;code&gt;reboot&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;打开终端，挂载根目录：&lt;code&gt;sudo mount -uw /&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;
     
     </summary>
     

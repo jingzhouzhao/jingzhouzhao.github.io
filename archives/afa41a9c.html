@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
   <title>命令收藏 | 赵荆州的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="mac关闭SPI(获取根目录写权限) 重启 command+R 进入恢复界面  实用工具 - 终端 输入：csrutil disable  重启：reboot  打开终端，挂载根目录：sudo mount -uw &#x2F;">
+  <meta name="description" content="mac关闭SPI(获取根目录写权限) 重启 command+R 进入恢复界面 实用工具 - 终端 输入：csrutil disable 重启：reboot 打开终端，挂载根目录：sudo mount -uw &#x2F;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="命令收藏">
 <meta property="og:url" content="https://jingzhouzhao.github.io/archives/afa41a9c.html">
 <meta property="og:site_name" content="赵荆州的个人博客">
-<meta property="og:description" content="mac关闭SPI(获取根目录写权限) 重启 command+R 进入恢复界面  实用工具 - 终端 输入：csrutil disable  重启：reboot  打开终端，挂载根目录：sudo mount -uw &#x2F;">
+<meta property="og:description" content="mac关闭SPI(获取根目录写权限) 重启 command+R 进入恢复界面 实用工具 - 终端 输入：csrutil disable 重启：reboot 打开终端，挂载根目录：sudo mount -uw &#x2F;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-22T02:45:53.000Z">
-<meta property="article:modified_time" content="2020-07-23T11:19:16.164Z">
+<meta property="article:modified_time" content="2021-07-05T08:55:11.860Z">
 <meta property="article:author" content="赵荆州">
 <meta name="twitter:card" content="summary">
   
@@ -217,7 +217,7 @@ var _hmt = _hmt || [];
 <div id="toc-article" class="toc-article">
     <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
   <strong class="toc-title">文章目录</strong>
-         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mac"><span class="toc-number">1.</span> <span class="toc-text">mac</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭SPI-获取根目录写权限"><span class="toc-number">1.0.1.</span> <span class="toc-text">关闭SPI(获取根目录写权限)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#brew"><span class="toc-number">2.</span> <span class="toc-text">brew</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#更新app"><span class="toc-number">2.0.1.</span> <span class="toc-text">更新app</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk"><span class="toc-number">3.</span> <span class="toc-text">jdk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#保存堆快照"><span class="toc-number">3.0.1.</span> <span class="toc-text">保存堆快照</span></a></li></ol></li></ol></li></ol>
+         <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mac"><span class="toc-number">1.</span> <span class="toc-text">mac</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭SPI-获取根目录写权限"><span class="toc-number">1.0.1.</span> <span class="toc-text">关闭SPI(获取根目录写权限)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看端口"><span class="toc-number">1.0.2.</span> <span class="toc-text">查看端口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#brew"><span class="toc-number">2.</span> <span class="toc-text">brew</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#更新app"><span class="toc-number">2.0.1.</span> <span class="toc-text">更新app</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk"><span class="toc-number">3.</span> <span class="toc-text">jdk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#保存堆快照"><span class="toc-number">3.0.1.</span> <span class="toc-text">保存堆快照</span></a></li></ol></li></ol></li></ol>
        </div>
  <script type="text/javascript">
 function showToc(){
@@ -238,17 +238,15 @@ function showBtn(){
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><h4 id="关闭SPI-获取根目录写权限"><a href="#关闭SPI-获取根目录写权限" class="headerlink" title="关闭SPI(获取根目录写权限)"></a>关闭SPI(获取根目录写权限)</h4><ul>
-<li><p>重启 <code>command+R</code> 进入恢复界面</p>
-</li>
-<li><p>实用工具 - 终端 输入：<code>csrutil disable</code></p>
-</li>
-<li><p>重启：<code>reboot</code></p>
-</li>
-<li><p>打开终端，挂载根目录：<code>sudo mount -uw /</code></p>
-<a id="more"></a>
-<h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2></li>
+<li>重启 <code>command+R</code> 进入恢复界面</li>
+<li>实用工具 - 终端 输入：<code>csrutil disable</code></li>
+<li>重启：<code>reboot</code></li>
+<li>打开终端，挂载根目录：<code>sudo mount -uw /</code><a id="more"></a>
+<h4 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a>查看端口</h4></li>
 </ul>
-<h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:9999</span><br></pre></td></tr></table></figure>
+
+<h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2><h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure>
 
 <h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><h4 id="保存堆快照"><a href="#保存堆快照" class="headerlink" title="保存堆快照"></a>保存堆快照</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heapdump.hprof pid</span><br></pre></td></tr></table></figure>
 
@@ -404,7 +402,7 @@ function showBtn(){
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mac"><span class="toc-number">1.</span> <span class="toc-text">mac</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭SPI-获取根目录写权限"><span class="toc-number">1.0.1.</span> <span class="toc-text">关闭SPI(获取根目录写权限)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#brew"><span class="toc-number">2.</span> <span class="toc-text">brew</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#更新app"><span class="toc-number">2.0.1.</span> <span class="toc-text">更新app</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk"><span class="toc-number">3.</span> <span class="toc-text">jdk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#保存堆快照"><span class="toc-number">3.0.1.</span> <span class="toc-text">保存堆快照</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mac"><span class="toc-number">1.</span> <span class="toc-text">mac</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭SPI-获取根目录写权限"><span class="toc-number">1.0.1.</span> <span class="toc-text">关闭SPI(获取根目录写权限)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看端口"><span class="toc-number">1.0.2.</span> <span class="toc-text">查看端口</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#brew"><span class="toc-number">2.</span> <span class="toc-text">brew</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#更新app"><span class="toc-number">2.0.1.</span> <span class="toc-text">更新app</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk"><span class="toc-number">3.</span> <span class="toc-text">jdk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#保存堆快照"><span class="toc-number">3.0.1.</span> <span class="toc-text">保存堆快照</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -536,11 +534,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+                <a href="javascript:void(0)" class="js-tag color4">CAP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">CAP</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -552,15 +550,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Maven</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">MySQL</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">RocketMQ</a>
+                <a href="javascript:void(0)" class="js-tag color1">Maven</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -572,7 +566,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Mybatis</a>
+                <a href="javascript:void(0)" class="js-tag color4">RocketMQ</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,15 +586,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Mybatis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">elasticsearch</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">flume</a>
+                <a href="javascript:void(0)" class="js-tag color1">kafka</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">kafka</a>
+                <a href="javascript:void(0)" class="js-tag color1">flume</a>
               </li>
              
               <li class="article-tag-list-item">
