@@ -190,6 +190,112 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-踩坑记录/被Chrome一个bug坑了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/archives/6e43fa1b.html">被Chrome一个bug坑了</a>
+    </h1>
+  
+
+        
+        <a href="/archives/6e43fa1b.html" class="archive-article-date">
+  	<time datetime="2021-09-03T08:58:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-09-03</time>
+</a>
+        
+      </header>
+    
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://files.catbox.moe/xbwdlv.png" alt></p>
+<p>相信Chrome浏览器开发者工具中的Preview你不陌生，但是就这玩意有一个bug。</p>
+<p>事情是这样的，前端跟我说你接口有bug，返回的数据不正确。听到bug，我反手就是一个你会不会用。</p>
+<p>他发来了一个截图：</p>
+<p><img src="https://files.catbox.moe/b7x3tw.png" alt></p>
+<p>我给他返回的json中有一个<code>max</code>字段，值是<code>100000000000000</code> ,正确的应该是<code>99999999999999.99999999999999999999</code>,你先别管为什么是这么个值。</p>
+<p>好了，他拿出证据了，我开始怀疑真的是哪里写的有问题了，一顿查找，发现TMD哪里都没有问题啊，怎么可能，怎么会呢？</p>
+<p>中午的饭都不香了。</p>
+<p>我开始怀疑是网关的问题，网关大佬说没问题。。。。。</p>
+<p>于是拿着请求地址，curl了一下，<code>max:99999999999999.99999999999999999999</code>。卧槽。。。又对了？</p>
+<p>于是我开始怀疑最不可能出问题的浏览器，直到我点开了<code>Response</code> :</p>
+<p><img src="https://files.catbox.moe/kygqzl.png" alt></p>
+<p>。。。。。。</p>
+<p>反手就是给提了一个bug：</p>
+<p><img src="https://files.catbox.moe/l53ij6.png" alt></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Chrome</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/踩坑记录//" class="article-tag-list-link color5">踩坑记录</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/archives/6e43fa1b.html">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Java随记/Lambda应用与浅析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1111,85 +1217,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-Java随记/读取Jar中指定目录下的所有文件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/archives/f728629b.html">读取Jar中指定目录下的所有文件</a>
-    </h1>
-  
-
-        
-        <a href="/archives/f728629b.html" class="archive-article-date">
-  	<time datetime="2020-03-19T03:47:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        
-      </header>
-    
-    <!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>读取Jar中文件使用类似getResourceAsStream等以流的方式获取即可。但是想要读取Jar中某个目录下的所有文件却不是那么容易。</p>
-        
-          <a class="article-more-a" href="/archives/f728629b.html#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/archives/f728629b.html">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
@@ -1319,23 +1346,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">RocketMQ</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Activiti</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Mybatis</a>
+                <a href="javascript:void(0)" class="js-tag color4">RocketMQ</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">ASM</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Deadlock</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1344,6 +1363,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Deadlock</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Mybatis</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1364,6 +1391,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Chrome</a>
               </li>
             
             <div class="clearfix"></div>
