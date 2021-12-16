@@ -164,7 +164,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/eb616fac.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/545f6758.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -173,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/545f6758.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/eb616fac.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -209,24 +209,6 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/99680cca.html</loc>
-    
-    <lastmod>2019-10-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/archives/585899c0.html</loc>
-    
-    <lastmod>2019-10-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jingzhouzhao.github.io/archives/df4f5590.html</loc>
     
     <lastmod>2019-10-16</lastmod>
@@ -245,7 +227,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/863caf0d.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/585899c0.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -255,6 +237,24 @@
   
   <url>
     <loc>https://jingzhouzhao.github.io/archives/52360944.html</loc>
+    
+    <lastmod>2019-10-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/archives/863caf0d.html</loc>
+    
+    <lastmod>2019-10-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/archives/99680cca.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -317,7 +317,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/5cf0b88d.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/d7f22001.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -326,7 +326,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/d7f22001.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/5cf0b88d.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -416,7 +416,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/5e0e6b4c.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/e8ec77e1.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -425,7 +425,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/e8ec77e1.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/5e0e6b4c.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -479,15 +479,6 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/d7132b2f.html</loc>
-    
-    <lastmod>2019-10-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://jingzhouzhao.github.io/archives/c8d527a1.html</loc>
     
     <lastmod>2019-10-16</lastmod>
@@ -506,7 +497,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/bbb37996.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/4c4ac8cd.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -524,7 +515,16 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/4c4ac8cd.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/bbb37996.html</loc>
+    
+    <lastmod>2019-10-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/archives/d7132b2f.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -590,6 +590,83 @@
   </url>
   
   <url>
+    <loc>https://jingzhouzhao.github.io/tags/Java/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/Paxos/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/%E4%B8%80%E8%87%B4%E6%80%A7/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/elasticsearch/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/flume/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/kafka/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/MongodDB/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/%E5%9B%BE%E5%BA%8A/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/linux/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/Chrome/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://jingzhouzhao.github.io/tags/Python/</loc>
     <lastmod>2021-12-16</lastmod>
     <changefreq>weekly</changefreq>
@@ -598,13 +675,6 @@
   
   <url>
     <loc>https://jingzhouzhao.github.io/tags/OCR/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/Java/</loc>
     <lastmod>2021-12-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -687,76 +757,6 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/Paxos/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/%E4%B8%80%E8%87%B4%E6%80%A7/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/elasticsearch/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/kafka/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/flume/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/MongodDB/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/%E5%9B%BE%E5%BA%8A/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/linux/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/Chrome/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
@@ -774,14 +774,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/categories/Python%E9%9A%8F%E8%AE%B0/</loc>
-    <lastmod>2021-12-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/</loc>
+    <loc>https://jingzhouzhao.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
     <lastmod>2021-12-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -795,7 +788,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
+    <loc>https://jingzhouzhao.github.io/categories/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2021-12-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -809,14 +802,21 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/categories/%E7%94%9F%E6%B4%BB/</loc>
+    <loc>https://jingzhouzhao.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2021-12-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</loc>
+    <loc>https://jingzhouzhao.github.io/categories/Python%E9%9A%8F%E8%AE%B0/</loc>
+    <lastmod>2021-12-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/</loc>
     <lastmod>2021-12-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
