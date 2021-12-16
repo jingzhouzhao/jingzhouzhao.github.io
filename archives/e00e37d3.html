@@ -6,17 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://jingzhouzhao.github.io">
-  <title>Tag: MySQL | 赵烧鸡腿饭的个人博客</title>
+  <title>关于Paxos那些点 | 赵烧鸡腿饭的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="赵荆州的个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="赵烧鸡腿饭的个人博客">
-<meta property="og:url" content="https://jingzhouzhao.github.io/tags/MySQL/index.html">
+  <meta name="description" content="世界上只有一种共识协议，就是 Paxos，其他所有共识算法都是 Paxos 的退化版本。  Paxos分为Basic Paxos、Multi Paxos、和其它演进版本。 Basic Paxos前提：Basic Paxos 只能对单个值形成决议。 Paxos 算法将分布式系统中的节点分为三类：  提案节点：称为 Proposer，提出对某个值进行设置操作的节点，设置值这个行为就被称之为提案（Pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Paxos那些点">
+<meta property="og:url" content="https://jingzhouzhao.github.io/archives/e00e37d3.html">
 <meta property="og:site_name" content="赵烧鸡腿饭的个人博客">
-<meta property="og:description" content="赵荆州的个人博客">
+<meta property="og:description" content="世界上只有一种共识协议，就是 Paxos，其他所有共识算法都是 Paxos 的退化版本。  Paxos分为Basic Paxos、Multi Paxos、和其它演进版本。 Basic Paxos前提：Basic Paxos 只能对单个值形成决议。 Paxos 算法将分布式系统中的节点分为三类：  提案节点：称为 Proposer，提出对某个值进行设置操作的节点，设置值这个行为就被称之为提案（Pr">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/zhaojingzhou/filebed/raw/master/jc4j75h9ha-1639635295709.png">
+<meta property="article:published_time" content="2021-12-16T06:07:48.000Z">
+<meta property="article:modified_time" content="2021-12-16T06:26:15.084Z">
 <meta property="article:author" content="赵烧鸡腿饭">
+<meta property="article:tag" content="Paxos">
+<meta property="article:tag" content="一致性">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhaojingzhou/filebed/raw/master/jc4j75h9ha-1639635295709.png">
   
     <link rel="alternative" href="/atom.xml" title="赵烧鸡腿饭的个人博客" type="application/atom+xml">
   
@@ -172,244 +178,254 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-读书笔记/关于Paxos那些点" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/e8013d2a.html" class="archive-article-date">
-  	<time datetime="2021-03-25T09:20:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/e8013d2a.html">使用Mybatis批量更新的一个小问题</a>
+    <h1 class="article-title" itemprop="name">
+      关于Paxos那些点
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/archives/e00e37d3.html" class="archive-article-date">
+  	<time datetime="2021-12-16T06:07:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-16</time>
+</a>
+        
+      </header>
+    
+    <!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>世界上只有一种共识协议，就是 Paxos，其他所有共识算法都是 Paxos 的退化版本。</p>
+</blockquote>
+<p>Paxos分为Basic Paxos、Multi Paxos、和其它演进版本。</p>
+<h1 id="Basic-Paxos"><a href="#Basic-Paxos" class="headerlink" title="Basic Paxos"></a>Basic Paxos</h1><p><strong>前提：Basic Paxos 只能对单个值形成决议。</strong></p>
+<p>Paxos 算法将分布式系统中的节点分为三类：</p>
+<ul>
+<li><strong>提案节点</strong>：称为 Proposer，提出对某个值进行设置操作的节点，设置值这个行为就被称之为<strong>提案</strong>（Proposal），值一旦设置成功，就是不会丢失也不可变的。请注意，Paxos 是典型的基于操作转移模型而非状态转移模型来设计的算法，这里的“设置值”不要类比成程序中变量赋值操作，应该类比成日志记录操作，在后面介绍的 Raft 算法中就直接把“提案”叫作“日志”了。</li>
+<li><strong>决策节点</strong>：称为 Acceptor，是应答提案的节点，决定该提案是否可被投票、是否可被接受。提案一旦得到过半数决策节点的接受，即称该提案被<strong>批准</strong>（Accept），提案被批准即意味着该值不能再被更改，也不会丢失，且最终所有节点都会接受该它。</li>
+<li><strong>记录节点</strong>：被称为 Learner，不参与提案，也不参与决策，只是单纯地从提案、决策节点中学习已经达成共识的提案，譬如少数派节点从网络分区中恢复时，将会进入这种状态。</li>
+</ul>
+<a id="more"></a>
+
+<p>Paxos 算法包括两个阶段，其中，<strong>第一阶段“准备”（Prepare）</strong>就相当于上面抢占锁的过程（不是基于互斥量）。如果某个提案节点准备发起提案，必须先向所有的决策节点广播一个许可申请（称为 Prepare 请求）。提案节点的 Prepare 请求中会附带一个全局唯一的数字 n 作为提案 ID，决策节点收到后，将会给予<strong>提案节点两个承诺与一个应答</strong>。</p>
+<p>两个承诺是指：</p>
+<ul>
+<li>承诺不会再接受提案 ID 小于或等于 n 的 Prepare 请求。</li>
+<li>承诺不会再接受提案 ID 小于 n 的 Accept 请求。</li>
+</ul>
+<p>一个应答是指：</p>
+<ul>
+<li>不违背以前作出的承诺的前提下，回复已经批准过的提案中 ID 最大的那个提案所设定的值和提案 ID，如果该值从来没有被任何提案设定过，则返回空值。如果违反此前做出的承诺，即收到的提案 ID 并不是决策节点收到过的最大的，那允许直接对此 Prepare 请求不予理会。</li>
+</ul>
+<p>当提案节点收到了多数派决策节点的应答（称为 Promise 应答）后，可以开始<strong>第二阶段“批准”（Accept）</strong>过程，这时有如下两种可能的结果：</p>
+<ul>
+<li>如果提案节点发现所有响应的决策节点此前都没有批准过该值（即为空），那说明它是第一个设置值的节点，可以随意地决定要设定的值，将自己选定的值与提案 ID，构成一个二元组“(id, value)”，再次广播给全部的决策节点（称为 Accept 请求）。</li>
+<li>如果提案节点发现响应的决策节点中，已经有至少一个节点的应答中包含有值了，那它就不能够随意取值了，必须无条件地从应答中找出提案 ID 最大的那个值并接受，构成一个二元组“(id, maxAcceptValue)”，再次广播给全部的决策节点（称为 Accept 请求）。</li>
+</ul>
+<p>当每一个决策节点收到 Accept 请求时，都会在不违背以前作出的承诺的前提下，接收并持久化对当前提案 ID 和提案附带的值。如果违反此前做出的承诺，即收到的提案 ID 并不是决策节点收到过的最大的，那允许直接对此 Accept 请求不予理会。</p>
+<p>关于<strong>活锁</strong>：</p>
+<p><img src="https://gitee.com/zhaojingzhou/filebed/raw/master/jc4j75h9ha-1639635295709.png" alt>两个提案节点互不相让地争相提出自己的提案，抢占同一个值的修改权限，导致整个系统在持续性地“反复横跳”，外部看起来就像被锁住了一样</p>
+<h1 id="Multi-Paxos"><a href="#Multi-Paxos" class="headerlink" title="Multi Paxos"></a>Multi Paxos</h1><p>Multi Paxos 对 Basic Paxos 的核心改进是<strong>增加了“选主”的过程</strong>，提案节点会通过定时轮询（心跳），确定当前网络中的所有节点里是否存在有一个主提案节点，一旦没有发现主节点存在，节点就会在心跳超时后<strong>使用 Basic Paxos 中定义的准备、批准的两轮网络交互过程，向所有其他节点广播自己希望竞选主节点的请求</strong>，希望整个分布式系统对“由我作为主节点”这件事情协商达成一致共识，如果得到了决策节点中多数派的批准，便宣告竞选成功。当选主完成之后，除非主节点失联之后发起重新竞选，否则从此往后，就只有主节点本身才能够提出提案。此时，无论哪个提案节点接收到客户端的操作请求，都会将请求转发给主节点来完成提案，而主节点提案的时候，也就无需再次经过准备过程，因为可以视作是<strong>经过选举时的那一次准备之后，后续的提案都是对相同提案 ID 的一连串的批准过程。也可以通俗理解为选主过后，就不会再有其他节点与它竞争，相当于是处于无并发的环境当中进行的有序操作，所以此时系统中要对某个值达成一致，只需要进行一次批准的交互即可</strong></p>
+<p>可能有人注意到这时候的二元组(id, value)已经变成了三元组(id, i, value)，这是因为需要给<strong>主节点增加一个“任期编号”，这个编号必须是严格单调递增的，以应付主节点陷入网络分区后重新恢复，但另外一部分节点仍然有多数派，且已经完成了重新选主的情况，此时必须以任期编号大的主节点为准</strong>。当节点有了选主机制的支持，在整体来看，就可以进一步简化节点角色，不去区分提案、决策和记录节点了，统统以“节点”来代替，节点只有主（Leader）和从（Follower）的区别</p>
+<h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p><a href="http://icyfenix.cn/distribution/consensus/paxos.html" target="_blank" rel="noopener">http://icyfenix.cn/distribution/consensus/paxos.html</a></p>
+<p><a href="http://icyfenix.cn/distribution/consensus/raft.html" target="_blank" rel="noopener">http://icyfenix.cn/distribution/consensus/raft.html</a></p>
+<p><a href="https://acehi.github.io/thesecretlivesofdata-cn/raft/" target="_blank" rel="noopener">https://acehi.github.io/thesecretlivesofdata-cn/raft/</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>帮我买杯咖啡<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://tva1.sinaimg.cn/large/007X8olVly1g67aw8k6r9j30cv0cv772.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://tva1.sinaimg.cn/large/007X8olVly1g67atu8e90j30cv0cvq4i.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Paxos</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Mybatis</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">一致性</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/9e47523f.html" class="archive-article-date">
-  	<time datetime="2021-03-23T03:46:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/9e47523f.html">记一次线上死锁排查</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deadlock</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/c1627f94.html" class="archive-article-date">
-  	<time datetime="2019-03-29T09:38:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/c1627f94.html">MySQL 事务查询</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
+        			<a href="/categories/读书笔记//" class="article-tag-list-link color5">读书笔记</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://jingzhouzhao.github.io/archives/e00e37d3.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/archives/16902655.html" class="archive-article-date">
-  	<time datetime="2019-03-19T06:59:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/archives/2baffaa5.html" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">博客用的图床挂了</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/archives/16902655.html">MySQL可重复读和幻读</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">MySQL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Java随记//" class="article-tag-list-link color2">Java随记</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
+
   
 
-    
+  
+    <div id="gitalk-container"></div>
+    <div id="gitalk-container" style="padding: 0px 30px 0px 30px;"></div> 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+
+if(true){
+	var gitalk = new Gitalk({
+  	clientID: '5baa4f1b91a7b18aa767',
+  	clientSecret: 'a2702ffd5a6572df7e5c72b439dfd40d67fe5b5d',
+  	repo: 'comment',
+  	owner: 'jingzhouzhao',
+  	admin: ['jingzhouzhao'],
+  	id: 'Thu Dec 16 2021 14:07:48 GMT+0800',
+  	distractionFreeMode: 'true'
+})
+gitalk.render('gitalk-container') 
+}
+</script>
+  
+  
+  
+
+  
+
+  
+
+  
+
 
 
           </div>
@@ -432,9 +448,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
