@@ -164,7 +164,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/2a3d9fc7.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/545f6758.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -173,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/archives/545f6758.html</loc>
+    <loc>https://jingzhouzhao.github.io/archives/2a3d9fc7.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -272,6 +272,15 @@
   </url>
   
   <url>
+    <loc>https://jingzhouzhao.github.io/archives/d5c5a3fa.html</loc>
+    
+    <lastmod>2019-10-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jingzhouzhao.github.io/archives/7f9f876c.html</loc>
     
     <lastmod>2019-10-16</lastmod>
@@ -282,15 +291,6 @@
   
   <url>
     <loc>https://jingzhouzhao.github.io/archives/de80e1f4.html</loc>
-    
-    <lastmod>2019-10-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/archives/d5c5a3fa.html</loc>
     
     <lastmod>2019-10-16</lastmod>
     
@@ -585,6 +585,55 @@
   </url>
   
   <url>
+    <loc>https://jingzhouzhao.github.io/tags/Golang/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/VSCode/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/Python/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/OCR/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/%E7%88%AC%E8%99%AB/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/launchctl/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://jingzhouzhao.github.io/tags/Java/</loc>
     <lastmod>2021-12-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -669,55 +718,6 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/tags/Golang/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/VSCode/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/Python/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/OCR/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/%E7%88%AC%E8%99%AB/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://jingzhouzhao.github.io/tags/launchctl/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://jingzhouzhao.github.io/tags/Paxos/</loc>
     <lastmod>2021-12-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -732,13 +732,6 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/tags/elasticsearch/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://jingzhouzhao.github.io/tags/flume/</loc>
     <lastmod>2021-12-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -747,6 +740,13 @@
   
   <url>
     <loc>https://jingzhouzhao.github.io/tags/kafka/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/tags/elasticsearch/</loc>
     <lastmod>2021-12-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -797,13 +797,6 @@
   </url>
   
   <url>
-    <loc>https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/</loc>
-    <lastmod>2021-12-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://jingzhouzhao.github.io/categories/Golang%E9%9A%8F%E8%AE%B0/</loc>
     <lastmod>2021-12-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -812,6 +805,13 @@
   
   <url>
     <loc>https://jingzhouzhao.github.io/categories/Python%E9%9A%8F%E8%AE%B0/</loc>
+    <lastmod>2021-12-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/</loc>
     <lastmod>2021-12-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
