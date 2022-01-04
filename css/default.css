@@ -10281,6 +10281,17 @@ body > .section {
     background: rgba(0,0,0,0.24);
   }
 }
+.avatar:hover {
+  transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+}
 .ml-0,
 .mx-0 {
   margin-left: 0 !important;
