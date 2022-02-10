@@ -6,7 +6,7 @@
   <link href="https://jingzhouzhao.github.io/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2022-01-14T07:22:28.949Z</updated>
+  <updated>2022-02-10T01:14:33.260Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java双亲委派机制的妙用</title>
+    <link href="https://jingzhouzhao.github.io/archives/27ffa58c.html"/>
+    <id>https://jingzhouzhao.github.io/archives/27ffa58c.html</id>
+    <published>2022-02-09T09:33:21.000Z</published>
+    <updated>2022-02-10T01:14:33.260Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在项目中看到一段通过easyexcel导出动态表头的实现，开始我以为是easyexcel官方的实现，其中有这样一段代码：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将动态表头上传至ThreadLocal</span></span><br><span class="line">saveToThreadLocal(clz, result);</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">saveToThreadLocal</span><span class="params">(Class&lt;T&gt; clz, List&lt;String&gt; result)</span> </span>&#123;</span><br><span class="line">        Map&lt;Class,List&lt;String&gt;&gt; paramMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">        paramMap.put(clz, result);</span><br><span class="line">        ThreadLocalUtil.FIELD_CACHE_MAP.set(paramMap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><span id="more"></span><p>其中result是通过接口拿到的用户表头配置，我看到有这么个东西:<code>ThreadLocalUtil</code>，以为是easyexcel的实现，到github查找了一番，结果什么也没有发现。<br>idea点进去查看了一下，发现是内部的一个实现：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;Map&lt;Class,List&lt;String&gt;&gt;&gt; FIELD_CACHE_MAP = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> ThreadLocal&lt;SoftReference&lt;FieldCache&gt;&gt; CACHE = <span class="keyword">new</span> ThreadLocal();&#125;</span><br></pre></td></tr></table></figure><p>同时还发现了以下几个文件：<br><img src="https://gitee.com/zhaojingzhou/filebed/raw/master/jqsaj8j3tv-1644455538154.png"></p><p>一开始我的想法是，这几个文件应该是easyexcel预留的扩展，只需要继承某些父类，重写几个方法就行了。但是这样一来，肯定需要有什么地方配置，类似SPI一样。<br>于是我通过上面的文件名在项目中查找，结果什么也没有找到。也就是说上面几个文件跟easyexcel并没有产生什么联系。那为什么通过这几个文件就能实现导出动态表头呢？<br>没办法，只能debug了，这时我发现在easyexcel包中也有一个<code>ExcelHeadProperty</code>，跟上面说的那个文件并不是同一个。在idea中导航到的是easyexcel中的class，但是实际执行的却不是。</p><p>仔细一看，发现这两个文件除了内容不一样，包名是完全一样的:<code>com.alibaba.excel.metadata.property</code>，这时我想到了Java的双亲委派机制。而项目又并不是直接依赖的easyexcel，是通过间接依赖进来的。<br>所以被改写过的ExcelHeadProperty 先于easyexcel本身的文件被加载，等到加载easyexcel中的相同class时，发现已经被加载过了。不在加载了。</p><p>然后我又在项目中加了一个相同的文件，简单修改了一下，发现项目中的class加载优先级更高，class又一次被改写了：</p><p><img src="https://gitee.com/zhaojingzhou/filebed/raw/master/ouijzqwan9-1644455655792.png"></p><p>不得不说，妙啊！</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;最近在项目中看到一段通过easyexcel导出动态表头的实现，开始我以为是easyexcel官方的实现，其中有这样一段代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//将动态表头上传至ThreadLocal&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;saveToThreadLocal(clz, result);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &amp;lt;T&amp;gt; &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;saveToThreadLocal&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(Class&amp;lt;T&amp;gt; clz, List&amp;lt;String&amp;gt; result)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Map&amp;lt;Class,List&amp;lt;String&amp;gt;&amp;gt; paramMap = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; ConcurrentHashMap&amp;lt;&amp;gt;();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        paramMap.put(clz, result);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        ThreadLocalUtil.FIELD_CACHE_MAP.set(paramMap);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
+    
+    
+    
+    <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
+    
+    
+    <category term="Java" scheme="https://jingzhouzhao.github.io/tags/Java/"/>
+    
+    <category term="双亲委派" scheme="https://jingzhouzhao.github.io/tags/%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE/"/>
+    
+  </entry>
   
   <entry>
     <title>同事问了我一个关于RocketMQ的问题</title>
@@ -496,29 +520,6 @@
     
     
     <category term="Activiti" scheme="https://jingzhouzhao.github.io/tags/Activiti/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>被隔离的第7天</title>
-    <link href="https://jingzhouzhao.github.io/archives/3eda1a9.html"/>
-    <id>https://jingzhouzhao.github.io/archives/3eda1a9.html</id>
-    <published>2020-03-03T05:22:11.000Z</published>
-    <updated>2020-03-03T05:28:00.747Z</updated>
-    
-    <content type="html"><![CDATA[<p>被隔离的第7天，每天接到无数个部门的电话，量体温，报情况。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;被隔离的第7天，每天接到无数个部门的电话，量体温，报情况。&lt;/p&gt;
-</summary>
-      
-    
-    
-    
-    <category term="生活" scheme="https://jingzhouzhao.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
-    
     
   </entry>
   
