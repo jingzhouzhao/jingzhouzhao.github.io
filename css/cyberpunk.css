@@ -10288,10 +10288,6 @@ body > .section {
   -moz-transform: rotate(360deg);
   -webkit-transform: rotate(360deg);
   -o-transform: rotate(360deg);
-  transition: 0.5s;
-  -webkit-transition: 0.5s;
-  -moz-transition: 0.5s;
-  -o-transition: 0.5s;
 }
 .ml-0,
 .mx-0 {
@@ -10759,6 +10755,10 @@ body > .section {
 .image .avatar {
   height: 100%;
   object-fit: cover;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
 }
 .image .fill {
   object-fit: cover;
