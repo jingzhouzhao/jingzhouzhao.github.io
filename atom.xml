@@ -6,7 +6,7 @@
   <link href="https://jingzhouzhao.github.io/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2022-06-02T02:49:03.059Z</updated>
+  <updated>2022-06-14T07:37:23.197Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>看why技术大佬文章时发现的一个问题</title>
+    <link href="https://jingzhouzhao.github.io/archives/303ccecb.html"/>
+    <id>https://jingzhouzhao.github.io/archives/303ccecb.html</id>
+    <published>2022-06-14T07:11:32.682Z</published>
+    <updated>2022-06-14T07:37:23.197Z</updated>
+    
+    <content type="html"><![CDATA[<p>一直是why技术大佬忠实粉丝，每次看他的文章都有一种享受的感觉，今天看了他的一篇文章《<a href="https://juejin.cn/post/7105968458851942414">这个队列的思路是真的好，现在它是我简历上的亮点了。</a>》。本来没什么问题，觉得这么好的东西不拿来用一用太可惜了。于是我就搞到了项目中，但是却发现一个问题，文中提到的：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MemoryUsage heapMemoryUsage = MX_BEAN.getHeapMemoryUsage();</span><br><span class="line"><span class="keyword">long</span> availableMemory = heapMemoryUsage.getCommitted();</span><br></pre></td></tr></table></figure><p>我发现availableMemory在一段时间内没什么变化。</p><p>我是这么测试的：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">       List&lt;<span class="keyword">byte</span>[]&gt; objects = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       <span class="keyword">long</span> _1MB = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">       <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">           MemoryUsage heapMemoryUsage = MX_BEAN.getHeapMemoryUsage();</span><br><span class="line">           System.out.println(<span class="string">&quot;committed:&quot;</span>+heapMemoryUsage.getCommitted()/_1MB);</span><br><span class="line">           objects.add(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">50</span>]);</span><br><span class="line">           Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><p>讲道理应该实时变化才对，后来我点进去了why哥留下的<a href="https://github.com/apache/dubbo/pull/10021">PR链接</a>，发现这个PR在2022-06-06有一个提交：<br><img src="/archives/303ccecb/1.png" alt="1"><br>备注信息为:”fix bug”，具体的修改为：<br><img src="/archives/303ccecb/2.png" alt="2"><br>可以看到原来通过MemoryUsage获取可用内存变成了：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Runtime.getRuntime().freeMemory()</span><br></pre></td></tr></table></figure><p>也就是说之前使用的<code>getCommited()</code>获取的并不是可用内存，于是我看了下<code>MemoryUsage</code>的源码(jdk8)，哈哈哈😂，发现图示的很清楚：<br><img src="/archives/303ccecb/3.png" alt="3"><br>真正的可用空间是<code>committed - used</code>，于是我又做了下面的测试：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">       List&lt;<span class="keyword">byte</span>[]&gt; objects = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       <span class="keyword">long</span> _1MB = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">       <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">           MemoryUsage heapMemoryUsage = MX_BEAN.getHeapMemoryUsage();</span><br><span class="line">           <span class="keyword">long</span> freeMemory = Runtime.getRuntime().freeMemory();</span><br><span class="line">           System.out.println(<span class="string">&quot;freeMemory：&quot;</span>+freeMemory/_1MB);</span><br><span class="line">           System.out.println(<span class="string">&quot;committed:&quot;</span>+heapMemoryUsage.getCommitted()/_1MB);</span><br><span class="line">           System.out.println(<span class="string">&quot;committed - used:&quot;</span>+(heapMemoryUsage.getCommitted()-heapMemoryUsage.getUsed())/_1MB);</span><br><span class="line">           objects.add(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">50</span>]);</span><br><span class="line">           Thread.sleep(<span class="number">100L</span>);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><p><img src="/archives/303ccecb/4.png" alt="4"></p><p>可以看到确实如此。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;一直是why技术大佬忠实粉丝，每次看他的文章都有一种享受的感觉，今天看了他的一篇文章《&lt;a href=&quot;https://juejin.cn/post/7105968458851942414&quot;&gt;这个队列的思路是真的好，现在它是我简历上的亮点了。&lt;/a&gt;》。本来没什么问题，觉得</summary>
+      
+    
+    
+    
+    
+    <category term="开源" scheme="https://jingzhouzhao.github.io/tags/%E5%BC%80%E6%BA%90/"/>
+    
+    <category term="可用内存" scheme="https://jingzhouzhao.github.io/tags/%E5%8F%AF%E7%94%A8%E5%86%85%E5%AD%98/"/>
+    
+    <category term="why技术" scheme="https://jingzhouzhao.github.io/tags/why%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
     <title>什么?Lombok有坑?</title>
     <link href="https://jingzhouzhao.github.io/archives/59b94462.html"/>
     <id>https://jingzhouzhao.github.io/archives/59b94462.html</id>
     <published>2022-06-02T02:18:56.000Z</published>
-    <updated>2022-06-02T02:49:03.059Z</updated>
+    <updated>2022-06-02T02:49:48.481Z</updated>
     
     <content type="html"><![CDATA[<p>事情是这样的，前段时间有个线上bug需要我去排查：<br><img src="/archives/59b94462/1.png" alt="1"></p><p>首先看了CAT的调用链，并没有发现什么问题，所有的服务都是正常处理结束。</p><p>于是我要了一个traceId，去排查日志，也是没有发现什么问题。</p><p>我拉下了生产版本的代码，走查了一下逻辑，并没有发现什么大问题，所以这注定是一个细节问题。</p><p>由于这是一个可以复现的问题，所以让测试大佬在测试环境模拟了下有问题的数据，于是我开始Debug了。</p><p>一行一行代码的看，一个一个变量的watch，最终发现了问题。</p><p><img src="/archives/59b94462/2.png" alt="2"></p><p>首先是同事新增了如下代码：</p><p><img src="/archives/59b94462/3.png" alt="3"></p><p>然后数据的OwnerId都是null：</p><p><img src="/archives/59b94462/4.png" alt="4"></p><p>紧接着执行了这个removeAll:</p><p><img src="/archives/59b94462/5.png" alt="5"></p><p>可是这为什么会出问题呢？</p><p>原来是list中的对象，是同事新加的，继承了原有的对象：</p><p><img src="/archives/59b94462/6.png" alt="6"></p><p>并且使用了Lombok的Data注解。这个注解会生成equals方法：</p><p><img src="/archives/59b94462/7.png" alt="7"></p><p>removeAll是调用的equals判断对象是否相同，equals方法重写后，导致只要这两个对象的ownerId都为空就会认为相同。</p><p>可以看到一个@Data注解相当于加了6个注解：</p><p><img src="/archives/59b94462/8.png" alt="8"></p><p>怎么解决这个问题呢？既然问题出在equals，那么有没有什么办法让子类生成的equals中也能包含基类的属性呢？</p><p>是有的：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EqualsAndHashCode(callSuper = true)</span></span><br></pre></td></tr></table></figure><p>加上这个注解就可以了。</p><p>可以看到@Data注解做的事情太多了，会发生你意想不到的情况，实际是不太推荐无脑使用的，建议还是自己组合需要的注解。</p>]]></content>
     
@@ -512,28 +538,6 @@
 &lt;li&gt;实用工具 - 终端 输入：&lt;code&gt;csrutil disable&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;重启：&lt;code&gt;reboot&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;打开终端，挂载根目录：&lt;code&gt;sudo mount -uw /&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="读书笔记" scheme="https://jingzhouzhao.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>常见集群方式</title>
-    <link href="https://jingzhouzhao.github.io/archives/6a6e8ff1.html"/>
-    <id>https://jingzhouzhao.github.io/archives/6a6e8ff1.html</id>
-    <published>2020-06-16T05:45:53.000Z</published>
-    <updated>2022-02-22T07:31:09.021Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="主从（master-slave）"><a href="#主从（master-slave）" class="headerlink" title="主从（master-slave）"></a>主从（master-slave）</h3><p>写master，同步到slave 。slave可用于读。常见mysql，redis。</p><h3 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h3><p>在主从的基础上，添加了master宕机时，slave自动切换为master。</p><h3 id="cluster"><a href="#cluster" class="headerlink" title="cluster"></a>cluster</h3><p>集群内每个节点都是分片。通过分布式一致性协议沟通。</p><p>例如redis，通过Gossip 协议，在集群内同步，各个分片的哈希槽信息。</p><p>便于重定向请求。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h3 id=&quot;主从（master-slave）&quot;&gt;&lt;a href=&quot;#主从（master-slave）&quot; class=&quot;headerlink&quot; title=&quot;主从（master-slave）&quot;&gt;&lt;/a&gt;主从（master-slave）&lt;/h3&gt;&lt;p&gt;写master，同步到sla</summary>
-      
     
     
     
