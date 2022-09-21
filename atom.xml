@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>赵荆州的个人博客</title>
+  <title>赵荆州的博客</title>
   
   
   <link href="https://jingzhouzhao.github.io/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
-    <name>太阳当空赵</name>
+    <name>太阳当空赵先生</name>
     
   </author>
   
