@@ -6,7 +6,7 @@
   <link href="https://jingzhouzhao.github.io/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2022-09-21T06:00:17.387Z</updated>
+  <updated>2022-10-11T09:22:03.491Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>老版本Dubbo的一个bug</title>
+    <link href="https://jingzhouzhao.github.io/archives/2ae0f87f.html"/>
+    <id>https://jingzhouzhao.github.io/archives/2ae0f87f.html</id>
+    <published>2022-10-11T09:14:36.000Z</published>
+    <updated>2022-10-11T09:22:03.491Z</updated>
+    
+    <content type="html"><![CDATA[<p>线上有用户反应<code>P 服务</code>页面时不时就报个错，后来发现都涉及<code>I服务</code>的一个接口方法，这里暂且就叫<code>F 接口</code>。只是<em>时不时</em>报错，那说明可能是某些参数会导致异常，于是我开始查看日志，看看是不是有什么特殊参数导致隐藏 bug 被发现。<br>结果是报错和不报错的请求参数都一样，那是不是多台机器上运行的代码不一致呢？于是我看了<code>F 接口</code>的代码，发现最近没有迭代记录，而且所有机器上部署的代码均一致。<br>那有没有可能是环境问题？于是我上 Dubbo 控制台查看，发现 provider 和 consumer 都正常：<br><img src="/archives/2ae0f87f/1.png" alt="DubboAdmin"><br>这个时候我开始有点懵逼了😅。</p><p>我又想到，如果是一直存在问题，那么不可能到今天才有用户反馈，所以还是跟近期的什么操作有关。于是我开始排查最早是什么时间出现的问题，发现是 <code>10 月 10 日的 18:00:03</code>，又发现<code>F 接口</code>所在的<code>I服务</code>在<code>10 月 10 日的 17:57:28</code>有过发布记录。</p><p>这下就有点奇怪了，就算<code>I服务</code>所有机器同时发布，可能也就是报一会 <code>no providers</code>错误啊，更不用说是滚动发布的，加上 dubbo 的 <code>failover</code>不会一直报错的啊。</p><p>就在这时我看到了一个关键的错误信息：（之前只看到了 NPE 没具体位置）：<br><img src="/archives/2ae0f87f/2.png" alt="Error"></p><p>问题直指DubboInvoker:109。</p><p>我们 dubbo的版本是(2.6.6)，我拉下dubbo 代码发现这块的代码是这样的：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAvailable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">super</span>.isAvailable())</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">for</span> (ExchangeClient client : clients) &#123;</span><br><span class="line">        <span class="comment">//这一行是 109，就是这一行报错</span></span><br><span class="line">        <span class="keyword">if</span> (client.isConnected() &amp;&amp; !client.hasAttribute(Constants.CHANNEL_ATTRIBUTE_READONLY_KEY)) &#123;</span><br><span class="line">            <span class="comment">//cannot write == not Available ?</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>109 行报 NPE 莫非 client 是 null？带上猜测我开始看 client 是怎么来的，最终找到<code>com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol#getSharedClient</code>:</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> ExchangeClient <span class="title">getSharedClient</span><span class="params">(URL url)</span> </span>&#123;</span><br><span class="line">        String key = url.getAddress();</span><br><span class="line">        ReferenceCountExchangeClient client = referenceClientMap.get(key);</span><br><span class="line">        <span class="keyword">if</span> (client != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!client.isClosed()) &#123;</span><br><span class="line">                client.incrementAndGetCount();</span><br><span class="line">                <span class="keyword">return</span> client;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//3</span></span><br><span class="line">                referenceClientMap.remove(key);<span class="comment">//4</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        locks.putIfAbsent(key, <span class="keyword">new</span> Object());</span><br><span class="line">        <span class="keyword">synchronized</span> (locks.get(key)) &#123;<span class="comment">//2</span></span><br><span class="line">            <span class="keyword">if</span> (referenceClientMap.containsKey(key)) &#123;</span><br><span class="line">                <span class="keyword">return</span> referenceClientMap.get(key);<span class="comment">//5</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ExchangeClient exchangeClient = initClient(url);</span><br><span class="line">            client = <span class="keyword">new</span> ReferenceCountExchangeClient(exchangeClient, ghostClientMap);</span><br><span class="line">            referenceClientMap.put(key, client);</span><br><span class="line">            ghostClientMap.remove(key);</span><br><span class="line">            locks.remove(key);</span><br><span class="line">            <span class="comment">//1</span></span><br><span class="line">            <span class="keyword">return</span> client;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><p>又是一段平平无奇的代码😅，看到这里有用到锁，说明开发者考虑到这里可能会存在并发调用。我又看了下日志，<code>10 月 10 日的 18:00:03</code>前后确实出现了并发调用的现象，难道是这里的并发控制有 bug？于是我开始思考各种场景，还真被我发现一种可能出问题的情况，下面我画了个图演示一下：</p><p><img src="/archives/2ae0f87f/3.png" alt="flow"></p><p>最后 序号 5 处返回了一个 null 的 client。</p><p>由于2.6.6 版本已经有点老，指不定这个问题已经有人提过，于是我到 github 一番搜索，结果找到了另外一个问题：<a href="https://github.com/apache/dubbo/issues/6444">https://github.com/apache/dubbo/issues/6444</a></p><p>这块dubbo 后面也迭代了好几次，已经搞不清楚了。</p><p>最后，重启大法好！</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;线上有用户反应&lt;code&gt;P 服务&lt;/code&gt;页面时不时就报个错，后来发现都涉及&lt;code&gt;I服务&lt;/code&gt;的一个接口方法，这里暂且就叫&lt;code&gt;F 接口&lt;/code&gt;。只是&lt;em&gt;时不时&lt;/em&gt;报错，那说明可能是某些参数会导致异常，于是我开始查看日志，看看是不是</summary>
+      
+    
+    
+    
+    <category term="踩坑记录" scheme="https://jingzhouzhao.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
+    
+    
+    <category term="Dubbo" scheme="https://jingzhouzhao.github.io/tags/Dubbo/"/>
+    
+    <category term="Bug" scheme="https://jingzhouzhao.github.io/tags/Bug/"/>
+    
+    <category term="并发" scheme="https://jingzhouzhao.github.io/tags/%E5%B9%B6%E5%8F%91/"/>
+    
+  </entry>
   
   <entry>
     <title>关于 java 中的可用内存问题</title>
@@ -519,29 +547,6 @@
     
     
     <category term="Java随记" scheme="https://jingzhouzhao.github.io/categories/Java%E9%9A%8F%E8%AE%B0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>命令收藏</title>
-    <link href="https://jingzhouzhao.github.io/archives/afa41a9c.html"/>
-    <id>https://jingzhouzhao.github.io/archives/afa41a9c.html</id>
-    <published>2020-07-22T02:45:53.000Z</published>
-    <updated>2022-02-22T07:31:09.020Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="mac"><a href="#mac" class="headerlink" title="mac"></a>mac</h2><h4 id="关闭SPI-获取根目录写权限"><a href="#关闭SPI-获取根目录写权限" class="headerlink" title="关闭SPI(获取根目录写权限)"></a>关闭SPI(获取根目录写权限)</h4><ul><li>重启 <code>command+R</code> 进入恢复界面</li><li>实用工具 - 终端 输入：<code>csrutil disable</code></li><li>重启：<code>reboot</code></li><li>打开终端，挂载根目录：<code>sudo mount -uw /</code><span id="more"></span><h4 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a>查看端口</h4></li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:9999</span><br></pre></td></tr></table></figure><h2 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h2><h4 id="更新app"><a href="#更新app" class="headerlink" title="更新app"></a>更新app</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cu -a -f</span><br></pre></td></tr></table></figure><h2 id="jdk"><a href="#jdk" class="headerlink" title="jdk"></a>jdk</h2><h4 id="保存堆快照"><a href="#保存堆快照" class="headerlink" title="保存堆快照"></a>保存堆快照</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap -dump:format=b,file=heapdump.hprof pid</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;mac&quot;&gt;&lt;a href=&quot;#mac&quot; class=&quot;headerlink&quot; title=&quot;mac&quot;&gt;&lt;/a&gt;mac&lt;/h2&gt;&lt;h4 id=&quot;关闭SPI-获取根目录写权限&quot;&gt;&lt;a href=&quot;#关闭SPI-获取根目录写权限&quot; class=&quot;headerlink&quot; title=&quot;关闭SPI(获取根目录写权限)&quot;&gt;&lt;/a&gt;关闭SPI(获取根目录写权限)&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;重启 &lt;code&gt;command+R&lt;/code&gt; 进入恢复界面&lt;/li&gt;
-&lt;li&gt;实用工具 - 终端 输入：&lt;code&gt;csrutil disable&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;重启：&lt;code&gt;reboot&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;打开终端，挂载根目录：&lt;code&gt;sudo mount -uw /&lt;/code&gt;&lt;/li&gt;&lt;/ul&gt;</summary>
-    
-    
-    
-    <category term="读书笔记" scheme="https://jingzhouzhao.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
     
   </entry>
