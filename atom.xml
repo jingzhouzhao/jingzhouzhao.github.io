@@ -6,7 +6,7 @@
   <link href="https://jingzhouzhao.github.io/atom.xml" rel="self"/>
   
   <link href="https://jingzhouzhao.github.io/"/>
-  <updated>2023-06-12T08:53:17.070Z</updated>
+  <updated>2024-04-25T06:05:58.970Z</updated>
   <id>https://jingzhouzhao.github.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySQL多字段排序的问题</title>
+    <link href="https://jingzhouzhao.github.io/archives/56085d4d.html"/>
+    <id>https://jingzhouzhao.github.io/archives/56085d4d.html</id>
+    <published>2024-04-25T06:02:37.000Z</published>
+    <updated>2024-04-25T06:05:58.970Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在一次开发过程中发现了一个问题，我们都知道MySQL在Order By的时候可以指定多列，会按照指定的顺序依次排序。</p><p>例如指定A,B,C列，MySQL会先按A排序，如何A值相同的再按B排序，B值相同的再按C排序。</p><p>然后其中还是有不少门道的，例如我就碰到了如下问题，我有一个表test，表结构如下：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `test` (</span><br><span class="line"></span><br><span class="line">`A` <span class="type">varchar</span>(<span class="number">128</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;A&#x27;</span>,</span><br><span class="line"></span><br><span class="line">`B` <span class="type">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;B&#x27;</span>,</span><br><span class="line"></span><br><span class="line">`C` <span class="type">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;C&#x27;</span></span><br><span class="line"></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4 COMMENT<span class="operator">=</span><span class="string">&#x27;TEST&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>其中有如下数据：</p><table><thead><tr><th>A</th><th>B</th><th>C</th></tr></thead><tbody><tr><td>C料</td><td>12321</td><td>123</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr></tbody></table><p>接着执行如下查询</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">order</span> <span class="keyword">by</span> A,B,C</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>按照我们上面的说法最后出来的结果应该是：</p><table><thead><tr><th>A</th><th>B</th><th>C</th></tr></thead><tbody><tr><td>C料</td><td>12321</td><td>123</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr></tbody></table><p>然而实际出来而结果是：</p><table><thead><tr><th>A</th><th>B</th><th>C</th></tr></thead><tbody><tr><td>C料</td><td>12321</td><td>123</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr></tbody></table><p>可以看到的是A列明显乱序了（注意C大小写），不是说好A相同的排序在一起呢，怎么看起了不对了。</p><p>既然是按照列的顺序一个一个排序的，那我们就一个一个排除，看看到底是在哪一列排序出了问题。</p><p>执行如下查询：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">order</span> <span class="keyword">by</span> A,B</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>得到如下结果：</p><table><thead><tr><th>A</th><th>B</th><th>C</th></tr></thead><tbody><tr><td>C料</td><td>12321</td><td>123</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr><tr><td>C料</td><td>测试</td><td>测试</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr><tr><td>c料</td><td>测试</td><td>SPHC</td></tr></tbody></table><p>也就是说在C列加入排序之前，A还是看着有序的，那到底是怎么回事呢？注意回到最开始我们说的MySQL的排序规则，A相同再按B排，B相同按C排。</p><p>所以C在加入排序之前，MySQL认为A，B排序后有相同的结果，也就是c料,测试=C料,测试了，所以C加入排序之后可以在前者相同的排序结果中在按C排序。</p><p>于是就产生了看起来错误的顺序，这是因为创建表的时候，没有对字段A，B，C指定collation（MYSQL排序依据），默认会使用对应字符集的Collation，</p><p>我这里字符集是utf8mb4，对应的默认collation通常是utf8mb4_general_ci，这个collation是大小写不敏感的。</p><p>解决办法有两种：</p><p>1.更改字段的collation，</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `test` (</span><br><span class="line"></span><br><span class="line">`A` <span class="type">varchar</span>(<span class="number">128</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;A&#x27;</span> <span class="keyword">COLLATE</span> utf8mb4_bin,</span><br><span class="line"></span><br><span class="line">`B` <span class="type">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;B&#x27;</span> <span class="keyword">COLLATE</span> utf8mb4_bin,</span><br><span class="line"></span><br><span class="line">`C` <span class="type">varchar</span>(<span class="number">64</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> COMMENT <span class="string">&#x27;C&#x27;</span> <span class="keyword">COLLATE</span> utf8mb4_bin</span><br><span class="line"></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8mb4 COMMENT<span class="operator">=</span><span class="string">&#x27;TEST&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>使用utf8mb4_bin，这个是大小写敏感的。</p><p>2.在排序的时候指定BINARY关键字</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test <span class="keyword">order</span> <span class="keyword">by</span> <span class="type">binary</span> A,<span class="type">binary</span> B, <span class="type">binary</span> C</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>因为它会强制MySQL将字段作为二进制字符串对待。</p><p>由于这是一个历史存在的表，避免产生其它意向不到的结果，我使用了方法二。至此问题解决。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;最近在一次开发过程中发现了一个问题，我们都知道MySQL在Order By的时候可以指定多列，会按照指定的顺序依次排序。&lt;/p&gt;
+&lt;p&gt;例如指定A,B,C列，MySQL会先按A排序，如何A值相同的再按B排序，B值相同的再按C排序。&lt;/p&gt;
+&lt;p&gt;然后其中还是有不少门道的，例</summary>
+      
+    
+    
+    
+    <category term="踩坑记录" scheme="https://jingzhouzhao.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
+    
+    
+    <category term="MySQL" scheme="https://jingzhouzhao.github.io/tags/MySQL/"/>
+    
+  </entry>
   
   <entry>
     <title>记一次线上Spring和Dubbo死锁排查</title>
@@ -533,29 +559,6 @@
     <category term="MySQL" scheme="https://jingzhouzhao.github.io/tags/MySQL/"/>
     
     <category term="Deadlock" scheme="https://jingzhouzhao.github.io/tags/Deadlock/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关闭代码块移动</title>
-    <link href="https://jingzhouzhao.github.io/archives/7f244d3f.html"/>
-    <id>https://jingzhouzhao.github.io/archives/7f244d3f.html</id>
-    <published>2020-08-25T07:22:10.000Z</published>
-    <updated>2022-02-22T07:31:09.022Z</updated>
-    
-    <content type="html"><![CDATA[<p>Mac 开启了三指拖拽，发现在IDEA的某些Project中，选中代码块时，老是拖动代码。解决办法：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Editor –&gt; General -&gt; Enable Drag’n’Drop functionality in Editor </span><br></pre></td></tr></table></figure><p>关闭即可。</p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Mac 开启了三指拖拽，发现在IDEA的某些Project中，选中代码块时，老是拖动代码。解决办法：&lt;/p&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class</summary>
-      
-    
-    
-    
-    <category term="踩坑记录" scheme="https://jingzhouzhao.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
-    
     
   </entry>
   
